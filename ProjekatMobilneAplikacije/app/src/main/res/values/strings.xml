@@ -5,6 +5,40 @@
     <string name="language">Language</string>
     <string name="logout">Logout</string>
     <string name="settings">Settings</string>
+    <string name="filters">Filters</string>
+    <string name="Album50fotografija">Album sa 50 fotografija</string>
+    <string name="FotoBook">Foto book</string>
+    <string name="AlbumOpis">Album sa 50 izrađenih fotografija</string>
+    <string name="Kategorija">Kategorija    Foto i video</string>
+    <string name="Potkategorija">Potkategorija Fotografije i Albumi</string>
+    <string name="TipDogadjaja">Tip događaja  svadbe, rođendani, krštenja, rođenja</string>
+    <string name="Cena2000">Cena 2000 din</string>
+    <string name="Cena5000">Cena 5000 din</string>
+    <string name="DostupanDa">Dostupan DA</string>
+    <string name="category">Category</string>
+    <string name="category1">Hospitality establishments, food, catering, cakes and pastries</string>
+    <string name="category2">Accommodation</string>
+    <string name="category3">Music and entertainment</string>
+    <string name="category4">Photo and video</string>
+    <string name="category5">Decoration and lightning</string>
+    <string name="category6">Category</string>
+    <string name="category7">Beauty</string>
+    <string name="category8">Category</string>
+    <string name="category9">Invitations and</string>
+    <string name="category10">Logistics and security</string>
+    <string name="eventType">Event type</string>
+    <string name="wedding">Weddings</string>
+    <string name="engagement">Engagement</string>
+    <string name="birthday">Engagement</string>
+    <string name="anniversaly">Engagement</string>
+    <string name="enter_price">Enter price</string>
+    <string name="availability">Availability</string>
+    <string name="available">Available</string>
+    <string name="not_available">Unavailable</string>
+    <string name="enter_description">Enter description</string>
+
     <string name="navigation_drawer_open" translatable="false">Navigation Drawer Open</string>
     <string name="navigation_drawer_close" translatable="false">Navigation Drawer Close</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

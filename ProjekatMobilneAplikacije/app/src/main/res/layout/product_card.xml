@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="290dp"
+    android:orientation="horizontal"
+    android:background="@drawable/border_background"
+    android:padding="10dp"
+    >
+
+    <ImageView
+        android:id="@+id/image1"
+        android:layout_width="170dp"
+        android:layout_height="268dp"
+        android:contentDescription="@string/Album50fotografija"
+        app:srcCompat="@drawable/album50" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="268dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="30dp"
+            android:layout_margin="5dp"
+            android:text="@string/Album50fotografija"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:text="@string/Kategorija"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:text="@string/Potkategorija"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:text="@string/TipDogadjaja"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="40dp"
+            android:layout_margin="5dp"
+            android:text="@string/AlbumOpis"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="@string/DostupanDa"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <TextView
+                android:layout_width="105dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="@string/Cena2000"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+        </LinearLayout>
+
+
+    </LinearLayout>
+</LinearLayout>
