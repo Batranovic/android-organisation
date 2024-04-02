@@ -26,5 +26,8 @@
     <string name="phone">"Phone"</string>
     <string name="event_organizer">"Event organizer"</string>
     <string name="company_details">"Company details"</string>
+    <string name="product_provider">"Product provider"</string>
 
+    <string name="hello_blank_fragment">Pozdrav, prazan fragment!</string>
+    <!-- Ostali string resursi -->
 </resources>
