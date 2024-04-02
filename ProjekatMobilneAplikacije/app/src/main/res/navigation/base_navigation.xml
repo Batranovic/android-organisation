@@ -22,7 +22,7 @@
         />
 
     <fragment
-        android:id="@+id/nav_logout"
+        android:id="@+id/nav_login"
         android:name="com.example.projekatmobilneaplikacije.fragments.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login"
@@ -34,13 +34,27 @@
 
     </fragment>
 
+    <!-- sledeci deo je vezan za navigaciju unutar RegistrationActivity-->
+    <!--@+id/nav_register ovo sam sama definisala, prelazim sa activity_registration putem action na register_as_pup-->
     <fragment
         android:id="@+id/nav_register"
         android:name="com.example.projekatmobilneaplikacije.fragments.RegisterFragment"
-        android:label="Profile"
-        tools:layout="@layout/fragment_register"
-        />
+        android:label="Register"
+        tools:layout="@layout/activity_registration"
+        app:popUpToInclusive="true">
+    <action
+        android:id="@+id/action_registerFragment_to_registerPUPVFragment"
+        app:destination="@id/register_as_pup" />
 
+    </fragment>
+
+    <fragment
+        android:id="@+id/register_as_pup"
+        android:name="com.example.projekatmobilneaplikacije.fragments.RegisterFragment"
+        android:label="RegisterAsPUPV"
+        tools:layout="@layout/fragment_register">
+
+    </fragment>
 
 
 

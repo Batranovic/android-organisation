@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 
 import com.example.projekatmobilneaplikacije.databinding.FragmentRegisterBinding;
 
+
 public class RegisterFragment extends Fragment {
     private FragmentRegisterBinding binding;
 

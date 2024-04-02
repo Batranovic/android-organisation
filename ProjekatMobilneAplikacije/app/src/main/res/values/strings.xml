@@ -24,6 +24,7 @@
     <string name="surname">"Surname"</string>
     <string name="home_address">"Home address"</string>
     <string name="phone">"Phone"</string>
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="event_organizer">"Event organizer"</string>
+    <string name="company_details">"Company details"</string>
+
 </resources>
