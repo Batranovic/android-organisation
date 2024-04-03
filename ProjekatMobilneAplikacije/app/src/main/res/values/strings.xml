@@ -36,6 +36,27 @@
     <string name="available">Available</string>
     <string name="not_available">Unavailable</string>
     <string name="enter_description">Enter description</string>
+    <string name="create_product">Create new product</string>
+    <string name="subcategory">Subcategory</string>
+    <string name="title">Title</string>
+    <string name="description">Description</string>
+    <string name="price">Price</string>
+    <string name="availableYesNo">Available</string>
+    <string name="visible">Visible</string>
+    <string name="yes">Yes</string>
+    <string name="no">No</string>
+    <string name="addImage">Add image</string>
+    <string name="addEventTypes">Add types</string>
+    <string name="submit">Submit</string>
+    <string name="culturalEvent">Cultural and entertainment</string>
+    <string name="privateEvent">Private</string>
+    <string name="corporateEvent">Corporate</string>
+    <string name="educationEvent">Education</string>
+    <string name="sportEvent">Sport</string>
+    <string name="humanitarianEvent">Humanitarian and charitable</string>
+    <string name="edit">Edit</string>
+    <string name="remove">Remove</string>
+
 
     <string name="navigation_drawer_open" translatable="false">Navigation Drawer Open</string>
     <string name="navigation_drawer_close" translatable="false">Navigation Drawer Close</string>
