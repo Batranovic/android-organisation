@@ -51,7 +51,6 @@
         android:layout_marginTop="180dp"
         android:layout_marginEnd="54dp"
         android:autofillHints="@string/prompt_email"
-        android:fontFamily="@font/akaya_telivigala"
         android:hint="Company email"
         android:inputType="textEmailAddress"
         android:minHeight="48dp"
@@ -69,7 +68,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginEnd="54dp"
         android:autofillHints="company_name"
-        android:fontFamily="@font/akaya_telivigala"
         android:hint="Company name"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
@@ -90,7 +88,6 @@
         android:layout_marginTop="68dp"
         android:layout_marginEnd="54dp"
         android:autofillHints="company_phone"
-        android:fontFamily="@font/akaya_telivigala"
         android:hint="Company phone"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
@@ -111,7 +108,6 @@
         android:layout_marginTop="128dp"
         android:layout_marginEnd="54dp"
         android:autofillHints="company_description"
-        android:fontFamily="@font/akaya_telivigala"
         android:hint="Company address"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
@@ -132,7 +128,6 @@
         android:layout_marginTop="192dp"
         android:layout_marginEnd="54dp"
         android:autofillHints="company_address"
-        android:fontFamily="@font/akaya_telivigala"
         android:hint="Company description"
         android:imeActionLabel="@string/action_sign_in_short"
         android:imeOptions="actionDone"
@@ -153,14 +148,14 @@
         android:layout_marginStart="52dp"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="52dp"
-        android:layout_marginBottom="84dp"
+        android:layout_marginBottom="144dp"
         android:enabled="true"
-        android:fontFamily="@font/akaya_telivigala"
         android:text="@string/register"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.544"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/company_phone"
+        app:layout_constraintTop_toBottomOf="@+id/work_time"
         app:layout_constraintVertical_bias="1.0" />
 
     <ProgressBar
@@ -178,201 +173,31 @@
         app:layout_constraintStart_toStartOf="@+id/company_email"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.3" />
-    <LinearLayout
-        android:id="@+id/work_hours_layout"
-        android:layout_width="0dp"
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/work_time"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@id/company_description"
-        app:layout_constraintStart_toStartOf="@id/company_description"
-        app:layout_constraintEnd_toEndOf="@id/company_description">
+        android:layout_marginTop="6dp"
+        android:clickable="true"
+        android:contentDescription="Add Work Time"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/company_description"
+        app:srcCompat="@android:drawable/ic_menu_add" />
 
-    <!-- Dodajte naslov tabele -->
+    <TextView
+        android:id="@+id/textView4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:text="Add work hours"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.172"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/company_description" />
 
-        <!-- Dodajte tabelu ili grid za unos vremena -->
-
-        <!-- Ponedeljak -->
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Monday"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/monday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-
-        <!-- Dodajte slično polja za unos vremena za sve ostale dane u nedelji -->
-
-        <!-- Utorak -->
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Tuesday"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/tuesday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Wednesday"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/wednesday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Thursday"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/thursday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Friday"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/friday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Saturday"
-                android:textSize="16sp" />
-
-            <EditText
-                android:id="@+id/saturday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:text="Sunday"
-                android:textSize="16sp"
-                />
-
-            <EditText
-                android:id="@+id/sunday_time"
-                android:layout_width="0dp"
-                android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-
-
-    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

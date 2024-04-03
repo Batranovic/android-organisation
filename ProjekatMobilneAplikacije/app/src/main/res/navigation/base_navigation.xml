@@ -13,6 +13,23 @@
         tools:layout="@layout/fragment_profile"
         />
     <fragment
+        android:id="@+id/nav_service_product"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceAndProductPageFragment"
+        android:label="Service"
+        tools:layout="@layout/fragment_service_and_product_page"
+        >
+        <action
+            android:id="@+id/action_nav_service_product_to_nav_service"
+            app:destination="@id/nav_service" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_service"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceAndProductFragment"
+        android:label="Service"
+        tools:layout="@layout/fragment_service_and_product"
+        />
+    <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.projekatmobilneaplikacije.fragments.SettingsFragment"
         android:label="Settings"
@@ -54,8 +71,15 @@
         android:label="RegisterAsPUPV"
         tools:layout="@layout/fragment_register">
 
+
     </fragment>
 
+    <fragment
+        android:id="@+id/date_time_picker"
+        android:name="com.example.projekatmobilneaplikacije.fragments.TimePickerDialogFragment"
+        android:label="RegisterAsPUPV"
+        tools:layout="@layout/fragment_time_picker_dialog">
 
+    </fragment>
 
 </navigation>

@@ -14,5 +14,10 @@
             android:title="@string/logout"
             android:icon="@drawable/ic_logout"
             android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_service_product"
+            android:title="Services/products"
+            android:icon="@drawable/ic_new"
+            android:orderInCategory="300" />
     </group>
 </menu>

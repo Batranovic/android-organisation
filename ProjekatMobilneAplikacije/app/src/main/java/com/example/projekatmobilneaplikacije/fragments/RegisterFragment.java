@@ -7,8 +7,13 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentRegisterBinding;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.sql.Time;
 
 
 public class RegisterFragment extends Fragment {
@@ -23,6 +28,20 @@ public class RegisterFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentRegisterBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        FloatingActionButton fab = root.findViewById(R.id.work_time);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                TimePickerDialogFragment timePickerDialogFragment = TimePickerDialogFragment.newInstance();
+
+                 getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_registration_container, timePickerDialogFragment) // Replace current fragment with LogoutFragment
+                        .addToBackStack(null) // Add to back stack so user can navigate back
+                        .commit();
+            }
+
+        });
         return root;
     }
 
@@ -37,4 +56,7 @@ public class RegisterFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
+
+
 }
