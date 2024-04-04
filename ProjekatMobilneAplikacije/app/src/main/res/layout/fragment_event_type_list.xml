@@ -6,14 +6,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:id="@+id/fragment_service_container"
-    tools:context=".fragments.serviceAndProduct.ServiceAndProductListFragment">
+    tools:context=".fragments.events.EventTypeListFragment">
 
     <ListView
         android:id="@android:id/list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:listitem="@layout/category_card"
+        tools:listitem="@layout/event_type_card"
         />
 
 </LinearLayout>

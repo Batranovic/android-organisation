@@ -23,7 +23,13 @@
 
         <item android:id="@+id/nav_service_product"
             android:title="Services/products"
-            android:icon="@drawable/ic_new"
+            android:icon="@drawable/category_icon"
+            android:orderInCategory="300" />
+
+
+        <item android:id="@+id/nav_event_type_page"
+            android:title="EventType"
+            android:icon="@drawable/event_icon"
             android:orderInCategory="300" />
         <item android:id="@+id/nav_create_event"
             android:title="Create new event"

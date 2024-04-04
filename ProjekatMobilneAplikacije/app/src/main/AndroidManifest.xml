@@ -18,6 +18,9 @@
         android:theme="@style/Theme.ProjekatMobilneAplikacije"
         tools:targetApi="31">
         <activity
+            android:name=".activities.EditServiceAndProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.events.NewEventActivity"
             android:exported="false" />
         <activity

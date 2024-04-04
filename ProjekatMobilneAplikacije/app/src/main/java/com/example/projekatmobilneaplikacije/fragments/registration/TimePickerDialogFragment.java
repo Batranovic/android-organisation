@@ -1,42 +1,43 @@
-package com.example.projekatmobilneaplikacije.fragments;
+package com.example.projekatmobilneaplikacije.fragments.registration;
+
+import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import android.os.Bundle;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.databinding.FragmentRegistrationBinding;
+import com.example.projekatmobilneaplikacije.databinding.FragmentTimePickerDialogBinding;
 
+public class TimePickerDialogFragment extends Fragment {
 
-public class RegistrationFragment extends Fragment {
-    private FragmentRegistrationBinding binding;
+    private FragmentTimePickerDialogBinding binding;
 
-    public static RegistrationFragment newInstance() {
-        return new RegistrationFragment();
+    public static TimePickerDialogFragment newInstance() {
+        return new TimePickerDialogFragment();
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentRegistrationBinding.inflate(inflater, container, false);
-
+        binding = FragmentTimePickerDialogBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        binding.registerPUP.setOnClickListener(new View.OnClickListener() {
+        binding.buttonOk.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment registerFragment = new RegisterFragment();
+                // Pop the back stack to remove TimePickerDialogFragment
+                getParentFragmentManager().popBackStack();
 
+                // Now replace TimePickerDialogFragment with RegisterFragment
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_registration_container, registerFragment)
-                        .addToBackStack(null)
+                        .replace(R.id.fragment_registration_container, RegisterFragment.newInstance())
                         .commit();
             }
         });
-
 
         return root;
     }

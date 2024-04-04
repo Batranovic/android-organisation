@@ -1,4 +1,4 @@
-package com.example.projekatmobilneaplikacije.fragments;
+package com.example.projekatmobilneaplikacije.fragments.serviceAndProduct;
 
 import android.os.Bundle;
 import androidx.fragment.app.ListFragment;
@@ -9,25 +9,22 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
-import android.widget.ListView;
+import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.adapters.ServiceAndProductListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentServiceAndProductListBinding;
+import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
+import com.example.projekatmobilneaplikacije.fragments.registration.TimePickerDialogFragment;
 import com.example.projekatmobilneaplikacije.model.Category;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link ServiceAndProductListFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class ServiceAndProductListFragment extends ListFragment {
     private FragmentServiceAndProductListBinding binding;
-    private ServiceAndProductListAdapter adapter; // Ovde stavite svoje podatke
+    private ServiceAndProductListAdapter adapter;
     private static final String ARG_PARAM = "param";
     private ArrayList<Category> mCategories;
     public static ServiceAndProductListFragment newInstance(ArrayList<Category> categories){

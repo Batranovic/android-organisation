@@ -1,9 +1,11 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.EditServiceAndProductActivity;
 import com.example.projekatmobilneaplikacije.model.Category;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -65,6 +67,17 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Category> {
             });
         }
 
+        View itemView = convertView;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event
+
+                Intent intent = new Intent(v.getContext(), EditServiceAndProductActivity.class);
+                intent.putExtra("id", category.getId());
+                v.getContext().startActivity(intent);
+            }
+        });
         return convertView;
     }
 }

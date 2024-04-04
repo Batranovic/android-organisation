@@ -43,18 +43,49 @@
 
     <fragment
         android:id="@+id/nav_service_product"
-        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceAndProductPageFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductPageFragment"
         android:label="Service"
         tools:layout="@layout/fragment_service_and_product_page"
         >
         <action
             android:id="@+id/action_nav_service_product_to_nav_service"
             app:destination="@id/nav_service" />
+
+        <action
+            android:id="@+id/action_nav_service_product_to_nav_subcategory_suggestion"
+            app:destination="@id/nav_subcategory_suggestion" />
+
     </fragment>
 
     <fragment
+        android:id="@+id/nav_subcategory_suggestion"
+        android:name="com.example.projekatmobilneaplikacije.fragments.SubcategorySuggestion.SubcategorySuggestionPageFragment"
+        android:label="Review suggestions"
+        tools:layout="@layout/fragment_subcategory_suggestion_page"
+        >
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_event_type_page"
+        android:name="com.example.projekatmobilneaplikacije.fragments.events.EventTypePageFragment"
+        android:label="Service"
+        tools:layout="@layout/fragment_event_type_page"
+        >
+        <action
+            android:id="@+id/action_nav_event_type_page_to_nav_event_type_create"
+            app:destination="@id/nav_event_type_create" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_event_type_create"
+        android:name="com.example.projekatmobilneaplikacije.fragments.events.EventTypeFragment"
+        android:label="Service"
+        tools:layout="@layout/fragment_event_type"
+        />
+    <fragment
         android:id="@+id/nav_service"
-        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceAndProductFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductFragment"
         android:label="Service"
         tools:layout="@layout/fragment_service_and_product"
         />
@@ -90,7 +121,7 @@
     <!--@+id/nav_register ovo sam sama definisala, prelazim sa activity_registration putem action na register_as_pup-->
     <fragment
         android:id="@+id/nav_register"
-        android:name="com.example.projekatmobilneaplikacije.fragments.RegistrationFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment"
         android:label="Register"
         tools:layout="@layout/fragment_registration"
         app:popUpToInclusive="true">
@@ -102,7 +133,7 @@
 
     <fragment
         android:id="@+id/register_as_pup"
-        android:name="com.example.projekatmobilneaplikacije.fragments.RegisterFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegisterFragment"
         android:label="RegisterAsPUPV"
         tools:layout="@layout/fragment_register">
 
@@ -111,10 +142,12 @@
 
     <fragment
         android:id="@+id/date_time_picker"
-        android:name="com.example.projekatmobilneaplikacije.fragments.TimePickerDialogFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.TimePickerDialogFragment"
         android:label="RegisterAsPUPV"
         tools:layout="@layout/fragment_time_picker_dialog">
 
     </fragment>
+
+
 
 </navigation>

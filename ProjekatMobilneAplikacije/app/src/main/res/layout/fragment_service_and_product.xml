@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_marginTop="30dp"
     android:id="@+id/service_and_product"
-    tools:context=".fragments.ServiceAndProductFragment">
+    tools:context=".fragments.serviceAndProduct.ServiceAndProductFragment">
 
     <!-- Radio Buttons -->
 
