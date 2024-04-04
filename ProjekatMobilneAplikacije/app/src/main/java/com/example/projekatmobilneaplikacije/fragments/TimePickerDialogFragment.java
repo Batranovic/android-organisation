@@ -32,7 +32,18 @@ public class TimePickerDialogFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentTimePickerDialogBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+        binding.buttonOk.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Pop the back stack to remove TimePickerDialogFragment
+                getParentFragmentManager().popBackStack();
 
+                // Now replace TimePickerDialogFragment with RegisterFragment
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.fragment_registration_container, RegisterFragment.newInstance())
+                        .commit();
+            }
+        });
 
         return root;
     }

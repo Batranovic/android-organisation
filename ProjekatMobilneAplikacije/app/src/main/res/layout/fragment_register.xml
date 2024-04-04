@@ -28,6 +28,7 @@
             android:layout_gravity="center"
             android:gravity="center"
             android:padding="16dp"
+            android:background="@drawable/border_background"
             android:src="@drawable/ic_new" />
     </androidx.cardview.widget.CardView>
 
