@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeInformationBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeRegistrationBinding;
+import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class EmployeeInformationFragment extends Fragment {
@@ -52,6 +55,22 @@ public class EmployeeInformationFragment extends Fragment {
         // Inflate the layout for this fragment
         binding = FragmentEmployeeInformationBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        FloatingActionButton workingHoursButton = binding.floatingActionWh;
+        workingHoursButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransition.to(EmployeeWHOverview.newInstance("WH Frag", "Employee Working Hours overview"), getActivity(), false, R.id.employee_information);
+            }
+        });
+
+        FloatingActionButton workCalendarButton = binding.floatingActionCal;
+        workCalendarButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransition.to(EmployeeWorkCalendarFragment.newInstance("Calendar Fragment ]", "Employee Calendar overview"), getActivity(), false, R.id.employee_information);
+            }
+        });
 
         return root;
     }

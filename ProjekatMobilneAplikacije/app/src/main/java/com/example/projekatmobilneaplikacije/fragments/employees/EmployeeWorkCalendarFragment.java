@@ -9,27 +9,26 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWorkingHoursBinding;
+import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWorkCalendarBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWorkingHoursOverviewBinding;
-import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
-public class EmployeeWorkingHoursOverviewFragment extends Fragment {
+public class EmployeeWorkCalendarFragment extends Fragment {
 
-    FragmentEmployeeWorkingHoursOverviewBinding binding;
+    FragmentEmployeeWorkCalendarBinding binding;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
     private String mParam1;
     private String mParam2;
 
-    public EmployeeWorkingHoursOverviewFragment() {
+    public EmployeeWorkCalendarFragment() {
         // Required empty public constructor
     }
 
-    public static EmployeeWorkingHoursOverviewFragment newInstance(String param1, String param2) {
-        EmployeeWorkingHoursOverviewFragment fragment = new EmployeeWorkingHoursOverviewFragment();
+
+    public static EmployeeWorkCalendarFragment newInstance(String param1, String param2) {
+        EmployeeWorkCalendarFragment fragment = new EmployeeWorkCalendarFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -49,16 +48,8 @@ public class EmployeeWorkingHoursOverviewFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentEmployeeWorkingHoursOverviewBinding.inflate(inflater, container, false);
+        binding = FragmentEmployeeWorkCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-
-        FloatingActionButton editButton = binding.floatingActionEdit;
-        editButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransition.to(EmployeeWorkingHoursEditFragment.newInstance("WH Edit Frag", "Employee Working Hours edit"), getActivity(), false, R.id.employee_wh_view);
-            }
-        });
 
         return root;
     }

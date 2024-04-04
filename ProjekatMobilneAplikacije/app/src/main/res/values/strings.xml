@@ -31,4 +31,7 @@
     <string name="employee_phone_number">+3810616065342</string>
     <string name="em_address">Koste Racina 14</string>
     <string name="em_phone_number">+3810616067574</string>
+    <string name="work_time">7 - 20</string>
+    <string name="none">/</string>
+    <string name="edit_working_hours">Edit employee working hours</string>
 </resources>
