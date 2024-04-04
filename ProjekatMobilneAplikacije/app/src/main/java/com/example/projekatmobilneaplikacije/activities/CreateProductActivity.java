@@ -41,7 +41,7 @@ public class CreateProductActivity extends AppCompatActivity {
         btnAddEventTypes.setOnClickListener(v -> {
             Log.i("ShopApp", "Bottom Sheet Dialog");
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(this, R.style.FullScreenBottomSheetDialog);
-            View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter, null);
+            View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_event_types, null);
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.show();
         });
