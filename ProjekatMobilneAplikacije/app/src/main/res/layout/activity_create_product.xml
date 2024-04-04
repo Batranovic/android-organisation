@@ -20,20 +20,31 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="40dp">
 
-        <TextView
+        <ImageButton
+            android:id="@+id/imageButton3"
+            android:layout_width="100dp"
+            android:layout_height="90dp"
+            android:layout_gravity="center"
+            android:background="@drawable/border_background"
+            android:src="@drawable/add_photo_product" />
+
+
+        <!--<TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_margin="5dp"
             android:text="@string/create_product"
             android:textSize="20sp"
             android:textStyle="bold"
-            android:textAlignment="center"/>
+            android:textAlignment="center"/>-->
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="50dp"
             android:layout_marginRight="5dp"
             android:layout_marginLeft="5dp">
 
@@ -236,18 +247,17 @@
         android:orientation="horizontal"
         android:layout_marginTop="80dp">
 
-        <Button
+        <!--<Button
             android:id="@+id/btnAddImage"
             android:layout_width="50dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/addImage"
-            tools:ignore="TextContrastCheck" />
+            tools:ignore="TextContrastCheck" />-->
         <Button
             android:id="@+id/btnAddEventTypes"
-            android:layout_width="50dp"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:text="@string/addEventTypes"
             tools:ignore="TextContrastCheck"
             android:layout_marginLeft="10dp"/>
@@ -260,9 +270,7 @@
         android:layout_weight="1"
         android:text="@string/submit"
         tools:ignore="TextContrastCheck"
-        android:layout_marginTop="60dp"/>
-
-
+        android:layout_marginTop="40dp"/>
 
 
 

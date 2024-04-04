@@ -19,10 +19,10 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link ProductListingFragment#newInstance} factory method to
+ * Use the {@link ServiceListingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductListingFragment extends Fragment {
+public class ServiceListingFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -33,7 +33,7 @@ public class ProductListingFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    public ProductListingFragment() {
+    public ServiceListingFragment() {
         // Required empty public constructor
     }
 
@@ -43,11 +43,11 @@ public class ProductListingFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment ProductListingFragment.
+     * @return A new instance of fragment ServiceListingFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static ProductListingFragment newInstance(String param1, String param2) {
-        ProductListingFragment fragment = new ProductListingFragment();
+    public static ServiceListingFragment newInstance(String param1, String param2) {
+        ServiceListingFragment fragment = new ServiceListingFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -67,9 +67,8 @@ public class ProductListingFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_product_listing, container, false);
+        return inflater.inflate(R.layout.fragment_service_listing, container, false);
     }
 
     @Override
@@ -80,12 +79,12 @@ public class ProductListingFragment extends Fragment {
         btnFilters.setOnClickListener(v -> {
             Log.i("ProjekatMobilneAplikacije", "Bottom Sheet Dialog");
             BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.FullScreenBottomSheetDialog);
-            View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter, null);
+            View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_service_filter, null);
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.show();
         });
 
-        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
+        /*FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +101,6 @@ public class ProductListingFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateProductActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
     }
 }

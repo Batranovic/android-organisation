@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="330dp"
+    android:layout_height="250dp"
     android:orientation="horizontal"
     android:background="@drawable/border_background"
     android:padding="10dp"
@@ -13,20 +13,22 @@
     <ImageView
         android:id="@+id/image1"
         android:layout_width="170dp"
-        android:layout_height="268dp"
-        android:contentDescription="@string/Album50fotografija"
-        app:srcCompat="@drawable/album50" />
+        android:layout_height="match_parent"
+        android:contentDescription="Service 1"
+        app:srcCompat="@drawable/add_product" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="320dp"
-        android:orientation="vertical">
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:layout_marginLeft="5dp">
 
         <TextView
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_margin="5dp"
-            android:text="@string/Album50fotografija"
+            android:text="Shooting with a drone"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -35,31 +37,25 @@
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="@string/Kategorija"
+            android:text="Category Photo and video"
+            android:textSize="14sp"
+            android:textStyle="italic" />
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:text="Location Novi Sad"
             android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="@string/Potkategorija"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:text="@string/TipDogadjaja"
-            android:textSize="14sp"
-            android:textStyle="italic" />
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:text="@string/AlbumOpis"
+            android:text="Duration 2h (term)"
             android:textSize="14sp"
             android:textStyle="italic" />
 
@@ -68,19 +64,16 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:text="@string/DostupanDa"
-                android:textSize="14sp"
-                android:textStyle="italic" />
+            <!--<View
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"/>-->
 
             <TextView
-                android:layout_width="105dp"
-                android:layout_height="30dp"
+                android:layout_width="200dp"
+                android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:text="@string/Cena2000"
+                android:text="Price 6000 din"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -97,21 +90,22 @@
                 android:layout_weight="1" />
 
             <ImageButton
-                android:id="@+id/editProductButton"
+                android:id="@+id/editServiceButton"
                 android:background="@drawable/border_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:src="@drawable/edit_product"
+                android:contentDescription="Edit service"
                 />
 
             <ImageButton
-                android:id="@+id/deleteProductButton"
+                android:id="@+id/deleteServiceButton"
                 android:background="@drawable/border_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 app:srcCompat="@drawable/delete_product"
-                android:layout_marginLeft="10dp"/>
-
+                android:layout_marginLeft="10dp"
+                android:contentDescription="Delete service"/>
 
         </LinearLayout>
 

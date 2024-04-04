@@ -12,7 +12,12 @@
 
         <item android:id="@+id/nav_product_listing"
             android:title="Product Listing"
-            android:icon="@drawable/ic_logout"
+            android:icon="@drawable/product_listing"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_service_listing"
+            android:title="Service Listing"
+            android:icon="@drawable/service_listing"
             android:orderInCategory="300" />
 
         <item android:id="@+id/nav_logout"

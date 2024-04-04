@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.ProductListingFragment">
+    tools:context=".fragments.ServiceListingFragment">
 
     <LinearLayout
         android:id="@+id/linear1"
@@ -70,15 +70,15 @@
             android:orientation="vertical"
             >
             <include
-                layout="@layout/product_card"
+                layout="@layout/service_card"
                 android:layout_width="match_parent"
-                android:layout_height="330dp"
+                android:layout_height="250dp"
                 android:layout_marginBottom="5dp"/>
 
         </LinearLayout>
     </ScrollView>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
+    <!--<com.google.android.material.floatingactionbutton.FloatingActionButton
         android:id="@+id/floatingActionButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -89,5 +89,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:srcCompat="@drawable/add_product"
-        tools:ignore="ImageContrastCheck" />
+        tools:ignore="ImageContrastCheck"
+        android:contentDescription="Add service"/>-->
+
 </androidx.constraintlayout.widget.ConstraintLayout>
