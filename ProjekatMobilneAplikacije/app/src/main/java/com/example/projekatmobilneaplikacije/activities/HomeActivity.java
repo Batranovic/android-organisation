@@ -6,6 +6,9 @@ import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -20,6 +23,7 @@ import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
+import com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment;
 import com.google.android.material.navigation.NavigationView;
 
 import java.util.HashSet;
@@ -109,7 +113,9 @@ public class HomeActivity extends AppCompatActivity {
                     Toast.makeText(HomeActivity.this, "Profile", Toast.LENGTH_SHORT).show();
                 } else if (id == R.id.nav_logout) {
                     Toast.makeText(HomeActivity.this, "Logout", Toast.LENGTH_SHORT).show();
-                }
+                } else if (id == R.id.nav_employees) {
+                Toast.makeText(HomeActivity.this, "Employees", Toast.LENGTH_SHORT).show();
+            }
                 // Close the drawer if the destination is not a top level destination
                 drawer.closeDrawers();
             } else {
@@ -125,7 +131,7 @@ public class HomeActivity extends AppCompatActivity {
         // konfiguracijom akcione trake i navigacije.
         // Svaki ID menija prosleđuje se kao skup ID-ova jer svaki meni treba smatrati odredištima najvišeg nivoa.
         mAppBarConfiguration = new AppBarConfiguration
-                .Builder(R.id.nav_profile, R.id.nav_logout, R.id.nav_settings, R.id.nav_language)
+                .Builder(R.id.nav_profile, R.id.nav_logout, R.id.nav_settings, R.id.nav_language, R.id.nav_employees)
                 .setOpenableLayout(drawer)
                 .build();
         // Ova linija koda postavlja navigationView da radi zajedno sa NavController-om.
@@ -158,6 +164,7 @@ public class HomeActivity extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.toolbar_menu, menu);
         return true;
     }
+
 
     /*
      * Prestavlja deo aktivnosti unutar Android aplikacije koji se koristi

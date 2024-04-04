@@ -3,6 +3,7 @@
     <style name="Base.Theme.ProjekatMobilneAplikacije" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">#CCB3F8</item>
         <item name="colorOnPrimary">#443C55</item>
+        <item name="colorPrimaryVariant">#443C55</item>
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
