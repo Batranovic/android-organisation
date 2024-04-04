@@ -14,4 +14,9 @@
         android:orderInCategory="300"
         app:showAsAction="ifRoom" />
 
+    <item android:id="@+id/nav_search"
+        android:title="@string/search"
+        android:orderInCategory="300"
+        app:showAsAction="ifRoom" />
+
 </menu>

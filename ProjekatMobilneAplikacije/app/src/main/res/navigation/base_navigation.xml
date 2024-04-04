@@ -12,6 +12,35 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile"
         />
+
+    <fragment
+        android:id="@+id/nav_employees"
+        android:name="com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment"
+        android:label="Employees"
+        tools:layout="@layout/fragment_employees_page"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true">
+
+
+    </fragment>
+    <fragment
+        android:id="@+id/nav_create_event"
+        android:name="com.example.projekatmobilneaplikacije.fragments.EventOrganizationFragment"
+        android:label="Event Creation"
+        tools:layout="@layout/fragment_create_event"
+
+        />
+    <fragment
+        android:id="@+id/nav_list_event"
+        android:name="com.example.projekatmobilneaplikacije.fragments.EventPageFragment"
+        android:label="All created events"
+        tools:layout="@layout/page_event_list"
+        >
+        <action
+            android:id="@+id/nav_action_events_list"
+            app:destination="@id/nav_create_event" />
+    </fragment>
+
     <fragment
         android:id="@+id/nav_service_product"
         android:name="com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductPageFragment"
@@ -67,6 +96,12 @@
         tools:layout="@layout/fragment_settings"
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
+        />
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.projekatmobilneaplikacije.fragments.SearchFragment"
+        android:label="Search and filter"
+        tools:layout="@layout/fragment_search"
         />
 
     <fragment

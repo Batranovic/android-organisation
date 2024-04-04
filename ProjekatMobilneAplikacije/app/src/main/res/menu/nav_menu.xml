@@ -10,6 +10,12 @@
             android:icon="@drawable/ic_face"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_employees"
+            android:title="@string/employees"
+            android:icon="@drawable/employee"
+            android:orderInCategory="300" />
+
+
         <item android:id="@+id/nav_logout"
             android:title="@string/logout"
             android:icon="@drawable/ic_logout"
@@ -24,6 +30,14 @@
         <item android:id="@+id/nav_event_type_page"
             android:title="EventType"
             android:icon="@drawable/event_icon"
+            android:orderInCategory="300" />
+        <item android:id="@+id/nav_create_event"
+            android:title="Create new event"
+            android:icon="@drawable/ic_new"
+            android:orderInCategory="300" />
+        <item android:id="@+id/nav_list_event"
+            android:title="All created events"
+            android:icon="@drawable/ic_hamburger"
             android:orderInCategory="300" />
     </group>
 </menu>

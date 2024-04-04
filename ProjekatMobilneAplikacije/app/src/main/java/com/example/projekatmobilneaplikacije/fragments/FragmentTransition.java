@@ -18,6 +18,7 @@ public class FragmentTransition {
          * layoutViewID, menjamo sa kompletnim sadrzajem novog fragmenta.
          * addToBackstack specificira da li stavljamo fragment na backstack aktivnosti
          * */
+        System.out.println("pogodjena metoda");
         FragmentTransaction transaction = activity
                 .getSupportFragmentManager()
                 .beginTransaction()

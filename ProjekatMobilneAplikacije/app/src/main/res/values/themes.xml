@@ -3,6 +3,8 @@
     <style name="Base.Theme.ProjekatMobilneAplikacije" parent="Theme.Material3.DayNight.NoActionBar">
         <item name="colorPrimary">#CCB3F8</item>
         <item name="colorOnPrimary">#443C55</item>
+        <item name="colorPrimaryVariant">#443C55</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
     <style name="Theme.ProjekatMobilneAplikacije" parent="Base.Theme.ProjekatMobilneAplikacije" />
@@ -12,6 +14,12 @@
     <style name="MyButtonStyle" parent="Widget.MaterialComponents.Button">
         <item name="android:textColor">#FFFFFF</item>
         <item name="android:background">#CCB3F8</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+    </style>
+
+    <style name="MyTextStyle" parent="TextAppearance.MaterialComponents.Body1">
+        <item name="android:fontFamily">@font/montserrat_medium</item>
+        <item name="android:textColor">#E4DEDE</item>
     </style>
 
     <style name="MyToolbarStyle" parent="Widget.MaterialComponents.Toolbar">
@@ -22,19 +30,8 @@
     <style name="MyCardViewStyle" parent="Widget.MaterialComponents.CardView">
         <item name="cardBackgroundColor">#FFFFFF</item>
         <item name="cardCornerRadius">8dp</item>
+        <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
-
-    <style name="RoundedCorner">
-        <item name="cornerFamily">rounded</item>
-        <item name="cornerSize">50dp</item> <!-- Promijenite ovu vrijednost prema vašim potrebama -->
-    </style>
-    <style name="FullScreenBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
-        <item name="android:windowIsFloating">false</item>
-        <item name="android:windowIsTranslucent">true</item>
-        <item name="android:windowBackground">@android:color/transparent</item>
-        <item name="android:windowMinWidthMajor">100%</item>
-        <item name="android:windowMinWidthMinor">100%</item>
-    </style>
 
 </resources>
