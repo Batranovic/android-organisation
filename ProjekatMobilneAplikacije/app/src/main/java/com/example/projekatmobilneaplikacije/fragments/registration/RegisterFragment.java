@@ -75,6 +75,23 @@ public class RegisterFragment extends Fragment {
             }
 
         });
+
+        FloatingActionButton selectProductPackage = root.findViewById(R.id.select_product_package);
+        selectProductPackage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                selectProductPackage.setOnClickListener(s -> {
+                    Log.i("ShopApp", "Bottom Sheet Dialog");
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity(), R.style.FullScreenBottomSheetDialog);
+                    View dialogView = getLayoutInflater().inflate(R.layout.srvice_product_package_sheet, null);
+                    bottomSheetDialog.setContentView(dialogView);
+                    bottomSheetDialog.show();
+                });
+
+            }
+
+        });
         return root;
     }
 

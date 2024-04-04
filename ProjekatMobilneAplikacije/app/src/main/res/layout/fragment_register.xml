@@ -219,6 +219,32 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/company_description"
                 app:srcCompat="@android:drawable/ic_menu_add" />
+
+            <TextView
+                android:id="@+id/add_product_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="36dp"
+                android:text="Add event types"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.181"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/select_event_type" />
+
+            <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/select_product_package"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:clickable="true"
+                android:contentDescription="Add event"
+                app:layout_constraintTop_toBottomOf="@+id/select_event_type"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintHorizontal_bias="0.498"
+                app:layout_constraintStart_toStartOf="parent"
+                app:srcCompat="@android:drawable/ic_menu_add"
+                tools:layout_editor_absoluteX="151dp" />
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <!-- Dugme na dnu ekrana -->
@@ -232,13 +258,13 @@
             android:layout_marginRight="10dp"
             android:layout_marginBottom="10dp">
 
-            <Button
-                android:id="@+id/registerButtons"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="@string/register"
-                android:layout_weight="1" />
-
         </LinearLayout>
+
+        <Button
+            android:id="@+id/registerButtons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/register" />
     </LinearLayout>
 </ScrollView>
