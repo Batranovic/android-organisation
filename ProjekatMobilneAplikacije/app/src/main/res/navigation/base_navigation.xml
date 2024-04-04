@@ -13,6 +13,41 @@
         tools:layout="@layout/fragment_profile"
         />
     <fragment
+        android:id="@+id/nav_create_event"
+        android:name="com.example.projekatmobilneaplikacije.fragments.EventOrganizationFragment"
+        android:label="Event Creation"
+        tools:layout="@layout/fragment_create_event"
+
+        />
+    <fragment
+        android:id="@+id/nav_list_event"
+        android:name="com.example.projekatmobilneaplikacije.fragments.EventPageFragment"
+        android:label="All created events"
+        tools:layout="@layout/page_event_list"
+        >
+        <action
+            android:id="@+id/nav_action_events_list"
+            app:destination="@id/nav_create_event" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_service_product"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceAndProductPageFragment"
+        android:label="Service"
+        tools:layout="@layout/fragment_service_and_product_page"
+        >
+        <action
+            android:id="@+id/action_nav_service_product_to_nav_service"
+            app:destination="@id/nav_service" />
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_service"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceAndProductFragment"
+        android:label="Service"
+        tools:layout="@layout/fragment_service_and_product"
+        />
+    <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.projekatmobilneaplikacije.fragments.SettingsFragment"
         android:label="Settings"
@@ -20,5 +55,55 @@
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
+    <fragment
+        android:id="@+id/nav_search"
+        android:name="com.example.projekatmobilneaplikacije.fragments.SearchFragment"
+        android:label="Search and filter"
+        tools:layout="@layout/fragment_search"
+        />
+
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.projekatmobilneaplikacije.fragments.LoginFragment"
+        android:label="Login"
+        tools:layout="@layout/fragment_login"
+        app:popUpToInclusive="true">
+
+        <action
+            android:id="@+id/action_loginFragment_to_registerFragment"
+            app:destination="@id/nav_register" />
+
+    </fragment>
+
+    <!-- sledeci deo je vezan za navigaciju unutar RegistrationActivity-->
+    <!--@+id/nav_register ovo sam sama definisala, prelazim sa activity_registration putem action na register_as_pup-->
+    <fragment
+        android:id="@+id/nav_register"
+        android:name="com.example.projekatmobilneaplikacije.fragments.RegistrationFragment"
+        android:label="Register"
+        tools:layout="@layout/fragment_registration"
+        app:popUpToInclusive="true">
+    <action
+        android:id="@+id/action_registerFragment_to_registerPUPVFragment"
+        app:destination="@id/register_as_pup" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/register_as_pup"
+        android:name="com.example.projekatmobilneaplikacije.fragments.RegisterFragment"
+        android:label="RegisterAsPUPV"
+        tools:layout="@layout/fragment_register">
+
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/date_time_picker"
+        android:name="com.example.projekatmobilneaplikacije.fragments.TimePickerDialogFragment"
+        android:label="RegisterAsPUPV"
+        tools:layout="@layout/fragment_time_picker_dialog">
+
+    </fragment>
 
 </navigation>
