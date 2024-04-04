@@ -13,6 +13,7 @@ import android.widget.Button;
 import android.widget.ImageButton;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.CreateBundleActivity;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -84,15 +85,15 @@ public class BundleListingFragment extends Fragment {
             bottomSheetDialog.show();
         });
 
-        /*FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
+        FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), CreateProductActivity.class);
+                Intent intent = new Intent(getActivity(), CreateBundleActivity.class);
                 startActivity(intent);
             }
         });
-
+        /*
         ImageButton editProductButton = view.findViewById(R.id.editProductButton);
         editProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
