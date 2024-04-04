@@ -5,16 +5,17 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.serviceAndProduct.ServiceAndProductPageFragment">
+    android:id="@+id/fragment_event_type_page"
+    tools:context=".fragments.events.EventTypePageFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        tools:context=".fragments.serviceAndProduct.ServiceAndProductPageFragment"
+        tools:context=".fragments.events.EventTypePageFragment"
         >
         <LinearLayout
-            android:id="@+id/linear1"
+            android:id="@+id/linear22"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -24,7 +25,7 @@
 
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/linear2"
+            android:id="@+id/linear23"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -34,7 +35,7 @@
             >
 
             <Button
-                android:id="@+id/create_category"
+                android:id="@+id/create_event_type"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="0.7"
@@ -47,7 +48,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_margin="10dp"
-            android:id="@+id/scroll_category_list"
+            android:id="@+id/scroll_event_type_list"
             />
     </LinearLayout>
 

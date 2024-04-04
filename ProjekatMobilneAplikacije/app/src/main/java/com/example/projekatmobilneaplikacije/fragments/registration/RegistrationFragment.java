@@ -1,4 +1,4 @@
-package com.example.projekatmobilneaplikacije.fragments;
+package com.example.projekatmobilneaplikacije.fragments.registration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;

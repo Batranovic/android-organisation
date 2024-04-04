@@ -1,12 +1,10 @@
-package com.example.projekatmobilneaplikacije.fragments;
+package com.example.projekatmobilneaplikacije.fragments.serviceAndProduct;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
-import androidx.navigation.NavController;
 import androidx.navigation.fragment.NavHostFragment;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,13 +12,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.activities.RegistrationActivity;
-import com.example.projekatmobilneaplikacije.databinding.FragmentLoginBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentServiceAndProductPageBinding;
+import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
 import com.example.projekatmobilneaplikacije.model.Category;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 
 public class ServiceAndProductPageFragment extends Fragment {
     private FragmentServiceAndProductPageBinding binding;

@@ -1,4 +1,4 @@
-package com.example.projekatmobilneaplikacije.fragments;
+package com.example.projekatmobilneaplikacije.fragments.serviceAndProduct;
 
 import android.content.res.ColorStateList;
 import android.graphics.Color;

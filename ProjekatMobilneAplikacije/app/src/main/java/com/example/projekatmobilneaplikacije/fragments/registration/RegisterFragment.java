@@ -1,4 +1,4 @@
-package com.example.projekatmobilneaplikacije.fragments;
+package com.example.projekatmobilneaplikacije.fragments.registration;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -8,14 +8,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentRegisterBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
-
-import java.sql.Time;
 
 
 public class RegisterFragment extends Fragment {
@@ -54,6 +51,23 @@ public class RegisterFragment extends Fragment {
                     Log.i("ShopApp", "Bottom Sheet Dialog");
                     BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity(), R.style.FullScreenBottomSheetDialog);
                     View dialogView = getLayoutInflater().inflate(R.layout.category_sheet_filter, null);
+                    bottomSheetDialog.setContentView(dialogView);
+                    bottomSheetDialog.show();
+                });
+
+            }
+
+        });
+
+        FloatingActionButton selectEvent = root.findViewById(R.id.select_event_type);
+        selectEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                selectEvent.setOnClickListener(s -> {
+                    Log.i("ShopApp", "Bottom Sheet Dialog");
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity(), R.style.FullScreenBottomSheetDialog);
+                    View dialogView = getLayoutInflater().inflate(R.layout.event_type_sheet_filter, null);
                     bottomSheetDialog.setContentView(dialogView);
                     bottomSheetDialog.show();
                 });
