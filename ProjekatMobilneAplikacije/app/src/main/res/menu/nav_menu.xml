@@ -20,6 +20,11 @@
             android:icon="@drawable/service_listing"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_bundle_listing"
+            android:title="Bundle Listing"
+            android:icon="@drawable/bundle_listing"
+            android:orderInCategory="300" />
+
         <item android:id="@+id/nav_logout"
             android:title="@string/logout"
             android:icon="@drawable/ic_logout"

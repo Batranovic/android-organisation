@@ -39,6 +39,15 @@
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_bundle_listing"
+        android:name="com.example.projekatmobilneaplikacije.fragments.BundleListingFragment"
+        android:label="Bundle Listing"
+        tools:layout="@layout/fragment_bundle_listing"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
 
 
 </navigation>
