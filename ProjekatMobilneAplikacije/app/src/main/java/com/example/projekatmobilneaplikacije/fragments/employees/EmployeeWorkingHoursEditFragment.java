@@ -7,10 +7,13 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWHOverviewBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWorkingHoursEditBinding;
+import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 
 public class EmployeeWorkingHoursEditFragment extends Fragment {
@@ -50,6 +53,22 @@ public class EmployeeWorkingHoursEditFragment extends Fragment {
                              Bundle savedInstanceState) {
         binding = FragmentEmployeeWorkingHoursEditBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        Button backButton = binding.backToWh;
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransition.to(EmployeeWHOverview.newInstance("WH Frag", "Employee Working Hours overview"), getActivity(), false, R.id.employee_information);
+            }
+        });
+
+        Button finishButton = binding.finichWhEdit;
+        finishButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransition.to(EmployeeWHOverview.newInstance("WH Frag", "Employee Working Hours overview"), getActivity(), false, R.id.employee_information);
+            }
+        });
 
         return root;
     }

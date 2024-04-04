@@ -11,11 +11,20 @@ import android.view.ViewGroup;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWorkCalendarBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeWorkingHoursOverviewBinding;
+import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
+import com.example.projekatmobilneaplikacije.model.Employee;
+import com.example.projekatmobilneaplikacije.model.Event;
+
+import java.sql.Date;
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.util.ArrayList;
 
 
 public class EmployeeWorkCalendarFragment extends Fragment {
 
     FragmentEmployeeWorkCalendarBinding binding;
+    public static ArrayList<Event> events = new ArrayList<Event>();
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -51,6 +60,25 @@ public class EmployeeWorkCalendarFragment extends Fragment {
         binding = FragmentEmployeeWorkCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
+        prepareEventList(events);
+
+        FragmentTransition.to(EmpoyeeEventsListFragment.newInstance(events), getActivity(),
+                false, R.id.events);
+
         return root;
+    }
+
+    private void prepareEventList(ArrayList<Event> events){
+        events.add(new Event(1L, "Vencanje", "21.04.2024.", "14:30","23:30", "reserved"));
+        events.add(new Event(1L, "Rodjendan", "22.04.2024.", "14:30","23:30", "occupied"));
+        events.add(new Event(1L, "Koncert", "23.04.2024.", "14:30","23:30", "reserved"));
+        events.add(new Event(1L, "Baby shower", "23.04.2024.", "14:30","23:30", "occupied"));
+
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
     }
 }

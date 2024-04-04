@@ -34,4 +34,7 @@
     <string name="work_time">7 - 20</string>
     <string name="none">/</string>
     <string name="edit_working_hours">Edit employee working hours</string>
+    <string name="from">From:</string>
+    <string name="to">To:</string>
+    <string name="work_calendar">Work Calendar</string>
 </resources>
