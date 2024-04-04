@@ -54,6 +54,11 @@
     <string name="search">"Search"</string>
     <string name="filter_all">"Filter here"</string>
     <string name="submit_filter">"Submit"</string>
+    <string name="budget_planing">"Planing budget"</string>
+    <string name="category_suggestion">"Category suggestion"</string>
+    <string name="category_suggestion_desc">"Suggestion Description"</string>
+    <string name="budget_items">"Budget Items"</string>
+
 
     <!-- Ostali string resursi -->
 

@@ -115,10 +115,10 @@ public class EventOrganizationFragment extends Fragment {
         );
 
 
-
-
         popupWindow.showAsDropDown(anchorView);
     }
+
+
 
 
     private void showDatePickerDialog() {
