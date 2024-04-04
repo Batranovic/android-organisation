@@ -61,7 +61,7 @@ public class EventType  implements Parcelable {
 
     @Override
     public String toString() {
-        return "Product{" +
+        return "EventType{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' + ", isActive='" + isActive +
                 '}';

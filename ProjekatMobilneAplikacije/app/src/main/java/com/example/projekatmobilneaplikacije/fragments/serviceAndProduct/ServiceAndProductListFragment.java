@@ -9,10 +9,15 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
+import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.adapters.ServiceAndProductListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentServiceAndProductListBinding;
+import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
+import com.example.projekatmobilneaplikacije.fragments.registration.TimePickerDialogFragment;
 import com.example.projekatmobilneaplikacije.model.Category;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.ArrayList;
 

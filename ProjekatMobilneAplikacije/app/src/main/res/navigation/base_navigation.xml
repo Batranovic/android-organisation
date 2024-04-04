@@ -21,6 +21,20 @@
         <action
             android:id="@+id/action_nav_service_product_to_nav_service"
             app:destination="@id/nav_service" />
+
+        <action
+            android:id="@+id/action_nav_service_product_to_nav_subcategory_suggestion"
+            app:destination="@id/nav_subcategory_suggestion" />
+
+    </fragment>
+
+    <fragment
+        android:id="@+id/nav_subcategory_suggestion"
+        android:name="com.example.projekatmobilneaplikacije.fragments.SubcategorySuggestion.SubcategorySuggestionPageFragment"
+        android:label="Review suggestions"
+        tools:layout="@layout/fragment_subcategory_suggestion_page"
+        >
+
     </fragment>
 
     <fragment

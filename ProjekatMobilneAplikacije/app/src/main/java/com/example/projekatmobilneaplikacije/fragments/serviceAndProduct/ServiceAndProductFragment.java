@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.RadioButton;
@@ -15,6 +14,7 @@ import android.widget.RadioGroup;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
 
 public class ServiceAndProductFragment extends Fragment {
 
@@ -22,9 +22,10 @@ public class ServiceAndProductFragment extends Fragment {
     private RadioButton radioButtonSubcategory;
     private EditText editTextCatName2;
 
-    public ServiceAndProductFragment() {
-        // Required empty public constructor
+    public static ServiceAndProductFragment newInstance() {
+        return new ServiceAndProductFragment();
     }
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,

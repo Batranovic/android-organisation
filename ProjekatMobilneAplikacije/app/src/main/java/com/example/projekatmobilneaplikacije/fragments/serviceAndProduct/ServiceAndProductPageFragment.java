@@ -42,6 +42,15 @@ public class ServiceAndProductPageFragment extends Fragment {
                         .navigate(R.id.action_nav_service_product_to_nav_service);
             }
         });
+        Button viewsubategorySuggestionButton = root.findViewById(R.id.view_subcategory_suggestion);
+        viewsubategorySuggestionButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigacija na drugi fragment
+                NavHostFragment.findNavController(ServiceAndProductPageFragment.this)
+                        .navigate(R.id.action_nav_service_product_to_nav_subcategory_suggestion);
+            }
+        });
         FragmentTransition.to(ServiceAndProductListFragment.newInstance(categories), getActivity(),
                 false, R.id.scroll_category_list);
 
