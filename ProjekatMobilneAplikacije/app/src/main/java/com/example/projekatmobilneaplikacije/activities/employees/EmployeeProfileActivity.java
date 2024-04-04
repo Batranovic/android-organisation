@@ -39,8 +39,6 @@ public class EmployeeProfileActivity extends AppCompatActivity {
             Log.i("App", "Employee Profile Activiti onCreate() ");
 
 
-        } else {
-            Toast.makeText(this, "Error: Employee ID not found", Toast.LENGTH_SHORT).show();
         }
     }
 }

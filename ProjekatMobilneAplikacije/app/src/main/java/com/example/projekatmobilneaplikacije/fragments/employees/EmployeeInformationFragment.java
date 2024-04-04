@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Spinner;
+import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeeInformationBinding;
@@ -71,6 +72,18 @@ public class EmployeeInformationFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransition.to(EmployeeWorkCalendarFragment.newInstance("Calendar Fragment ]", "Employee Calendar overview"), getActivity(), false, R.id.employee_information);
+            }
+        });
+
+        FloatingActionButton deactivateButton = binding.deactivate;
+
+        // Postavljanje OnClickListener-a na dugme
+        deactivateButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Ovde postavite akciju koja će se izvršiti kada korisnik klikne na dugme
+                // Na primer, prikazivanje Toast-a
+                Toast.makeText(getActivity(), "User deactivated!", Toast.LENGTH_SHORT).show();
             }
         });
 
