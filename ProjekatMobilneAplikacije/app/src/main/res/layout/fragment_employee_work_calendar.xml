@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.employees.EmployeeWorkCalendarFragment"
     android:orientation="vertical">
 
@@ -49,9 +50,16 @@
             <TextView
                 android:id="@+id/employee_common_name"
                 android:layout_width="match_parent"
-                android:layout_height="42dp"
+                android:layout_height="wrap_content"
                 android:gravity="center_horizontal"
                 android:text="Jana Janic" />
+
+            <TextView
+                android:id="@+id/week"
+                android:layout_width="match_parent"
+                android:layout_height="33dp"
+                android:text="@string/week"
+                android:gravity="center_horizontal"/>
         </LinearLayout>
     </LinearLayout>
 
@@ -62,6 +70,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_marginEnd="22dp"
+            android:layout_marginBottom="78dp"
+            android:backgroundTint="@color/lavander"
+            android:clickable="true"
+            android:contentDescription="@string/new_employee"
+            android:src="@drawable/add_event"
+            tools:ignore="ImageContrastCheck" />
+
     </RelativeLayout>
+
+
+
+
+
+
+
+
 
 </LinearLayout>

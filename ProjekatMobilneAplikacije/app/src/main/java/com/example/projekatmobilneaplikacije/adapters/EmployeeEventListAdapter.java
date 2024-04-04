@@ -80,12 +80,14 @@ public class EmployeeEventListAdapter extends ArrayAdapter<Event> {
             TextView eventDate = convertView.findViewById(R.id.event_date);
             TextView eventStartTime = convertView.findViewById(R.id.event_start_time);
             TextView eventEndTime = convertView.findViewById(R.id.event_end_time);
+            TextView eventType = convertView.findViewById(R.id.event_type);
 
             if(event != null){
                 eventName.setText(event.getName());
                 eventDate.setText(event.getDate());
                 eventStartTime.setText(event.getStartTime());
                 eventEndTime.setText(event.getEndTime());
+                eventType.setText(event.getType());
                 eventCard.setOnClickListener(v -> {
                     // Handle click on the item at 'position'
                     Log.i("App", "Clicked: " + event.getName() + ", id: " +

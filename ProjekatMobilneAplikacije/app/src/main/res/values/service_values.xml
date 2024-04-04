@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="services">
+        <item>Music</item>
+        <item>Food</item>
+        <item>Makeup</item>
+        <item>Party</item>
+    </string-array>
+</resources>

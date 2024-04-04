@@ -50,50 +50,85 @@
         android:id="@+id/em_email"
         android:layout_width="match_parent"
         android:layout_height="76dp"
+        android:gravity="center_horizontal|center_vertical"
         android:text="@string/employee_email" />
 
     <TextView
         android:id="@+id/em_phone_number"
         android:layout_width="match_parent"
         android:layout_height="79dp"
+        android:gravity="center_horizontal|center_vertical"
         android:text="@string/em_phone_number" />
 
     <TextView
         android:id="@+id/em_address"
         android:layout_width="match_parent"
         android:layout_height="74dp"
+        android:gravity="center_horizontal|center_vertical"
         android:text="@string/em_address" />
 
-    <TableRow
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="77dp" />
+        android:layout_height="81dp"
+        android:gravity="bottom|end"
+        android:orientation="horizontal">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_wh"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        app:srcCompat="@drawable/working_hours"
-        android:backgroundTint="@color/lavander"
-        android:clickable="true"
-        android:contentDescription="@string/new_employee"
-        tools:ignore="ImageContrastCheck" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/floating_action_cal"
-        android:layout_width="wrap_content"
+            <TextView
+                android:id="@+id/textView5"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="@string/employee_services" />
+
+            <Spinner
+                android:id="@+id/services_spinner"
+                android:layout_width="wrap_content"
+                android:layout_weight="0.2"
+                android:text="@string/employee_services"
+                android:tooltipText="@string/employee_services"
+                android:layout_height="wrap_content"
+                android:clickable="false"
+                android:spinnerMode="dropdown"
+                android:layout_gravity="center_horizontal"
+                 />
+        </LinearLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="137dp"
         android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="15dp"
-        android:layout_marginBottom="15dp"
-        app:srcCompat="@drawable/employee_calendar"
-        android:backgroundTint="@color/lavander"
-        android:clickable="true"
-        android:contentDescription="@string/new_employee"
-        tools:ignore="ImageContrastCheck" />
+        android:layout_gravity="end"
+        android:layout_marginTop="50dp"
+        android:orientation="horizontal">
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_wh"
+            android:layout_width="136dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:layout_marginRight="15dp"
+            android:backgroundTint="@color/lavander"
+            android:clickable="true"
+            android:contentDescription="@string/new_employee"
+            app:srcCompat="@drawable/working_hours"
+            tools:ignore="ImageContrastCheck" />
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/floating_action_cal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="15dp"
+            android:backgroundTint="@color/lavander"
+            android:clickable="true"
+            android:contentDescription="@string/new_employee"
+            app:srcCompat="@drawable/employee_calendar"
+            tools:ignore="ImageContrastCheck" />
+
+    </LinearLayout>
 
 </LinearLayout>
