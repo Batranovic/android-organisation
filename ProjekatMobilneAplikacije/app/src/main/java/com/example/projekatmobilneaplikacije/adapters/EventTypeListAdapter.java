@@ -84,23 +84,7 @@ public class EventTypeListAdapter extends ArrayAdapter<EventType> {
                 activateDeactivateButton.setImageResource(newIconResource);
             });
         }
-        ImageButton  editEventButton = convertView.findViewById(R.id.edit_event); // Dodajte dugme edit_event
 
-        editEventButton.setOnClickListener(v -> {
-            // Create a new instance of EventTypeFragment
-            EventTypeFragment fragment = new EventTypeFragment();
-
-            // Pass data if needed using Bundle
-            Bundle bundle = new Bundle();
-            bundle.putString("eventName", eventType.getName());
-            fragment.setArguments(bundle);
-
-            // Replace the current fragment with EventTypeFragment
-            fragmentManager.beginTransaction()
-                    .replace(R.id.fragment_event_type_page, fragment) // Replace R.id.fragment_container with your container id
-                    .addToBackStack(null)
-                    .commit();
-        });
 
 
 

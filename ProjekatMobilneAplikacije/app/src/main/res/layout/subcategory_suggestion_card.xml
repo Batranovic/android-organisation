@@ -6,7 +6,6 @@
     android:layout_width="match_parent"
     android:layout_height="180dp"
     android:orientation="horizontal"
-    android:background="@drawable/border_background"
     android:padding="10dp"
     android:layout_marginVertical="10dp"
     android:id="@+id/subcategory_suggestion_card_item"

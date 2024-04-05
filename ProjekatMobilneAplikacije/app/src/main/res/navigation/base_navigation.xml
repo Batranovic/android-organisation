@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/nav_subcategory_suggestion"
         android:name="com.example.projekatmobilneaplikacije.fragments.SubcategorySuggestion.SubcategorySuggestionPageFragment"
-        android:label="Suggestions"
+        android:label="Review"
         tools:layout="@layout/fragment_subcategory_suggestion_page"
         >
 
