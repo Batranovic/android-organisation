@@ -18,13 +18,14 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentServiceAndProductPageBinding;
 import com.example.projekatmobilneaplikacije.databinding.ListCreatedEventsBinding;
 
+import com.example.projekatmobilneaplikacije.databinding.PageEventListBinding;
 import com.example.projekatmobilneaplikacije.model.CreateEvent;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 
 public class EventPageFragment extends Fragment {
-    private ListCreatedEventsBinding binding;
+    private PageEventListBinding binding;
 
     public static ArrayList<CreateEvent> events = new ArrayList<CreateEvent>();
     public static EventPageFragment newInstance() {
@@ -35,12 +36,12 @@ public class EventPageFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = ListCreatedEventsBinding.inflate(inflater, container, false);
+        binding = PageEventListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
         prepareEventsList(events);
 
-        NavHostFragment.findNavController(EventPageFragment.this)
-                        .navigate(R.id.nav_action_events_list);
+        //NavHostFragment.findNavController(EventPageFragment.this)
+          //              .navigate(R.id.nav_action_events_list);
 
         FragmentTransition.to(EventListFragment.newInstance(events), getActivity(),
                 false, R.id.scroll_events_list);

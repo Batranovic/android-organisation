@@ -12,26 +12,18 @@
 
 
 
-    <androidx.cardview.widget.CardView
+
+    <ImageButton
+        android:id="@+id/imageButton3"
         android:layout_width="100dp"
         android:layout_height="100dp"
-        android:layout_marginStart="150dp"
-        android:layout_marginTop="20dp"
-        app:cardCornerRadius="50dp"
-        app:cardBackgroundColor="#CCB3F8"
-        app:cardElevation="15dp"
+        android:layout_marginTop="28dp"
+        android:background="@drawable/border_background"
+        android:src="@drawable/add_photo"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ImageView
-            android:id="@+id/add_image_button"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_gravity="center"
-            android:gravity="center"
-            android:padding="16dp"
-            android:src="@drawable/ic_face" />
-    </androidx.cardview.widget.CardView>
+        app:layout_constraintTop_toTopOf="parent" />
 
     <EditText
         android:id="@+id/username"

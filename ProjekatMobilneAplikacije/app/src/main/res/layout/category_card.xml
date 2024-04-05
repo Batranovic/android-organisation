@@ -43,19 +43,13 @@
 
             <ImageButton
                 android:id="@+id/delete_category"
-                android:layout_marginStart="250dp"
+                android:layout_marginStart="310dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
                 android:background="@drawable/border_background"
                 android:src="@drawable/delete_category" />
 
-            <ImageButton
-                android:id="@+id/edit_category"
-                android:layout_marginStart="20dp"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:background="@drawable/border_background"
-                android:src="@drawable/edit_category" />
+
 
         </LinearLayout>
 
