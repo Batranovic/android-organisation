@@ -94,6 +94,16 @@ tools:context=".fragments.CreateServiceFirstFragment">
                 android:contentDescription="@string/subcategory"
                 />
 
+            <ImageButton
+                android:id="@+id/addNewSubcategoryButton"
+                android:background="@drawable/border_background"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/add_product"
+                android:layout_marginLeft="10dp"
+                android:contentDescription="Delete service"/>
+
+
         </LinearLayout>
 
         <LinearLayout

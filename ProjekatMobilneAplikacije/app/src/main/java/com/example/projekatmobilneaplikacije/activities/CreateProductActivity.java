@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -46,6 +48,15 @@ public class CreateProductActivity extends AppCompatActivity {
             bottomSheetDialog.show();
         });
 
+        ImageButton addNewSubcategoryButton = findViewById(R.id.addNewSubcategoryButton);
+        addNewSubcategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Pozovi funkciju za prikazivanje dijaloga kada se klikne dugme
+                openDialog();
+            }
+        });
+
        /* Spinner spinner = binding.btnSort;
         // Create an ArrayAdapter using the string array and a default spinner layout
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
@@ -81,4 +92,38 @@ public class CreateProductActivity extends AppCompatActivity {
                 alert.show();
             }*/
     }
+
+
+
+    private void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Unesite novu podkategoriju");
+
+        // Postavljanje layouta unutar dijaloga
+        View dialogView = getLayoutInflater().inflate(R.layout.subcategory_dialog, null);
+        builder.setView(dialogView);
+
+        EditText editText = dialogView.findViewById(R.id.editText);
+
+        builder.setPositiveButton("Potvrdi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Ovdje možete obraditi uneseni tekst iz editTexta
+                String newSubcategory = editText.getText().toString();
+                // Primjer: Prikazivanje unesenog teksta u Logcatu
+                Log.d("Novi tekst:", newSubcategory);
+            }
+        });
+
+        builder.setNegativeButton("Otkaži", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Zatvaranje dijaloga ako korisnik odustane
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
+    }
+
 }

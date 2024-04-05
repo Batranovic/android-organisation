@@ -1,14 +1,18 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageButton;
 
 import com.example.projekatmobilneaplikacije.R;
@@ -106,8 +110,47 @@ public class CreateServiceFirstFragment extends Fragment {
             }
         });
 
+        ImageButton addNewSubcategoryButton = root.findViewById(R.id.addNewSubcategoryButton);
+        addNewSubcategoryButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                openDialog();
+            }
+        });
+
 
         return root;
+    }
+
+    private void openDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
+        builder.setTitle("Unesite novu podkategoriju");
+
+        // Postavljanje layouta unutar dijaloga
+        View dialogView = getLayoutInflater().inflate(R.layout.subcategory_dialog, null);
+        builder.setView(dialogView);
+
+        EditText editText = dialogView.findViewById(R.id.editText);
+
+        builder.setPositiveButton("Potvrdi", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Ovdje možete obraditi uneseni tekst iz editTexta
+                String newSubcategory = editText.getText().toString();
+                // Primjer: Prikazivanje unesenog teksta u Logcatu
+                Log.d("Novi tekst:", newSubcategory);
+            }
+        });
+
+        builder.setNegativeButton("Otkaži", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Zatvaranje dijaloga ako korisnik odustane
+                dialog.dismiss();
+            }
+        });
+
+        builder.show();
     }
 
 }

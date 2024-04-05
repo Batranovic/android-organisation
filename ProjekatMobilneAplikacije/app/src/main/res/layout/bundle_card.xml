@@ -93,7 +93,7 @@
                 />
 
             <ImageButton
-                android:id="@+id/deleteServiceButton"
+                android:id="@+id/deleteBundleButton"
                 android:background="@drawable/border_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

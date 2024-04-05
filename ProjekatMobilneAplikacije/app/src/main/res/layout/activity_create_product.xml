@@ -85,7 +85,7 @@
 
             <Spinner
                 android:id="@+id/btnSubcategory"
-                android:layout_width="wrap_content"
+                android:layout_width="30dp"
                 android:layout_height="match_parent"
                 android:layout_marginStart="10dp"
                 android:layout_weight="0.3"
@@ -93,6 +93,15 @@
                 android:tooltipText="@string/subcategory"
                 android:contentDescription="@string/subcategory"
                 />
+
+            <ImageButton
+                android:id="@+id/addNewSubcategoryButton"
+                android:background="@drawable/border_background"
+                android:layout_width="40dp"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/add_product"
+                android:layout_marginLeft="10dp"
+                android:contentDescription="Delete service"/>
 
         </LinearLayout>
 

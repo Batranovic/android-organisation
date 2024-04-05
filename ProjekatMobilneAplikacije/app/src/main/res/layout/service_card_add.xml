@@ -91,7 +91,7 @@
 
 
             <ImageButton
-                android:id="@+id/deleteServiceButton"
+                android:id="@+id/addServiceButton"
                 android:background="@drawable/border_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
@@ -100,7 +100,7 @@
                 android:contentDescription="Delete service"/>
 
             <ImageButton
-                android:id="@+id/deleteProductButton"
+                android:id="@+id/deleteServiceButton1"
                 android:background="@drawable/border_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
