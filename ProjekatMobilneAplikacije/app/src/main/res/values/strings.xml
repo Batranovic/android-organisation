@@ -39,7 +39,7 @@
     <string name="enter_description">Enter description</string>
     <string name="create_product">Create new product</string>
     <string name="subcategory">Subcategory</string>
-    <string name="title">Title</string>
+    <string name="titleA">Title</string>
     <string name="description">Description</string>
     <string name="price">Price</string>
     <string name="availableYesNo">Available</string>
@@ -115,12 +115,10 @@
     <string name="company_details">"Company details"</string>
     <string name="product_provider">"Product provider"</string>
     <string name="event_name">"Name"</string>
-    <string name="hello_blank_fragment">Pozdrav, prazan fragment!</string>
     <string name="title">"Create Event"</string>
     <string name="creation_type">"Pick event type"</string>
     <string name="set_type">"Click and choose"</string>
     <string name="category_pick">""Pick category</string>
-    <string name="description">"Description"</string>
     <string name="guest_num">"Number of guests"</string>
     <string name="privacy">"Event privacy"</string>
     <string name="location">"Location"</string>
