@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="sort_array">
+        <item>Hospitality establishments, food, catering</item>
+        <item>Accommodation</item>
+        <item>Music and entertainment</item>
+        <item>Photo and video</item>
+        <item>Decoration and lighting</item>
+        <item>Clothing and styling</item>
+        <item>Care and beauty</item>
+        <item>Planning and coordination</item>
+        <item>Invitations and stationery</item>
+        <item>Logistics and security</item>
+    </string-array>
+</resources>

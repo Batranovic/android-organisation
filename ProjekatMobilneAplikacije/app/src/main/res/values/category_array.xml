@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="category_array">
+        <item>Snimanje dronom</item>
+        <item>Videografija</item>
+        <item>Fotografisanje</item>
+        <item>Fotografije i Albumi</item>
+    </string-array>
+</resources>
