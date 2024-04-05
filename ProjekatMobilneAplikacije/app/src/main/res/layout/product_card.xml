@@ -4,7 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="330dp"
+    android:layout_height="280dp"
     android:orientation="horizontal"
     android:background="@drawable/border_background"
     android:padding="10dp"
@@ -13,7 +13,7 @@
     <ImageView
         android:id="@+id/image1"
         android:layout_width="170dp"
-        android:layout_height="268dp"
+        android:layout_height="match_parent"
         android:contentDescription="@string/Album50fotografija"
         app:srcCompat="@drawable/album50" />
 
@@ -55,26 +55,11 @@
             android:textSize="14sp"
             android:textStyle="italic" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:text="@string/AlbumOpis"
-            android:textSize="14sp"
-            android:textStyle="italic" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-
-            <TextView
-                android:layout_width="100dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:text="@string/DostupanDa"
-                android:textSize="14sp"
-                android:textStyle="italic" />
 
             <TextView
                 android:layout_width="105dp"

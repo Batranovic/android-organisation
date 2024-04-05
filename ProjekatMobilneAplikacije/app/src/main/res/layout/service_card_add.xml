@@ -21,14 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:layout_marginLeft="5dp">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="30dp"
+            android:layout_height="40dp"
             android:layout_margin="5dp"
-            android:text="Shooting event"
+            android:text="Shooting with a drone"
             android:textSize="16sp"
             android:textStyle="bold" />
 
@@ -45,12 +45,19 @@
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="40dp"
+            android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="Event type wedding, birthday"
+            android:text="Location Novi Sad"
             android:textSize="14sp"
             android:textStyle="italic" />
 
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="20dp"
+            android:layout_margin="5dp"
+            android:text="Duration 2h (term)"
+            android:textSize="14sp"
+            android:textStyle="italic" />
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -66,7 +73,7 @@
                 android:layout_width="200dp"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:text="Price 18000 din"
+                android:text="Price 6000 din"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -75,31 +82,30 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginTop="10dp">
+            android:orientation="horizontal">
 
             <View
                 android:layout_width="0dp"
                 android:layout_height="50dp"
                 android:layout_weight="1" />
 
-            <ImageButton
-                android:id="@+id/editBundleButton"
-                android:background="@drawable/border_background"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:src="@drawable/edit_product"
-                android:contentDescription="Edit service"
-                />
 
             <ImageButton
                 android:id="@+id/deleteServiceButton"
                 android:background="@drawable/border_background"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                app:srcCompat="@drawable/delete_product"
+                app:srcCompat="@drawable/add_product"
                 android:layout_marginLeft="10dp"
                 android:contentDescription="Delete service"/>
+
+            <ImageButton
+                android:id="@+id/deleteProductButton"
+                android:background="@drawable/border_background"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                app:srcCompat="@drawable/delete_product"
+                android:layout_marginLeft="10dp"/>
 
         </LinearLayout>
 

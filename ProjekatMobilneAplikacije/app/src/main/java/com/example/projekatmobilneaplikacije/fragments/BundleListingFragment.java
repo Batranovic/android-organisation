@@ -93,15 +93,15 @@ public class BundleListingFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        /*
-        ImageButton editProductButton = view.findViewById(R.id.editProductButton);
-        editProductButton.setOnClickListener(new View.OnClickListener() {
+
+        ImageButton editBundleButton = view.findViewById(R.id.editBundleButton);
+        editBundleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 // Pokrenite aktivnost CreateProductActivity
-                Intent intent = new Intent(getActivity(), CreateProductActivity.class);
+                Intent intent = new Intent(getActivity(), CreateBundleActivity.class);
                 startActivity(intent);
             }
-        });*/
+        });
     }
 }

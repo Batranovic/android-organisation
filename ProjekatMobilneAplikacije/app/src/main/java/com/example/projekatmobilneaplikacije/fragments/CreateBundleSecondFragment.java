@@ -12,14 +12,15 @@ import android.view.ViewGroup;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleFirstBinding;
+import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleSecondBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateServiceFirstBinding;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CreateBundleFirstFragment#newInstance} factory method to
+ * Use the {@link CreateBundleSecondFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CreateBundleFirstFragment extends Fragment {
+public class CreateBundleSecondFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -30,9 +31,10 @@ public class CreateBundleFirstFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FragmentCreateBundleFirstBinding binding;
+    private FragmentCreateBundleSecondBinding binding;
 
-    public CreateBundleFirstFragment() {
+
+    public CreateBundleSecondFragment() {
         // Required empty public constructor
     }
 
@@ -42,11 +44,11 @@ public class CreateBundleFirstFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CreateBundleFirstFragment.
+     * @return A new instance of fragment CreateBundleSecondFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateBundleFirstFragment newInstance(String param1, String param2) {
-        CreateBundleFirstFragment fragment = new CreateBundleFirstFragment();
+    public static CreateBundleSecondFragment newInstance(String param1, String param2) {
+        CreateBundleSecondFragment fragment = new CreateBundleSecondFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -66,16 +68,16 @@ public class CreateBundleFirstFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
-        binding = FragmentCreateBundleFirstBinding.inflate(inflater, container, false);
+        binding = FragmentCreateBundleSecondBinding.inflate(inflater, container, false);
 
         View root = binding.getRoot();
         binding.nextFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment secondFragment = new CreateBundleSecondFragment();
+                Fragment thirdFragment = new CreateBundleThirdFragment();
 
                 getParentFragmentManager().beginTransaction()
-                        .replace(R.id.create_bundle_container, secondFragment)
+                        .replace(R.id.create_bundle_container, thirdFragment)
                         .addToBackStack(null)
                         .commit();
             }
