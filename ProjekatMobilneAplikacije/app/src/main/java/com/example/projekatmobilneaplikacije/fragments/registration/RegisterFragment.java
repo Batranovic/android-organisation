@@ -3,13 +3,17 @@ package com.example.projekatmobilneaplikacije.fragments.registration;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.HomeActivity;
 import com.example.projekatmobilneaplikacije.databinding.FragmentRegisterBinding;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -58,6 +62,18 @@ public class RegisterFragment extends Fragment {
             }
 
         });
+
+        Button registerButtons = root.findViewById(R.id.registerButtons);
+        registerButtons.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                Intent intent = new Intent(v.getContext(), HomeActivity.class);
+                startActivity(intent);
+            }
+
+        });
+
 
         FloatingActionButton selectEvent = root.findViewById(R.id.select_event_type);
         selectEvent.setOnClickListener(new View.OnClickListener() {

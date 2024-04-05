@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.navigation.fragment.NavHostFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Spinner;
@@ -57,6 +59,16 @@ public class EventTypeFragment extends Fragment {
 
             }
 
+        });
+
+        Button buttonCreateEvent = root.findViewById(R.id.buttonCreateEvent);
+        buttonCreateEvent.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Navigacija ka ServiceAndProductPageFragment
+                NavHostFragment.findNavController(EventTypeFragment.this)
+                        .navigate(R.id.action_nav_event_type_create_to_nav_event_type_page);
+            }
         });
         return root;
     }

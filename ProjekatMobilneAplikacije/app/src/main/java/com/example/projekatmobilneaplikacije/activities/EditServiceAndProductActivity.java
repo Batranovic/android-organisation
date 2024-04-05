@@ -21,5 +21,7 @@ public class EditServiceAndProductActivity extends AppCompatActivity {
         binding = ActivityEditServiceAndProductBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
 
+
+
     }
 }

@@ -60,7 +60,7 @@
     <fragment
         android:id="@+id/nav_subcategory_suggestion"
         android:name="com.example.projekatmobilneaplikacije.fragments.SubcategorySuggestion.SubcategorySuggestionPageFragment"
-        android:label="Review suggestions"
+        android:label="Suggestions"
         tools:layout="@layout/fragment_subcategory_suggestion_page"
         >
 
@@ -69,7 +69,7 @@
     <fragment
         android:id="@+id/nav_event_type_page"
         android:name="com.example.projekatmobilneaplikacije.fragments.events.EventTypePageFragment"
-        android:label="Service"
+        android:label="Event"
         tools:layout="@layout/fragment_event_type_page"
         >
         <action
@@ -80,15 +80,23 @@
     <fragment
         android:id="@+id/nav_event_type_create"
         android:name="com.example.projekatmobilneaplikacije.fragments.events.EventTypeFragment"
-        android:label="Service"
+        android:label="Event type"
         tools:layout="@layout/fragment_event_type"
-        />
+        >
+        <action
+            android:id="@+id/action_nav_event_type_create_to_nav_event_type_page"
+            app:destination="@id/nav_event_type_page" />
+    </fragment>
     <fragment
         android:id="@+id/nav_service"
         android:name="com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductFragment"
         android:label="Service"
         tools:layout="@layout/fragment_service_and_product"
-        />
+        >
+        <action
+            android:id="@+id/action_nav_service_to_nav_service_product"
+            app:destination="@id/nav_service_product" />
+    </fragment>
     <fragment
         android:id="@+id/nav_settings"
         android:name="com.example.projekatmobilneaplikacije.fragments.SettingsFragment"
@@ -101,7 +109,7 @@
         android:id="@+id/nav_search"
         android:name="com.example.projekatmobilneaplikacije.fragments.SearchFragment"
         android:label="Search and filter"
-        tools:layout="@layout/fragment_search"
+        tools:layout="@layout/search_fragment"
         />
 
     <fragment
