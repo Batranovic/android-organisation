@@ -78,6 +78,8 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Category> {
                 v.getContext().startActivity(intent);
             }
         });
+
+
         return convertView;
     }
 }
