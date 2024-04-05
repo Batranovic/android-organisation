@@ -6,10 +6,12 @@
     android:layout_width="match_parent"
     android:layout_height="200dp"
     android:orientation="horizontal"
-    android:background="@drawable/border_background"
     android:padding="10dp"
     android:layout_marginVertical="10dp"
     android:id="@+id/category_card_item"
+    android:clickable="true"
+    android:focusable="true"
+    android:background="?android:attr/selectableItemBackground"
     >
 
     <LinearLayout
@@ -38,23 +40,17 @@
             android:orientation="horizontal"
             >
 
-            <ImageButton
-                android:id="@+id/delete_category"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:contentDescription="edit"
-                app:srcCompat="@drawable/ic_delete"
-                android:layout_marginStart="250dp"
-                android:scaleType="fitCenter"/>
 
             <ImageButton
-                android:id="@+id/edit_category"
+                android:id="@+id/delete_category"
+                android:layout_marginStart="310dp"
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:contentDescription="edit"
-                app:srcCompat="@drawable/ic_edit"
-                android:layout_marginStart="20dp"
-                android:scaleType="fitCenter"/>
+                android:background="@drawable/border_background"
+                android:src="@drawable/delete_category" />
+
+
+
         </LinearLayout>
 
 

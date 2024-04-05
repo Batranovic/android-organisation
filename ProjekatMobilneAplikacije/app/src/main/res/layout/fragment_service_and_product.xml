@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:layout_marginTop="30dp"
     android:id="@+id/service_and_product"
-    tools:context=".fragments.ServiceAndProductFragment">
+    tools:context=".fragments.serviceAndProduct.ServiceAndProductFragment">
 
     <!-- Radio Buttons -->
 
@@ -91,13 +91,22 @@
         android:minHeight="48dp"
         />
 
-    <!-- Button -->
-    <Button
-        android:id="@+id/buttonCreate"
-        android:layout_width="wrap_content"
+
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Create"
-        android:layout_gravity="center"
-        android:layout_marginTop="60dp"/>
+        android:orientation="horizontal"
+        android:layout_gravity="bottom">
+
+
+
+        <Button
+            android:id="@+id/buttonCreate"
+            android:layout_width="0dp"
+            android:layout_marginTop="170dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Create"/>
+    </LinearLayout>
 
 </LinearLayout>

@@ -6,7 +6,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".fragments.ServiceAndProductListFragment">
+    android:id="@+id/fragment_service_container"
+    tools:context=".fragments.serviceAndProduct.ServiceAndProductListFragment">
 
     <ListView
         android:id="@android:id/list"

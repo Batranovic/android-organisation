@@ -33,6 +33,7 @@
         <item name="android:fontFamily">@font/montserrat_medium</item>
     </style>
 
+    <!--za filter button na ProductListingActivity-->
     <style name="FullScreenBottomSheetDialog" parent="Theme.Design.BottomSheetDialog">
         <item name="android:windowIsFloating">false</item>
         <item name="android:windowIsTranslucent">true</item>
@@ -40,5 +41,15 @@
         <item name="android:windowMinWidthMajor">100%</item>
         <item name="android:windowMinWidthMinor">100%</item>
     </style>
+
+    <style name="MyFloatingActionButton" parent="">
+        <item name="shapeAppearanceOverlay">@style/RoundedCorner</item>
+    </style>
+
+    <style name="RoundedCorner">
+        <item name="cornerFamily">rounded</item>
+        <item name="cornerSize">50%</item>
+    </style>
+
 
 </resources>

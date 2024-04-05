@@ -15,6 +15,20 @@
             android:icon="@drawable/employee"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_product_listing"
+            android:title="Product Listing"
+            android:icon="@drawable/product_listing"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_service_listing"
+            android:title="Service Listing"
+            android:icon="@drawable/service_listing"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_bundle_listing"
+            android:title="Bundle Listing"
+            android:icon="@drawable/bundle_listing"
+            android:orderInCategory="300" />
 
         <item android:id="@+id/nav_logout"
             android:title="@string/logout"
@@ -22,8 +36,14 @@
             android:orderInCategory="300" />
 
         <item android:id="@+id/nav_service_product"
-            android:title="Services/products"
-            android:icon="@drawable/ic_new"
+            android:title="Services and products"
+            android:icon="@drawable/category_icon"
+            android:orderInCategory="300" />
+
+
+        <item android:id="@+id/nav_event_type_page"
+            android:title="EventType"
+            android:icon="@drawable/event_icon"
             android:orderInCategory="300" />
         <item android:id="@+id/nav_create_event"
             android:title="Create new event"
