@@ -33,6 +33,15 @@
             android:name=".activities.RegistrationActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.CreateBundleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CreateServiceActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.CreateProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
             android:label="Home">

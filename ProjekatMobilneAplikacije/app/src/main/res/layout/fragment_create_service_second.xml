@@ -1,0 +1,209 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/fragment_first"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".fragments.CreateServiceFirstFragment">
+
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.001"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="40dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:id="@+id/textViewDuration"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="Duration"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <EditText
+                android:id="@+id/editTextDuration"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.3"
+                android:hint="e.g., 1h, 2h, 15min"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintStart_toEndOf="@id/textViewDuration"
+                app:layout_constraintTop_toTopOf="@id/textViewDuration" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+
+            <!-- Engagement for Service -->
+            <TextView
+                android:id="@+id/textViewEngagement"
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="Engagement"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintTop_toBottomOf="@id/editTextDuration" />
+
+            <EditText
+                android:id="@+id/editTextEngagement"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.3"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                android:hint="min 1h, max 5h"
+                app:layout_constraintStart_toEndOf="@id/textViewEngagement"
+                app:layout_constraintTop_toTopOf="@id/textViewEngagement" />
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+
+            <TextView
+                android:id="@+id/textViewReservationDeadline"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="Reservation deadline"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintTop_toBottomOf="@id/editTextEngagement" />
+
+            <EditText
+                android:id="@+id/editTextReservationDeadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.3"
+                android:hint="e.g., 1 day before"
+                app:layout_constraintStart_toEndOf="@id/textViewReservationDeadline"
+                app:layout_constraintTop_toTopOf="@id/textViewReservationDeadline" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+
+            <TextView
+                android:id="@+id/textViewCancellationDeadline"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="Cancellation deadline"
+                android:textSize="14sp"
+                android:textStyle="italic"
+                app:layout_constraintTop_toBottomOf="@id/editTextCancellationDeadline" />
+
+            <EditText
+                android:id="@+id/editTextCancellationDeadline"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.3"
+                android:hint="e.g., 1 day before"
+                app:layout_constraintStart_toEndOf="@id/textViewCancellationDeadline"
+                app:layout_constraintTop_toTopOf="@id/textViewCancellationDeadline" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+
+            <TextView
+                android:id="@+id/textViewConfirmationMode"
+                android:layout_width="160dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="Confirmation Mode"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <RadioGroup
+                android:id="@+id/radioGroupConfirmationMode"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:layout_weight="0.3"
+                app:layout_constraintStart_toEndOf="@id/textViewConfirmationMode"
+                app:layout_constraintTop_toTopOf="@id/textViewConfirmationMode">
+
+                <RadioButton
+                    android:id="@+id/radioButtonAutomatic"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Automatic" />
+
+                <RadioButton
+                    android:id="@+id/radioButtonManual"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Manual" />
+            </RadioGroup>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_margin="5dp"
+            android:orientation="horizontal"
+            android:layout_marginTop="80dp">
+
+
+            <Button
+                android:id="@+id/btnAddEventTypes"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/addEventTypes"
+                tools:ignore="TextContrastCheck"
+                android:layout_marginLeft="10dp"/>
+        </LinearLayout>
+
+        <Button
+            android:id="@+id/btnSubmit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="@string/submit"
+            tools:ignore="TextContrastCheck"
+            android:layout_marginTop="40dp"/>
+
+
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
