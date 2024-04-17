@@ -12,4 +12,14 @@
         <item>Invitations and stationery</item>
         <item>Logistics and security</item>
     </string-array>
+    <string-array name="subcategory_val">
+        <item>Catering and food preparation</item>
+        <item>Renting catering facilities</item>
+        <item>Menu planning</item>
+        <item>Food for events</item>
+        <item>Drinks</item>
+        <item>Sweets</item>
+        <item>Special products</item>
+    </string-array>
+
 </resources>

@@ -63,7 +63,7 @@ public class EventPageFragment extends Fragment {
         binding = null;
     }
     private void prepareEventsList(ArrayList<CreateEvent> events){
-        events.add(new CreateEvent(1L,"Wedding", "Wedding T and M", "///", 200, "Novi Sad, up to 50 km", "20.03.2024", true));
+        events.add(new CreateEvent(1L,"Wedding", "Wedding T and M", "Romantic wedding located in Italy, Como Lake with a lot of flower decorations...", 200, "Novi Sad, up to 50 km", "20.03.2024", true));
         events.add(new CreateEvent(2L, "Other", "Birthday Party", "///", 100, "Belgrade, up to 30 km", "15.05.2024", false));
     }
 }

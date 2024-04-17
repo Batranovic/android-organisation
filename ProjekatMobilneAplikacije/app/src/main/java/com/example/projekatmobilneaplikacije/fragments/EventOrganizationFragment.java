@@ -1,12 +1,19 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.navigation.NavController;
+
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,13 +21,16 @@ import android.widget.Button;
 import android.widget.DatePicker;
 
 import android.widget.PopupWindow;
-import android.widget.RadioButton;
+
 
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.HomeActivity;
+import com.example.projekatmobilneaplikacije.activities.budget.BudgetActivity;
+import com.example.projekatmobilneaplikacije.fragments.budget.BudgetFragment;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -63,11 +73,33 @@ public class EventOrganizationFragment extends Fragment {
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String message = "Created Succesfully";
-                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+                builder.setMessage("Do you want to plan budget for event you have created?")
 
-                Intent intent = new Intent(requireActivity(), HomeActivity.class);
-                startActivity(intent);
+                        .setPositiveButton("YES", new DialogInterface.OnClickListener() {
+
+                            public void onClick(DialogInterface dialog, int id) {
+
+                                Intent intent = new Intent(requireActivity(), BudgetActivity.class);
+                                startActivity(intent);
+
+
+                            }
+                        })
+                        .setNegativeButton("NO", new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // Korisnik je kliknuo na No
+                                String message = "Created Succesfully";
+                                Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent(requireActivity(), HomeActivity.class);
+                                startActivity(intent);
+
+                            }
+                        });
+// Kreiranje i prikazivanje AlertDialog-a
+                AlertDialog dialog = builder.create();
+                dialog.show();
             }
         });
 
@@ -78,6 +110,8 @@ public class EventOrganizationFragment extends Fragment {
                 showPopupWindow(v);
             }
         });
+
+
 
 
 
@@ -117,7 +151,6 @@ public class EventOrganizationFragment extends Fragment {
 
         popupWindow.showAsDropDown(anchorView);
     }
-
 
 
 

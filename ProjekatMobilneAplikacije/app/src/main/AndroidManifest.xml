@@ -21,6 +21,12 @@
             android:name=".activities.EditServiceAndProductActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.budget.BudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.budget.PlanBudgetActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.events.NewEventActivity"
             android:exported="false" />
         <activity

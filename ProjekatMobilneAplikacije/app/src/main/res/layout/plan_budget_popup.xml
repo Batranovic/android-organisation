@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="6dp"
+        android:layout_marginBottom="2dp"
+        android:layout_marginStart="10dp"
+        android:text="@string/subcategory"
+        android:textStyle="bold"
+        android:textSize="18dp"/>
+    <Spinner
+        android:id="@+id/planned_category_field"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_weight="0.5"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="10dp"
+        android:entries="@array/subcategory_val"
+        android:text="@string/subcategory"
+        android:tooltipText="@string/subcategory"
+        android:contentDescription="@string/subcategory"
+        />
+
+    <EditText
+        android:id="@+id/planned_price_field"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="10dp"
+        android:inputType="number"
+        android:hint="Planned price" />
+
+    <LinearLayout
+        android:layout_width="344dp"
+        android:layout_height="50dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginTop="16dp"
+        android:orientation="horizontal">
+
+        <Button
+            android:id="@+id/btnCancel"
+            android:layout_width="112dp"
+            android:layout_height="40dp"
+            android:layout_marginEnd="10dp"
+            android:layout_weight="1"
+            android:onClick="onCancelClicked"
+            android:text="Cancel" />
+
+        <Button
+            android:id="@+id/btnOk"
+            android:layout_width="117dp"
+            android:layout_height="40dp"
+            android:layout_marginStart="20dp"
+            android:layout_weight="1"
+            android:onClick="onOkClicked"
+            android:text="OK" />
+
+    </LinearLayout>
+
+</LinearLayout>

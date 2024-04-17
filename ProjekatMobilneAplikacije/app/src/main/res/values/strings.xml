@@ -142,8 +142,10 @@
     <string name="budget_planing">"Planing budget"</string>
     <string name="category_suggestion">"Category suggestion"</string>
     <string name="category_suggestion_desc">"Suggestion Description"</string>
-    <string name="budget_items">"Budget Items"</string>
-
+    <string name="budget_plan">"Budget plan"</string>
+    <string name="suggestion_cat">"All suggested event categories"</string>
+    <string name="suggestion_desc">"Suggested categories description"</string>
+    <string name="planned_budget_items">"Planned budget items"</string>
 
     <!-- Ostali string resursi -->
 
