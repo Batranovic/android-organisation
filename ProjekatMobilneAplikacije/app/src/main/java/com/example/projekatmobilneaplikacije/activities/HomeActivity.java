@@ -15,16 +15,22 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -41,6 +47,10 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Set<Integer> topLevelDestinations = new HashSet<>();
 
+    FirebaseAuth auth;
+    FirebaseUser user;
+    Button logout;
+    TextView loggedInUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,9 +67,34 @@ public class HomeActivity extends AppCompatActivity {
          * "findViewById" metode. Ukoliko imamo xml datoteku "activity_home.xml",
          * sistem će generisati klasu "ActivityHomeBinding".
          * */
+
+
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+        View root = binding.getRoot();
 
+        auth = FirebaseAuth.getInstance();
+        logout = root.findViewById(R.id.logout_button);
+        loggedInUser = root.findViewById(R.id.loggedInUser);
+        user = auth.getCurrentUser();
+        if(user == null){
+            Intent intent = new Intent(this, RegistrationActivity.class);
+            startActivity(intent);
+            finish();
+        }else {
+            loggedInUser.setText(user.getEmail());
+        }
+
+        logout.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth.getInstance().signOut();
+                Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
+                startActivity(intent);
+                finish();
+            }
+        });
         drawer = binding.drawerLayout;
         navigationView = binding.navView;
         toolbar = binding.activityHomeBase.toolbar;
