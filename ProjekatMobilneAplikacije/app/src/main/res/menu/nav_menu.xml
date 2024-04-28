@@ -30,8 +30,13 @@
             android:icon="@drawable/bundle_listing"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_login"
+            android:title="Login"
+            android:icon="@drawable/ic_logout"
+            android:orderInCategory="300" />
+
         <item android:id="@+id/nav_logout"
-            android:title="@string/logout"
+            android:title="Logout"
             android:icon="@drawable/ic_logout"
             android:orderInCategory="300" />
 

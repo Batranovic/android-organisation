@@ -27,7 +27,9 @@ import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
+import com.example.projekatmobilneaplikacije.fragments.LoginFragment;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment;
+import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -46,11 +48,9 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Set<Integer> topLevelDestinations = new HashSet<>();
-
     FirebaseAuth auth;
+
     FirebaseUser user;
-    Button logout;
-    TextView loggedInUser;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -72,29 +72,8 @@ public class HomeActivity extends AppCompatActivity {
 
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
-        View root = binding.getRoot();
 
-        auth = FirebaseAuth.getInstance();
-        logout = root.findViewById(R.id.logout_button);
-        loggedInUser = root.findViewById(R.id.loggedInUser);
-        user = auth.getCurrentUser();
-        if(user == null){
-            Intent intent = new Intent(this, RegistrationActivity.class);
-            startActivity(intent);
-            finish();
-        }else {
-            loggedInUser.setText(user.getEmail());
-        }
 
-        logout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                FirebaseAuth.getInstance().signOut();
-                Intent intent = new Intent(view.getContext(), RegistrationActivity.class);
-                startActivity(intent);
-                finish();
-            }
-        });
         drawer = binding.drawerLayout;
         navigationView = binding.navView;
         toolbar = binding.activityHomeBase.toolbar;
@@ -159,7 +138,22 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
+        if (user == null) {
+            // Navigacija na glavnu aktivnost
+            Menu navMenu = navigationView.getMenu();
+            navMenu.findItem(R.id.nav_logout).setVisible(false);
+            navMenu.findItem(R.id.nav_login).setVisible(true);
+
+        } else {
+            // Standardna navigacija na fragment za odjavu
+            Menu navMenu = navigationView.getMenu();
+            navMenu.findItem(R.id.nav_logout).setVisible(true);
+            navMenu.findItem(R.id.nav_login).setVisible(false);
+
+        }
         // AppBarConfiguration odnosi se na konfiguraciju ActionBar-a (ili Toolbar-a) u Android aplikaciji
         // kako bi se omogućila navigacija koristeći Android Navigation komponentu.
         // Takođe, postavlja se bočni meni (navigation drawer) u skladu sa
