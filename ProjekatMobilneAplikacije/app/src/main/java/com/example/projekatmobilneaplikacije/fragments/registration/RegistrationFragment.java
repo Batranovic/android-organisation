@@ -43,6 +43,7 @@ public class RegistrationFragment extends Fragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
     CollectionReference usersRef = db.collection("eventOrganizers");
+    /*
     @Override
     public void onStart() {
         super.onStart();
@@ -51,6 +52,17 @@ public class RegistrationFragment extends Fragment {
             Intent intent = new Intent(getActivity(), HomeActivity.class);
             startActivity(intent);
 
+        }
+    }*/
+    @Override
+    public void onStart() {
+        super.onStart();
+        FirebaseUser currentUser = mAuth.getCurrentUser();
+        if (currentUser != null) {
+            if (currentUser.isEmailVerified()) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+            }
         }
     }
     @Override
@@ -109,10 +121,12 @@ public class RegistrationFragment extends Fragment {
                                 if (task.isSuccessful()) {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                     if (firebaseUser != null) {
+                                        sendActivationEmail(firebaseUser);
                                         String userId =firebaseUser.getUid();
                                         EventOrganizer eventOrganizer = new EventOrganizer(userId, email, namet, surnamet, addresst, phonet);
                                         addUserDataToFirestore(eventOrganizer);
                                         Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+                                        mAuth.signOut();
                                         Intent intent = new Intent(v.getContext(), HomeActivity.class);
                                         startActivity(intent);
 
@@ -129,7 +143,21 @@ public class RegistrationFragment extends Fragment {
 
         return root;
     }
-
+    private void sendActivationEmail(FirebaseUser user) {
+        user.sendEmailVerification()
+                .addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if (task.isSuccessful()) {
+                            Log.d(TAG, "Activation email sent.");
+                            Toast.makeText(requireContext(), "Activation email sent.", Toast.LENGTH_SHORT).show();
+                        } else {
+                            Log.e(TAG, "Failed to send activation email.", task.getException());
+                            Toast.makeText(requireContext(), "Failed to send activation email.", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
+    }
     private void addUserDataToFirestore(EventOrganizer eventOrganizer) {
         // Add your logic to add eventOrganizer to Firestore
         usersRef.add(eventOrganizer)

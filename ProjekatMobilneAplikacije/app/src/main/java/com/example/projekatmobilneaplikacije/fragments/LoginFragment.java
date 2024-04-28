@@ -38,8 +38,10 @@ public class LoginFragment extends Fragment {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
         if (currentUser != null) {
-            Intent intent = new Intent(getActivity(), HomeActivity.class);
-            startActivity(intent);
+            if (currentUser.isEmailVerified()) {
+                Intent intent = new Intent(getActivity(), HomeActivity.class);
+                startActivity(intent);
+            }
         }
     }
 
@@ -79,14 +81,21 @@ public class LoginFragment extends Fragment {
                 mAuth.signInWithEmailAndPassword(email, password)
                         .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                             @Override
-                            public void onComplete(@NonNull Task<AuthResult> task) {
+                            public void onComplete(@NonNull Task <AuthResult> task) {
                                 if (task.isSuccessful()) {
-                                    Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
-                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                    startActivity(intent);
-                                }else {
+                                    FirebaseUser currentUser = mAuth.getCurrentUser();
+                                    if (currentUser != null) {
+                                        if (currentUser.isEmailVerified()) {
+                                            Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
+                                            Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                            startActivity(intent);
+                                        } else {
+                                            Toast.makeText(requireContext(), "Please verify your email to log in.", Toast.LENGTH_SHORT).show();
+                                            mAuth.signOut(); // Odjava korisnika ako nije verifikovao email
+                                        }
+                                    }
+                                } else {
                                     Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
-
                                 }
                             }
                         });
