@@ -21,6 +21,8 @@ import com.example.projekatmobilneaplikacije.activities.HomeActivity;
 import com.example.projekatmobilneaplikacije.activities.RegistrationActivity;
 import com.example.projekatmobilneaplikacije.databinding.FragmentRegistrationBinding;
 import com.example.projekatmobilneaplikacije.model.EventOrganizer;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,7 +44,7 @@ public class RegistrationFragment extends Fragment {
     }
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth mAuth;
-    CollectionReference usersRef = db.collection("eventOrganizers");
+
     /*
     @Override
     public void onStart() {
@@ -122,10 +124,17 @@ public class RegistrationFragment extends Fragment {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                     if (firebaseUser != null) {
                                         sendActivationEmail(firebaseUser);
+
                                         String userId =firebaseUser.getUid();
-                                        EventOrganizer eventOrganizer = new EventOrganizer(userId, email, namet, surnamet, addresst, phonet);
-                                        addUserDataToFirestore(eventOrganizer);
+                                        UserDetails userDetails = new UserDetails(userId,  email, namet, surnamet, addresst, phonet, UserRole.EventOrganizer);
+                                        addUserDetailsToFirestore(userDetails);
+
+                                        EventOrganizer eventOrganizer = new EventOrganizer(userId, userDetails);
+                                        addEventOrganizerToFirestore(eventOrganizer);
+
                                         Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+
+                                        //da ne bi bio ulogovan po registraciji uradi sign out
                                         mAuth.signOut();
                                         Intent intent = new Intent(v.getContext(), HomeActivity.class);
                                         startActivity(intent);
@@ -158,13 +167,33 @@ public class RegistrationFragment extends Fragment {
                     }
                 });
     }
-    private void addUserDataToFirestore(EventOrganizer eventOrganizer) {
+    private void addEventOrganizerToFirestore(EventOrganizer eventOrganizer) {
         // Add your logic to add eventOrganizer to Firestore
-        usersRef.add(eventOrganizer)
+        db.collection("eventOrganizers")
+                .add(eventOrganizer)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                     @Override
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "DocumentSnapshot added with ID: " + documentReference.getId());
+                        // Handle success, if needed
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                        // Handle failure, if needed
+                    }
+                });
+    }
+    private void addUserDetailsToFirestore(UserDetails userDetails) {
+        // Add userDetails to Firestore
+        db.collection("userDetails")
+                .add(userDetails)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "UserDetails added with ID: " + documentReference.getId());
                         // Handle success, if needed
                     }
                 })
