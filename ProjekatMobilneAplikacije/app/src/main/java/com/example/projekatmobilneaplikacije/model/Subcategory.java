@@ -5,22 +5,32 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class Category  implements Parcelable{
+import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
+
+public class Subcategory implements Parcelable{
 
     private String name;
     private String description;
-    public Category(String name, String description) {
+
+    private SubcategoryType type;
+
+    private Category category;
+
+    public Subcategory(String name, String description, SubcategoryType type, Category category) {
         this.name = name;
         this.description = description;
+        this.type = type;
+        this.category = category;
     }
 
-    public Category() {
+    public Subcategory() {
     }
     // Konstruktor za čitanje iz Parcel objekta
-    protected Category(Parcel in) {
+    protected Subcategory(Parcel in) {
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
         name = in.readString();
         description = in.readString();
+        type = SubcategoryType.valueOf(type.toString());
     }
 
 
@@ -39,6 +49,19 @@ public class Category  implements Parcelable{
     public void setDescription(String description) {
         this.description = description;
     }
+    public SubcategoryType getSubcategoryType() {
+        return type;
+    }
+
+    public void setSubcategoryType(SubcategoryType type) {
+        this.type = type;
+    }
+
+    public Category getCategory() {return category;}
+
+    public void setCategory(Category category) {
+        this.category = category;
+    }
 
 
     @Override
@@ -46,6 +69,7 @@ public class Category  implements Parcelable{
         return "Product{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
+                ", subcategory='" + type + '\'' +
                 '}';
     }
     /*
@@ -66,6 +90,7 @@ public class Category  implements Parcelable{
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
+        dest.writeString(type.name());
     }
     /*
      * Da biste omogućili Androidu da regeneriše vaš objekat iz Parcel-a,

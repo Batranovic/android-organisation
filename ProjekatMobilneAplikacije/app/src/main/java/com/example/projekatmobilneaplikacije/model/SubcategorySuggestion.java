@@ -5,13 +5,14 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-import com.example.projekatmobilneaplikacije.model.enumerations.Subcategory;
+import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
+
 
 public class SubcategorySuggestion  implements Parcelable{
     private Long id;
     private String name;
-    private Subcategory subcategory;
-    public SubcategorySuggestion(Long id, String name, Subcategory subcategory) {
+    private SubcategoryType subcategory;
+    public SubcategorySuggestion(Long id, String name, SubcategoryType subcategory) {
         this.id = id;
         this.name = name;
         this.subcategory = subcategory;
@@ -24,7 +25,7 @@ public class SubcategorySuggestion  implements Parcelable{
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
         id = in.readLong();
         name = in.readString();
-        subcategory = Subcategory.valueOf(in.readString());;
+        subcategory = SubcategoryType.valueOf(in.readString());;
     }
 
     public Long getId() {
@@ -43,11 +44,11 @@ public class SubcategorySuggestion  implements Parcelable{
         this.name = name;
     }
 
-    public Subcategory getSubcategory() {
+    public SubcategoryType getSubcategory() {
         return subcategory;
     }
 
-    public void setSubcategory(Subcategory subcategory) {
+    public void setSubcategory(SubcategoryType subcategory) {
         this.subcategory = subcategory;
     }
 

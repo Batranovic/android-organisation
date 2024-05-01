@@ -1,6 +1,6 @@
 package com.example.projekatmobilneaplikacije.model.enumerations;
 
-public enum Subcategory {
+public enum SubcategoryType {
     PRODUCT, SERVICE
 
 }

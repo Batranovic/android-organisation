@@ -60,10 +60,7 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Category> {
             categoryDescription.setText(category.getDescription());
             categoryCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
-                Log.i("ShopApp", "Clicked: " + category.getName() + ", id: " +
-                        category.getId().toString());
-                Toast.makeText(getContext(), "Clicked: " + category.getName()  +
-                        ", id: " + category.getId().toString(), Toast.LENGTH_SHORT).show();
+
             });
         }
 
@@ -74,7 +71,7 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Category> {
                 // Handle click event
 
                 Intent intent = new Intent(v.getContext(), EditServiceAndProductActivity.class);
-                intent.putExtra("id", category.getId());
+
                 v.getContext().startActivity(intent);
             }
         });
