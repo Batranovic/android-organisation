@@ -57,24 +57,18 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Object> {
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Obrada klika na kategoriju ili podkategoriju
-                if (item instanceof Category) {
+                if (item instanceof Subcategory) {
+
+                } else if (item instanceof Category) {
+                    Intent intent = new Intent(mContext, EditServiceAndProductActivity.class);
                     Category clickedCategory = (Category) item;
-                    // Obrada klika na kategoriju
-
-                    // Prelazak na novi intent za EditServiceAndProductActivity za kategoriju
-                    Intent intent = new Intent(mContext, EditServiceAndProductActivity.class);
-                    // Ovde možete proslediti dodatne informacije ako je potrebno
-                    mContext.startActivity(intent);
-                } else if (item instanceof Subcategory) {
-                    Subcategory clickedSubcategory = (Subcategory) item;
-                    // Obrada klika na podkategoriju
-
-                    // Prelazak na novi intent za EditServiceAndProductActivity za podkategoriju
-                    Intent intent = new Intent(mContext, EditServiceAndProductActivity.class);
-                    // Ovde možete proslediti dodatne informacije ako je potrebno
+                    intent.putExtra("category_name", clickedCategory.getName());
+                    intent.putExtra("category_description", clickedCategory.getDescription());
+                    intent.putExtra("old_name", clickedCategory.getName());
                     mContext.startActivity(intent);
                 }
+
+
             }
         });
 
