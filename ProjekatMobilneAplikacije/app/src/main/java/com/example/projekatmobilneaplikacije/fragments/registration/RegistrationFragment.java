@@ -124,26 +124,34 @@ public class RegistrationFragment extends Fragment {
                                     FirebaseUser firebaseUser = mAuth.getCurrentUser();
                                     if (firebaseUser != null) {
                                         sendActivationEmail(firebaseUser);
-
-                                        String userId =firebaseUser.getUid();
-                                        UserDetails userDetails = new UserDetails(userId,  email, namet, surnamet, addresst, phonet, UserRole.EventOrganizer);
-                                        addUserDetailsToFirestore(userDetails);
-
-                                        EventOrganizer eventOrganizer = new EventOrganizer(userId, userDetails);
-                                        addEventOrganizerToFirestore(eventOrganizer);
-
                                         Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show();
 
                                         //da ne bi bio ulogovan po registraciji uradi sign out
                                         mAuth.signOut();
                                         Intent intent = new Intent(v.getContext(), HomeActivity.class);
                                         startActivity(intent);
-
                                     }
-                                }else {
+                                } else {
                                     Toast.makeText(v.getContext(), "Error while registering", Toast.LENGTH_SHORT).show();
-
                                 }
+                            }
+                        })
+                        .addOnSuccessListener(new OnSuccessListener<AuthResult>() {
+                            @Override
+                            public void onSuccess(AuthResult authResult) {
+                                // Registracija je uspješna, sada dodajemo UserDetails u Firestore
+                                UserDetails userDetails = new UserDetails(email, namet, surnamet, addresst, phonet, UserRole.EventOrganizer);
+                                addUserDetailsToFirestore(userDetails);
+
+                                //mozda je suvisno-izbaci ako ne bude bilo potrebe
+                                EventOrganizer eventOrganizer = new EventOrganizer(email,userDetails);
+                                addEventOrganizerToFirestore(eventOrganizer);
+                                Toast.makeText(requireContext(), "Registration successful", Toast.LENGTH_SHORT).show();
+
+                                // Da ne bi bio ulogovan po registraciji, radimo sign out
+                                mAuth.signOut();
+                                Intent intent = new Intent(v.getContext(), HomeActivity.class);
+                                startActivity(intent);
                             }
                         });
 

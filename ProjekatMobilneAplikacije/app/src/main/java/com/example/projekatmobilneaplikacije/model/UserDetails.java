@@ -3,7 +3,6 @@ package com.example.projekatmobilneaplikacije.model;
 import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 
 public class UserDetails {
-    private String id;
     private String username;
     private String name;
     private String surname;
@@ -49,14 +48,6 @@ public class UserDetails {
     }
 
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
     public UserRole getRole() {
         return role;
     }
@@ -65,8 +56,7 @@ public class UserDetails {
         this.role = role;
     }
 
-    public UserDetails(String id,String username,  String name, String surname, String home_address, String phone, UserRole role) {
-        this.id = id;
+    public UserDetails(String username,  String name, String surname, String home_address, String phone, UserRole role) {
         this.username = username;
         this.name = name;
         this.surname = surname;
