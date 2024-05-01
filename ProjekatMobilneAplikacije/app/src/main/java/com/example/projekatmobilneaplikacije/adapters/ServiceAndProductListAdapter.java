@@ -3,6 +3,7 @@ package com.example.projekatmobilneaplikacije.adapters;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.EditServiceAndProductActivity;
 import com.example.projekatmobilneaplikacije.model.Category;
+import com.example.projekatmobilneaplikacije.model.Subcategory;
 
 import android.content.Context;
 import android.content.Intent;
@@ -21,62 +22,63 @@ import androidx.annotation.Nullable;
 
 import java.util.ArrayList;
 
-public class ServiceAndProductListAdapter extends ArrayAdapter<Category> {
+public class ServiceAndProductListAdapter extends ArrayAdapter<Object> {
+    private ArrayList<Object> mData;
+    private Context mContext; // Dodato polje za Context
 
-    private ArrayList<Category> aCategories;
-
-    public ServiceAndProductListAdapter(Context context, ArrayList<Category> categories) {
-        super(context, R.layout.category_card, categories);
-        aCategories = categories;
+    public ServiceAndProductListAdapter(Context context, ArrayList<Object> data) {
+        super(context, R.layout.category_card, data);
+        mContext = context; // Inicijalizacija Context-a
+        mData = data;
     }
 
-    @Override
-    public int getCount() {
-        return aCategories.size();
-    }
-    @Nullable
-    @Override
-    public Category getItem(int position) {
-        return aCategories.get(position);
-    }
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        Category category = getItem(position);
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_card,
-                    parent, false);
+        Object item = getItem(position);
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.category_card, parent, false);
         }
+
         LinearLayout categoryCard = convertView.findViewById(R.id.category_card_item);
         TextView categoryName = convertView.findViewById(R.id.category_name);
         TextView categoryDescription = convertView.findViewById(R.id.category_description);
 
-        if(category != null){
+        if (item instanceof Category) {
+            Category category = (Category) item;
             categoryName.setText(category.getName());
             categoryDescription.setText(category.getDescription());
-            categoryCard.setOnClickListener(v -> {
-                // Handle click on the item at 'position'
-
-            });
+        } else if (item instanceof Subcategory) {
+            Subcategory subcategory = (Subcategory) item;
+            categoryName.setText(subcategory.getName());
+            categoryDescription.setText(subcategory.getDescription());
         }
 
-        View itemView = convertView;
-        itemView.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Handle click event
+                // Obrada klika na kategoriju ili podkategoriju
+                if (item instanceof Category) {
+                    Category clickedCategory = (Category) item;
+                    // Obrada klika na kategoriju
 
-                Intent intent = new Intent(v.getContext(), EditServiceAndProductActivity.class);
+                    // Prelazak na novi intent za EditServiceAndProductActivity za kategoriju
+                    Intent intent = new Intent(mContext, EditServiceAndProductActivity.class);
+                    // Ovde možete proslediti dodatne informacije ako je potrebno
+                    mContext.startActivity(intent);
+                } else if (item instanceof Subcategory) {
+                    Subcategory clickedSubcategory = (Subcategory) item;
+                    // Obrada klika na podkategoriju
 
-                v.getContext().startActivity(intent);
+                    // Prelazak na novi intent za EditServiceAndProductActivity za podkategoriju
+                    Intent intent = new Intent(mContext, EditServiceAndProductActivity.class);
+                    // Ovde možete proslediti dodatne informacije ako je potrebno
+                    mContext.startActivity(intent);
+                }
             }
         });
-
 
         return convertView;
     }
 }
+
