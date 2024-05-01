@@ -16,7 +16,6 @@ import com.example.projekatmobilneaplikacije.adapters.ServiceAndProductListAdapt
 import com.example.projekatmobilneaplikacije.adapters.SubcategorySuggestionListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentServiceAndProductListBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentSubcategorySuggestionListBinding;
-import com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductListFragment;
 import com.example.projekatmobilneaplikacije.model.Category;
 import com.example.projekatmobilneaplikacije.model.SubcategorySuggestion;
 
