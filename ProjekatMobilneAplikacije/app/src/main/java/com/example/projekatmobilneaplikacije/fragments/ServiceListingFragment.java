@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -15,24 +16,29 @@ import android.widget.ImageButton;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
 import com.example.projekatmobilneaplikacije.activities.CreateServiceActivity;
+import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
+import com.example.projekatmobilneaplikacije.adapters.ServiceListAdapter;
+import com.example.projekatmobilneaplikacije.model.Product;
+import com.example.projekatmobilneaplikacije.model.Service;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link ServiceListingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ServiceListingFragment extends Fragment {
+public class ServiceListingFragment extends ListFragment {
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM = "param";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+
+    private ServiceListAdapter adapter;
+
+    public static ArrayList<Service> services = new ArrayList<Service>();
 
     public ServiceListingFragment() {
         // Required empty public constructor
@@ -50,8 +56,7 @@ public class ServiceListingFragment extends Fragment {
     public static ServiceListingFragment newInstance(String param1, String param2) {
         ServiceListingFragment fragment = new ServiceListingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putString(ARG_PARAM, param1);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,8 +65,9 @@ public class ServiceListingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            services = getArguments().getParcelableArrayList(ARG_PARAM);
+            adapter = new ServiceListAdapter(getActivity(), services);
+            setListAdapter(adapter);
         }
     }
 
@@ -75,6 +81,12 @@ public class ServiceListingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        prepareServiceList(services);
+
+        // Set up the adapter with the updated data
+        adapter = new ServiceListAdapter(getActivity(), services);
+        setListAdapter(adapter);
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
         btnFilters.setOnClickListener(v -> {
@@ -94,13 +106,18 @@ public class ServiceListingFragment extends Fragment {
             }
         });
 
-        ImageButton editServiceButton = view.findViewById(R.id.editServiceButton);
+        /*ImageButton editServiceButton = view.findViewById(R.id.editServiceButton);
         editServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getActivity(), CreateServiceActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
+    }
+
+    private void prepareServiceList(ArrayList<Service> services){
+        services.add(new Service(1L, "Snimanje dronom", "Foto i video", 2, "okolina Novog Sada", 6000,R.drawable.drones));
+        services.add(new Service(1L, "Snimanje kamerom 4k", "Foto i video", 1 , "okolina Novog Sada", 5000,R.drawable.drones));
     }
 }

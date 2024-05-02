@@ -8,50 +8,47 @@
     android:orientation="horizontal"
     android:background="@drawable/border_background"
     android:padding="10dp"
+    android:id="@+id/product_card_item"
     >
 
     <ImageView
-        android:id="@+id/image1"
+        android:id="@+id/product_image"
         android:layout_width="170dp"
-        android:layout_height="match_parent"
-        android:contentDescription="@string/Album50fotografija"
-        app:srcCompat="@drawable/album50" />
+        android:layout_height="match_parent" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="320dp"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <TextView
+            android:id="@+id/product_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_margin="5dp"
-            android:text="@string/Album50fotografija"
             android:textSize="16sp"
             android:textStyle="bold" />
 
 
         <TextView
+            android:id="@+id/product_category"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="@string/Kategorija"
             android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
+            android:id="@+id/product_subcategory"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:text="@string/Potkategorija"
+            android:layout_height="30dp"
             android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
+            android:id="@+id/product_event_type"
             android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:layout_margin="5dp"
-            android:text="@string/TipDogadjaja"
+            android:layout_height="60dp"
             android:textSize="14sp"
             android:textStyle="italic" />
 
@@ -59,13 +56,13 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
 
             <TextView
+                android:id="@+id/product_price"
                 android:layout_width="105dp"
-                android:layout_height="30dp"
-                android:layout_margin="5dp"
-                android:text="@string/Cena2000"
+                android:layout_height="20dp"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
@@ -73,7 +70,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="40dp"
             android:orientation="horizontal">
 
             <View
@@ -84,16 +81,16 @@
             <ImageButton
                 android:id="@+id/editProductButton"
                 android:background="@drawable/border_background"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 android:src="@drawable/edit_product"
                 />
 
             <ImageButton
                 android:id="@+id/deleteProductButton"
                 android:background="@drawable/border_background"
-                android:layout_width="50dp"
-                android:layout_height="50dp"
+                android:layout_width="40dp"
+                android:layout_height="40dp"
                 app:srcCompat="@drawable/delete_product"
                 android:layout_marginLeft="10dp"/>
 

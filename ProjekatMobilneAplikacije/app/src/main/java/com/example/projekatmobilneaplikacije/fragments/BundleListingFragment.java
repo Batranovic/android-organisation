@@ -1,10 +1,11 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
 import android.content.Intent;
-import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.ListFragment;
 
+import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,43 +16,40 @@ import android.widget.ImageButton;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateBundleActivity;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
+import com.example.projekatmobilneaplikacije.adapters.BundleListAdapter;
+import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
+import com.example.projekatmobilneaplikacije.model.CustomBundle;
+import com.example.projekatmobilneaplikacije.model.Product;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link BundleListingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class BundleListingFragment extends Fragment {
+public class BundleListingFragment extends ListFragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
+    private static final String ARG_PARAM = "param";
 
-    // TODO: Rename and change types of parameters
     private String mParam1;
-    private String mParam2;
+
+    private BundleListAdapter adapter;
+
+    public static ArrayList<CustomBundle> bundles = new ArrayList<CustomBundle>();
 
     public BundleListingFragment() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment BundleListingFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static BundleListingFragment newInstance(String param1, String param2) {
+    public static BundleListingFragment newInstance(ArrayList<CustomBundle> bundles) {
         BundleListingFragment fragment = new BundleListingFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelableArrayList(ARG_PARAM, bundles);
         fragment.setArguments(args);
         return fragment;
     }
@@ -60,8 +58,9 @@ public class BundleListingFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            bundles = getArguments().getParcelableArrayList(ARG_PARAM);
+            adapter = new BundleListAdapter(getActivity(), bundles);
+            setListAdapter(adapter);
         }
     }
 
@@ -75,6 +74,13 @@ public class BundleListingFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
+        prepareBundleList(bundles);
+
+        // Set up the adapter with the updated data
+        adapter = new BundleListAdapter(getActivity(), bundles);
+        setListAdapter(adapter);
+
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
         btnFilters.setOnClickListener(v -> {
@@ -94,7 +100,7 @@ public class BundleListingFragment extends Fragment {
             }
         });
 
-        ImageButton editBundleButton = view.findViewById(R.id.editBundleButton);
+        /*ImageButton editBundleButton = view.findViewById(R.id.editBundleButton);
         editBundleButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -102,6 +108,11 @@ public class BundleListingFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), CreateBundleActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
+    }
+
+    private void prepareBundleList(ArrayList<CustomBundle> bundles){
+        bundles.add(new CustomBundle(1L, "Snimanje događaja", "Foto i video", "svadbe", 18000, R.drawable.drones));
+        bundles.add(new CustomBundle(1L, "Snimanje događaja", "Foto i video", "svadbe", 15000, R.drawable.drones));
     }
 }

@@ -8,10 +8,11 @@
     android:orientation="horizontal"
     android:background="@drawable/border_background"
     android:padding="10dp"
+    android:id="@+id/service_card_item"
     >
 
     <ImageView
-        android:id="@+id/image1"
+        android:id="@+id/service_image"
         android:layout_width="170dp"
         android:layout_height="match_parent"
         android:contentDescription="Service 1"
@@ -25,37 +26,37 @@
         android:layout_marginLeft="5dp">
 
         <TextView
+            android:id="@+id/service_title"
             android:layout_width="match_parent"
             android:layout_height="30dp"
             android:layout_margin="5dp"
-            android:text="Shooting with a drone"
             android:textSize="16sp"
             android:textStyle="bold" />
 
 
         <TextView
+            android:id="@+id/service_category"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="Category Photo and video"
             android:textSize="14sp"
             android:textStyle="italic" />
 
 
 
         <TextView
+            android:id="@+id/service_location"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="Location Novi Sad"
             android:textSize="14sp"
             android:textStyle="italic" />
 
         <TextView
+            android:id="@+id/service_duration"
             android:layout_width="match_parent"
             android:layout_height="20dp"
             android:layout_margin="5dp"
-            android:text="Duration 2h (term)"
             android:textSize="14sp"
             android:textStyle="italic" />
 
@@ -70,10 +71,10 @@
                 android:layout_weight="1"/>-->
 
             <TextView
+                android:id="@+id/service_price"
                 android:layout_width="200dp"
                 android:layout_height="20dp"
                 android:layout_margin="5dp"
-                android:text="Price 6000 din"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
