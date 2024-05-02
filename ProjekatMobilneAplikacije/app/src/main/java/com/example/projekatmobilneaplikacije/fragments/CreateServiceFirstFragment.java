@@ -12,8 +12,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
+import android.widget.Spinner;
+import android.widget.TextView;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateServiceActivity;
@@ -118,6 +122,45 @@ public class CreateServiceFirstFragment extends Fragment {
             }
         });
 
+        Spinner spinner = fragmentCreateServiceFirstBinding.btnCategory;
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.category_list));
+        // Specify the layout to use when the list of choices appears
+        arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinner.setAdapter(arrayAdapter);
+
+        Spinner spinnerSubcategory = fragmentCreateServiceFirstBinding.btnSubcategory;
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> arrayAdapterSubcategory = new ArrayAdapter<>(getActivity(),
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.subcategory_list));
+        // Specify the layout to use when the list of choices appears
+        arrayAdapterSubcategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSubcategory.setAdapter(arrayAdapterSubcategory);
+
+
+        SeekBar priceSeekBar = fragmentCreateServiceFirstBinding.priceSeekBar;
+        TextView priceText = fragmentCreateServiceFirstBinding.textViewPrice;
+
+        priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                priceText.setVisibility(View.VISIBLE);
+                priceText.setText(progress+"/100");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
         return root;
     }

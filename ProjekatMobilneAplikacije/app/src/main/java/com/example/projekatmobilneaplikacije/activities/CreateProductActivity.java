@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -23,7 +26,6 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 public class CreateProductActivity extends AppCompatActivity {
 
@@ -57,43 +59,46 @@ public class CreateProductActivity extends AppCompatActivity {
             }
         });
 
-       /* Spinner spinner = binding.btnSort;
+        Spinner spinner = findViewById(R.id.btnCategory);
         // Create an ArrayAdapter using the string array and a default spinner layout
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item,
-                getResources().getStringArray(R.array.sort_array));
+                getResources().getStringArray(R.array.category_list));
         // Specify the layout to use when the list of choices appears
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-        // Apply the adapter to the spinner
         spinner.setAdapter(arrayAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+
+        Spinner spinnerSubcategory = findViewById(R.id.btnSubcategory);
+        // Create an ArrayAdapter using the string array and a default spinner layout
+        ArrayAdapter<String> arrayAdapterSubcategory = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item,
+                getResources().getStringArray(R.array.subcategory_list));
+        // Specify the layout to use when the list of choices appears
+        arrayAdapterSubcategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerSubcategory.setAdapter(arrayAdapterSubcategory);
+
+        SeekBar priceSeekBar = findViewById(R.id.priceSeekBar);
+        TextView priceText = findViewById(R.id.textViewPrice);
+
+        priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Provera da li je ovo prvi poziv
-                if (isFirstSelection) {
-                    isFirstSelection = false;
-                    return; // Izlazak iz metode bez prikazivanja dijaloga
-                }
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
-                dialog.setMessage("Change the sort option?")
-                        .setCancelable(false)
-                        .setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                Log.v("ShopApp", (String) parent.getItemAtPosition(position));
-                                ((TextView) parent.getChildAt(0)).setTextColor(Color.MAGENTA);
-                            }
-                        })
-                        .setNegativeButton("No", new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog, int id) {
-                                dialog.cancel();
-                            }
-                        });
-                AlertDialog alert = dialog.create();
-                alert.show();
-            }*/
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                priceText.setVisibility(View.VISIBLE);
+                priceText.setText(progress+"/100");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
     }
-
-
 
     private void openDialog() {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -118,12 +123,10 @@ public class CreateProductActivity extends AppCompatActivity {
         builder.setNegativeButton("Otkaži", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                // Zatvaranje dijaloga ako korisnik odustane
                 dialog.dismiss();
             }
         });
 
         builder.show();
     }
-
 }
