@@ -6,30 +6,33 @@ import android.os.Parcelable;
 import androidx.annotation.NonNull;
 
 import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
-import java.util.ArrayList;
-import java.util.List;
-public class EventType  implements Parcelable {
+
+public class Subcategory implements Parcelable{
+
     private String name;
     private String description;
-    private Boolean isActive;
-    private List<Subcategory> subcategories; // Lista subkategorija
 
-    public EventType(String name, String description, Boolean isActive, List<Subcategory> subcategories) {
+    private SubcategoryType subcategoryType;
+
+    private Category category;
+
+    public Subcategory(String name, String description, SubcategoryType subcategoryType, Category category) {
         this.name = name;
         this.description = description;
-        this.isActive = isActive;
-        this.subcategories = subcategories;
+        this.subcategoryType = subcategoryType;
+        this.category = category;
     }
 
-    public EventType() {
+    public Subcategory() {
     }
     // Konstruktor za čitanje iz Parcel objekta
-    protected EventType(Parcel in) {
+    protected Subcategory(Parcel in) {
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
         name = in.readString();
         description = in.readString();
-        isActive = in.readBoolean();
+        subcategoryType = SubcategoryType.valueOf(subcategoryType.toString());
     }
+
 
     public String getName() {
         return name;
@@ -38,33 +41,35 @@ public class EventType  implements Parcelable {
     public void setName(String name) {
         this.name = name;
     }
+
     public String getDescription() {
         return description;
     }
+
     public void setDescription(String description) {
         this.description = description;
     }
-
-    public Boolean isActive() {
-        return isActive;
+    public SubcategoryType getSubcategoryType() {
+        return subcategoryType;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setSubcategoryType(SubcategoryType subcategoryType) {
+        this.subcategoryType = subcategoryType;
     }
 
-    public List<Subcategory> getSubcategories() {
-        return subcategories;
+    public Category getCategory() {return category;}
+
+    public void setCategory(Category category) {
+        this.category = category;
     }
 
-    public void setSubcategories(List<Subcategory> subcategories) {
-        this.subcategories = subcategories;
-    }
+
     @Override
     public String toString() {
-        return "EventType{" +
+        return "Product{" +
                 "name='" + name + '\'' +
-                ", description='" + description + '\'' + ", isActive='" + isActive +
+                ", description='" + description + '\'' +
+                ", subcategory='" + subcategoryType + '\'' +
                 '}';
     }
     /*
@@ -85,7 +90,7 @@ public class EventType  implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeBoolean(isActive);
+        dest.writeString(subcategoryType.name());
     }
     /*
      * Da biste omogućili Androidu da regeneriše vaš objekat iz Parcel-a,
