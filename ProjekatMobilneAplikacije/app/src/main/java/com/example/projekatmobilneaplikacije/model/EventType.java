@@ -28,7 +28,7 @@ public class EventType  implements Parcelable {
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
         name = in.readString();
         description = in.readString();
-        isActive = in.readBoolean();
+        isActive = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
     public String getName() {
@@ -49,7 +49,7 @@ public class EventType  implements Parcelable {
         return isActive;
     }
 
-    public void setActive(Boolean active) {
+    public void setIsActive(Boolean active) {
         isActive = active;
     }
 
@@ -85,7 +85,7 @@ public class EventType  implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeBoolean(isActive);
+        dest.writeValue(isActive);
     }
     /*
      * Da biste omogućili Androidu da regeneriše vaš objekat iz Parcel-a,

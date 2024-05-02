@@ -66,18 +66,18 @@ public class EventTypeListAdapter extends ArrayAdapter<EventType> {
             eventDescription.setText(eventType.getDescription());
 
             // Postavi odgovarajuću ikonicu na osnovu statusa događaja
-            int iconResource = eventType.isActive() ? R.drawable.active_icon : R.drawable.inactive_icon;
-            activateDeactivateButton.setImageResource(iconResource);
+           // int iconResource = eventType.isActive() ? R.drawable.active_icon : R.drawable.inactive_icon;
+          //  activateDeactivateButton.setImageResource(iconResource);
 
 
 
             activateDeactivateButton.setOnClickListener(v -> {
                 // Toggle status događaja
-                eventType.setActive(!eventType.isActive());
+               // eventType.setIsActive(!eventType.isActive());
 
                 // Ažuriraj ikonicu na osnovu novog statusa
-                int newIconResource = eventType.isActive() ? R.drawable.active_icon : R.drawable.inactive_icon;
-                activateDeactivateButton.setImageResource(newIconResource);
+               // int newIconResource = eventType.isActive() ? R.drawable.active_icon : R.drawable.inactive_icon;
+               // activateDeactivateButton.setImageResource(newIconResource);
             });
         }
 

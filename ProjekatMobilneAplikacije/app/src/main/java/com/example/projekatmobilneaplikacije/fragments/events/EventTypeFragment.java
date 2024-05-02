@@ -99,7 +99,7 @@ public class EventTypeFragment extends Fragment {
         EventType eventType = new EventType();
         eventType.setName(eventName);
         eventType.setDescription(eventDescription);
-        eventType.setActive(true);
+        eventType.setIsActive(true);
         eventType.setSubcategories(selectedSubcategories); // Postavljanje odabranih subkategorija
 
         FirebaseFirestore db = FirebaseFirestore.getInstance();
