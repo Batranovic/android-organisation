@@ -69,11 +69,7 @@ public class EventTypeListAdapter extends ArrayAdapter<EventType> {
             int iconResource = eventType.isActive() ? R.drawable.active_icon : R.drawable.inactive_icon;
             activateDeactivateButton.setImageResource(iconResource);
 
-            eventCard.setOnClickListener(v -> {
-                // Handle click on the item at 'position'
-                Log.i("ShopApp", "Clicked: " + eventType.getName() + ", id: " + eventType.getId().toString());
-                Toast.makeText(getContext(), "Clicked: " + eventType.getName() + ", id: " + eventType.getId().toString(), Toast.LENGTH_SHORT).show();
-            });
+
 
             activateDeactivateButton.setOnClickListener(v -> {
                 // Toggle status događaja

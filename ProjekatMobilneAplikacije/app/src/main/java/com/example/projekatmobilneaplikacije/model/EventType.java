@@ -5,17 +5,20 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
+import java.util.ArrayList;
+import java.util.List;
 public class EventType  implements Parcelable {
-    private Long id;
     private String name;
     private String description;
-
     private Boolean isActive;
-    public EventType(Long id, String name, String description, Boolean isActive) {
-        this.id = id;
+    private List<Subcategory> subcategories; // Lista subkategorija
+
+    public EventType(String name, String description, Boolean isActive, List<Subcategory> subcategories) {
         this.name = name;
         this.description = description;
         this.isActive = isActive;
+        this.subcategories = subcategories;
     }
 
     public EventType() {
@@ -23,18 +26,9 @@ public class EventType  implements Parcelable {
     // Konstruktor za čitanje iz Parcel objekta
     protected EventType(Parcel in) {
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
-        id = in.readLong();
         name = in.readString();
         description = in.readString();
         isActive = in.readBoolean();
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 
     public String getName() {
@@ -59,6 +53,13 @@ public class EventType  implements Parcelable {
         isActive = active;
     }
 
+    public List<Subcategory> getSubcategories() {
+        return subcategories;
+    }
+
+    public void setSubcategories(List<Subcategory> subcategories) {
+        this.subcategories = subcategories;
+    }
     @Override
     public String toString() {
         return "EventType{" +
@@ -82,7 +83,6 @@ public class EventType  implements Parcelable {
      * */
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeLong(id);
         dest.writeString(name);
         dest.writeString(description);
         dest.writeBoolean(isActive);

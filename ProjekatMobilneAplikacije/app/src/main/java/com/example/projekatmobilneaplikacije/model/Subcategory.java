@@ -12,14 +12,14 @@ public class Subcategory implements Parcelable{
     private String name;
     private String description;
 
-    private SubcategoryType type;
+    private SubcategoryType subcategoryType;
 
     private Category category;
 
-    public Subcategory(String name, String description, SubcategoryType type, Category category) {
+    public Subcategory(String name, String description, SubcategoryType subcategoryType, Category category) {
         this.name = name;
         this.description = description;
-        this.type = type;
+        this.subcategoryType = subcategoryType;
         this.category = category;
     }
 
@@ -30,7 +30,7 @@ public class Subcategory implements Parcelable{
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
         name = in.readString();
         description = in.readString();
-        type = SubcategoryType.valueOf(type.toString());
+        subcategoryType = SubcategoryType.valueOf(subcategoryType.toString());
     }
 
 
@@ -50,11 +50,11 @@ public class Subcategory implements Parcelable{
         this.description = description;
     }
     public SubcategoryType getSubcategoryType() {
-        return type;
+        return subcategoryType;
     }
 
-    public void setSubcategoryType(SubcategoryType type) {
-        this.type = type;
+    public void setSubcategoryType(SubcategoryType subcategoryType) {
+        this.subcategoryType = subcategoryType;
     }
 
     public Category getCategory() {return category;}
@@ -69,7 +69,7 @@ public class Subcategory implements Parcelable{
         return "Product{" +
                 "name='" + name + '\'' +
                 ", description='" + description + '\'' +
-                ", subcategory='" + type + '\'' +
+                ", subcategory='" + subcategoryType + '\'' +
                 '}';
     }
     /*
@@ -90,7 +90,7 @@ public class Subcategory implements Parcelable{
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeString(type.name());
+        dest.writeString(subcategoryType.name());
     }
     /*
      * Da biste omogućili Androidu da regeneriše vaš objekat iz Parcel-a,
