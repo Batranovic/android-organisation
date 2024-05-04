@@ -16,7 +16,6 @@ import android.widget.TextView;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleFirstBinding;
-import com.example.projekatmobilneaplikacije.databinding.FragmentCreateServiceFirstBinding;
 
 /**
  * A simple {@link Fragment} subclass.

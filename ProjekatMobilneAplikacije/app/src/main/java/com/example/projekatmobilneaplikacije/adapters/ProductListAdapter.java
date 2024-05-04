@@ -89,10 +89,8 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             productPrice.setText(String.valueOf(product.getPrice()));
             productCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
-                Log.i("ShopApp", "Clicked: " + product.getTitle() + ", id: " +
-                        product.getId().toString());
-                Toast.makeText(getContext(), "Clicked: " + product.getTitle()  +
-                        ", id: " + product.getId().toString(), Toast.LENGTH_SHORT).show();
+                Log.i("ShopApp", "Clicked: " + product.getTitle());
+                Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
             });
         }
 

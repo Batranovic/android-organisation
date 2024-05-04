@@ -8,18 +8,28 @@ import androidx.fragment.app.ListFragment;
 
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageButton;
+import android.widget.ListView;
+import androidx.appcompat.widget.SearchView;
+
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
+import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleFirstBinding;
 import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.example.projekatmobilneaplikacije.databinding.FragmentProductListingBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -28,7 +38,7 @@ import java.util.ArrayList;
  * Use the {@link ProductListingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ProductListingFragment extends ListFragment {
+public class ProductListingFragment extends ListFragment implements SearchView.OnQueryTextListener{
     private static final String ARG_PARAM = "param";
 
     private String mParam1;
@@ -36,6 +46,10 @@ public class ProductListingFragment extends ListFragment {
     private ProductListAdapter adapter;
 
     public static ArrayList<Product> products = new ArrayList<Product>();
+
+    private FragmentProductListingBinding binding;
+
+    ListView listView;
 
     public ProductListingFragment() {
         // Required empty public constructor
@@ -58,6 +72,7 @@ public class ProductListingFragment extends ListFragment {
             adapter = new ProductListAdapter(getActivity(), products);
             setListAdapter(adapter);
         }
+
     }
 
     @Override
@@ -69,8 +84,8 @@ public class ProductListingFragment extends ListFragment {
     }
 
     private void prepareProductList(ArrayList<Product> products){
-        products.add(new Product(1L, "Album sa 50 fotografija", "Foto i video", "Fotografije i Albumi", 1900, R.drawable.album50,"svadbe"));
-        products.add(new Product(1L, "Foto book", "Foto i video", "Fotografije i Albumi" , 5000, R.drawable.album50," svadbe, rođendani, krštenja, rođenja"));
+        products.add(new Product("Album sa 50 fotografija","", "Foto i video", "Fotografije i Albumi", 1900, true, true,"svadbe",R.drawable.album50));
+        products.add(new Product("Foto book", "", "Foto i video","Fotografije i Albumi" , 5000, true, true, " svadbe, rođendani, krštenja, rođenja",R.drawable.album50));
     }
 
 
@@ -101,6 +116,9 @@ public class ProductListingFragment extends ListFragment {
             }
         });
 
+        SearchView searchView = view.findViewById(R.id.action_search);
+        searchView.setOnQueryTextListener(this);
+
         /*ImageButton editProductButton = view.findViewById(R.id.editProductButton);
         editProductButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,4 +129,19 @@ public class ProductListingFragment extends ListFragment {
             }
         });*/
     }
+
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d("ProductListingFragment", "New text: " + newText);
+        adapter.getFilter().filter(newText);
+
+        return false;
+    }
+
 }
