@@ -58,6 +58,8 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference productsRef = db.collection("products");
 
+    private ArrayList<Product> originalProducts = new ArrayList<>();
+
     public ProductListingFragment() { }
 
 
@@ -72,6 +74,8 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        adapter = new ProductListAdapter(getActivity(), products);
+
         if (getArguments() != null) {
             products = getArguments().getParcelableArrayList(ARG_PARAM);
             adapter = new ProductListAdapter(getActivity(), products);
@@ -164,7 +168,15 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     @Override
     public boolean onQueryTextChange(String newText) {
         Log.d("ProductListingFragment", "New text: " + newText);
-        adapter.getFilter().filter(newText);
+        ArrayList<Product> filteredProducts = new ArrayList<Product>();
+
+        for(Product product: products){
+            if(product.getTitle().toLowerCase().contains(newText.toLowerCase())){
+                filteredProducts.add(product);
+            }
+        }
+        adapter = new ProductListAdapter(getContext(), filteredProducts);
+        listView.setAdapter(adapter);
 
         return false;
     }
