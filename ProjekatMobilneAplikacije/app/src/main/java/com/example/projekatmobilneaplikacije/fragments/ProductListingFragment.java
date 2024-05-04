@@ -52,13 +52,13 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     private FragmentProductListingBinding binding;
 
     ListView listView;
+    SearchView searchView;
+    ArrayList<String> productTitles = new ArrayList<>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference productsRef = db.collection("products");
 
-    public ProductListingFragment() {
-        // Required empty public constructor
-    }
+    public ProductListingFragment() { }
 
 
     public static ProductListingFragment newInstance(ArrayList<Product> products) {
@@ -89,12 +89,6 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         return inflater.inflate(R.layout.fragment_product_listing, container, false);
     }
 
-    /*private void prepareProductList(ArrayList<Product> products){
-        //products.add(new Product("Album sa 50 fotografija","", "Foto i video", "Fotografije i Albumi", 1900, true, true,"svadbe",R.drawable.album50));
-        //products.add(new Product("Foto book", "", "Foto i video","Fotografije i Albumi" , 5000, true, true, " svadbe, rođendani, krštenja, rođenja",R.drawable.album50));
-    }*/
-
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
@@ -122,18 +116,10 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
             }
         });
 
-        SearchView searchView = view.findViewById(R.id.action_search);
-        searchView.setOnQueryTextListener(this);
+        searchView = view.findViewById(R.id.action_search);
+        listView = view.findViewById(android.R.id.list);
 
-        /*ImageButton editProductButton = view.findViewById(R.id.editProductButton);
-        editProductButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Pokrenite aktivnost CreateProductActivity
-                Intent intent = new Intent(getActivity(), CreateProductActivity.class);
-                startActivity(intent);
-            }
-        });*/
+
 
         productsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
@@ -157,6 +143,16 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
                 }
             }
         });
+
+        for (Product product : products) {
+            // Get the title of each product and add it to the productTitles ArrayList
+            String title = product.getTitle();
+            productTitles.add(title);
+        }
+
+        listView.setAdapter(adapter);
+
+        searchView.setOnQueryTextListener(this);
     }
 
 

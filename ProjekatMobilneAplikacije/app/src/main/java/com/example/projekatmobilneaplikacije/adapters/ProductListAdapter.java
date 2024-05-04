@@ -6,10 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -19,7 +21,7 @@ import com.example.projekatmobilneaplikacije.model.Product;
 
 import java.util.ArrayList;
 
-public class ProductListAdapter extends ArrayAdapter<Product> {
+public class ProductListAdapter extends ArrayAdapter<Product> implements Filterable {
     private ArrayList<Product> aProducts;
 
     public ProductListAdapter(Context context, ArrayList<Product> products){
@@ -100,4 +102,38 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         return convertView;  ///super.getView(position, convertView, parent);
     }
 
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                FilterResults results = new FilterResults();
+                ArrayList<Product> filteredProducts = new ArrayList<>();
+
+                if (constraint == null || constraint.length() == 0) {
+                    // No filter implemented, return all products
+                    filteredProducts.addAll(aProducts);
+                } else {
+                    String filterPattern = constraint.toString().toLowerCase().trim();
+
+                    for (Product product : aProducts) {
+                        if (product.getTitle().toLowerCase().contains(filterPattern)) {
+                            filteredProducts.add(product);
+                        }
+                    }
+                }
+
+                results.values = filteredProducts;
+                results.count = filteredProducts.size();
+                return results;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+                clear();
+                addAll((ArrayList<Product>) results.values);
+                notifyDataSetChanged();
+            }
+        };
+    }
 }

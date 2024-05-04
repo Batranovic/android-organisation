@@ -23,6 +23,7 @@
 
         <androidx.appcompat.widget.SearchView
             android:id="@+id/action_search"
+            app:queryHint="Search..."
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:background="@drawable/border_background"
