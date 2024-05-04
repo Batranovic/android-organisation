@@ -35,7 +35,7 @@ public class SplashScreenActivity extends AppCompatActivity {
                  * Druga opcija je implicitni intent, gde ne moramo da kažemo gde prelazimo ali moramo
                  * da kažemo šta planiramo da uradimo.
                  */
-                Intent intent = new Intent(SplashScreenActivity.this, HomeActivity.class);
+                Intent intent = new Intent(SplashScreenActivity.this, MainActivity.class);
                 /*
                  * Pozivom startActivity metode, saljemo poruku Android-u da on za nas pokrene drugu aktivnost,
                  * nakon cega korisnik biva prebacen na novu aktivnost.

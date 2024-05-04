@@ -113,7 +113,7 @@
         />
 
     <fragment
-        android:id="@+id/nav_logout"
+        android:id="@+id/nav_login"
         android:name="com.example.projekatmobilneaplikacije.fragments.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login"
@@ -125,6 +125,15 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.LogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_logout"
+        app:popUpToInclusive="true">
+
+
+    </fragment>
     <!-- sledeci deo je vezan za navigaciju unutar RegistrationActivity-->
     <!--@+id/nav_register ovo sam sama definisala, prelazim sa activity_registration putem action na register_as_pup-->
     <fragment

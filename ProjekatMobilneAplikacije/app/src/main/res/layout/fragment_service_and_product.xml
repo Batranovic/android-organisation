@@ -80,16 +80,15 @@
         android:minHeight="48dp"
         />
 
-    <EditText
-        android:id="@+id/cat_name2"
+    <Spinner
+        android:id="@+id/categorySpinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Category name"
         android:layout_marginTop="16dp"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
-        android:minHeight="48dp"
-        />
+        android:minHeight="48dp" />
+
 
 
     <LinearLayout

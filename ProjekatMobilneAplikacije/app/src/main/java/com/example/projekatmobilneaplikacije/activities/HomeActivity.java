@@ -15,16 +15,24 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
+import com.example.projekatmobilneaplikacije.fragments.LoginFragment;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment;
+import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -40,7 +48,9 @@ public class HomeActivity extends AppCompatActivity {
     private ActionBar actionBar;
     private ActionBarDrawerToggle actionBarDrawerToggle;
     private Set<Integer> topLevelDestinations = new HashSet<>();
+    FirebaseAuth auth;
 
+    FirebaseUser user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,8 +67,12 @@ public class HomeActivity extends AppCompatActivity {
          * "findViewById" metode. Ukoliko imamo xml datoteku "activity_home.xml",
          * sistem će generisati klasu "ActivityHomeBinding".
          * */
+
+
+
         binding = ActivityHomeBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
 
         drawer = binding.drawerLayout;
         navigationView = binding.navView;
@@ -124,7 +138,22 @@ public class HomeActivity extends AppCompatActivity {
                 }
             }
         });
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
 
+        if (user == null) {
+            // Navigacija na glavnu aktivnost
+            Menu navMenu = navigationView.getMenu();
+            navMenu.findItem(R.id.nav_logout).setVisible(false);
+            navMenu.findItem(R.id.nav_login).setVisible(true);
+
+        } else {
+            // Standardna navigacija na fragment za odjavu
+            Menu navMenu = navigationView.getMenu();
+            navMenu.findItem(R.id.nav_logout).setVisible(true);
+            navMenu.findItem(R.id.nav_login).setVisible(false);
+
+        }
         // AppBarConfiguration odnosi se na konfiguraciju ActionBar-a (ili Toolbar-a) u Android aplikaciji
         // kako bi se omogućila navigacija koristeći Android Navigation komponentu.
         // Takođe, postavlja se bočni meni (navigation drawer) u skladu sa

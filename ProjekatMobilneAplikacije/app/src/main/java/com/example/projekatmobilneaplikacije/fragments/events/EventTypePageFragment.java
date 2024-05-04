@@ -37,7 +37,7 @@ public class EventTypePageFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentEventTypePageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        prepareEventTypeList(eventTypes);
+
 
         Button createEventTypeButton = root.findViewById(R.id.create_event_type);
         createEventTypeButton.setOnClickListener(new View.OnClickListener() {
@@ -70,10 +70,5 @@ public class EventTypePageFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    private void prepareEventTypeList(ArrayList<EventType> eventTypes){
-        eventTypes.add(new EventType(1L, "Privatni događaji", "Bebine zabave (baby showers) i krštenja.", true));
-        eventTypes.add(new EventType(2L, "Kulturni i zabavni događaji", "Festivali (muzički, filmski, umetnički).",true));
-        eventTypes.add(new EventType(3L, "Humanitarni i dobrotvorni događaji", "Kampanje za prikupljanje sredstava.", true));
-        eventTypes.add(new EventType(4L, "Vlada i politički događaji", "Državne ceremonije i proslave.", true));
-    }
+
 }
