@@ -68,10 +68,12 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Product product = getItem(position);
+
         if(convertView == null){
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_card,
                     parent, false);
         }
+
         LinearLayout productCard = convertView.findViewById(R.id.product_card_item);
         ImageView imageView = convertView.findViewById(R.id.product_image);
         TextView productTitle = convertView.findViewById(R.id.product_title);
@@ -80,8 +82,9 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
         TextView productSubcategory = convertView.findViewById(R.id.product_subcategory);
         TextView productPrice = convertView.findViewById(R.id.product_price);
 
+
         if(product != null){
-            imageView.setImageResource(product.getImage());
+            imageView.setImageResource(product.getImageId());
             productTitle.setText(product.getTitle());
             productEventType.setText(product.getEventType());
             productSubcategory.setText(product.getCategory());
@@ -94,7 +97,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> {
             });
         }
 
-        return convertView;
+        return convertView;  ///super.getView(position, convertView, parent);
     }
 
 }

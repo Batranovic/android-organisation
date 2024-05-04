@@ -8,25 +8,19 @@ import androidx.annotation.NonNull;
 
 public class Product implements Parcelable {
     private String title;
-    private String description;
     private String category;
     private String subcategory;
     private int price;
-    private boolean isAvailable;
-    private boolean isVisible;
     private String eventType;
-    private int image;
+    private int imageId;
 
-    public Product(String title, String description, String category, String subcategory, int price, boolean isAvailable, boolean isVisible, String eventType, int image) {
+    public Product(String title, String category, String subcategory, int price, String eventType, int imageId) {
         this.title = title;
-        this.description = description;
         this.category = category;
         this.subcategory = subcategory;
         this.price = price;
-        this.isAvailable = isAvailable;
-        this.isVisible = isVisible;
         this.eventType = eventType;
-        this.image = image;
+        this.imageId = imageId;
     }
 
     public Product() {
@@ -34,14 +28,11 @@ public class Product implements Parcelable {
     // Konstruktor za čitanje iz Parcel objekta
     protected Product(Parcel in) {
         title = in.readString();
-        description = in.readString();
         category = in.readString();
         subcategory = in.readString();
         price = in.readInt();
-        isAvailable = in.readBoolean();
-        isVisible = in.readBoolean();
         eventType = in.readString();
-        image = in.readInt();
+        imageId = in.readInt();
     }
 
     public String getTitle() {
@@ -52,36 +43,12 @@ public class Product implements Parcelable {
         this.title = title;
     }
 
-    public String getDescription() {
-        return description;
+    public int getImageId() {
+        return imageId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public boolean isAvailable() {
-        return isAvailable;
-    }
-
-    public void setAvailable(boolean available) {
-        isAvailable = available;
-    }
-
-    public boolean isVisible() {
-        return isVisible;
-    }
-
-    public void setVisible(boolean visible) {
-        isVisible = visible;
-    }
-
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
+    public void setImageId(int imageId) {
+        this.imageId = imageId;
     }
 
     public String getCategory() {
@@ -133,28 +100,22 @@ public class Product implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(title);
-        dest.writeString(description);
         dest.writeString(category);
         dest.writeString(subcategory);
         dest.writeString(eventType);
         dest.writeInt(price);
-        dest.writeBoolean(isAvailable);
-        dest.writeBoolean(isVisible);
-        dest.writeInt(image);
+        dest.writeInt(imageId);
     }
 
     @Override
     public String toString() {
         return "Product{" +
-                ", title='" + title + '\'' +
-                ", description='" + description + '\'' +
+                "title='" + title + '\'' +
                 ", category='" + category + '\'' +
                 ", subcategory='" + subcategory + '\'' +
                 ", price=" + price +
-                ", isAvailable=" + isAvailable +
-                ", isVisible=" + isVisible +
                 ", eventType='" + eventType + '\'' +
-                ", image=" + image +
+                ", imageId=" + imageId +
                 '}';
     }
 

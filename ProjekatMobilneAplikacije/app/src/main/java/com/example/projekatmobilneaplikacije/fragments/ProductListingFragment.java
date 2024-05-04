@@ -22,14 +22,16 @@ import androidx.appcompat.widget.SearchView;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
-import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleFirstBinding;
-import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.example.projekatmobilneaplikacije.databinding.FragmentProductListingBinding;
+import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -50,6 +52,9 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     private FragmentProductListingBinding binding;
 
     ListView listView;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference productsRef = db.collection("products");
 
     public ProductListingFragment() {
         // Required empty public constructor
@@ -73,6 +78,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
             setListAdapter(adapter);
         }
 
+
     }
 
     @Override
@@ -83,19 +89,19 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         return inflater.inflate(R.layout.fragment_product_listing, container, false);
     }
 
-    private void prepareProductList(ArrayList<Product> products){
-        products.add(new Product("Album sa 50 fotografija","", "Foto i video", "Fotografije i Albumi", 1900, true, true,"svadbe",R.drawable.album50));
-        products.add(new Product("Foto book", "", "Foto i video","Fotografije i Albumi" , 5000, true, true, " svadbe, rođendani, krštenja, rođenja",R.drawable.album50));
-    }
+    /*private void prepareProductList(ArrayList<Product> products){
+        //products.add(new Product("Album sa 50 fotografija","", "Foto i video", "Fotografije i Albumi", 1900, true, true,"svadbe",R.drawable.album50));
+        //products.add(new Product("Foto book", "", "Foto i video","Fotografije i Albumi" , 5000, true, true, " svadbe, rođendani, krštenja, rođenja",R.drawable.album50));
+    }*/
 
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        prepareProductList(products);
+        //prepareProductList(products);
 
-        // Set up the adapter with the updated data
         adapter = new ProductListAdapter(getActivity(), products);
+        // Set adapter for the ListFragment
         setListAdapter(adapter);
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
@@ -128,6 +134,29 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
                 startActivity(intent);
             }
         });*/
+
+        productsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                products.clear();
+
+                // Check if there are any documents in the collection
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    // Iterate through each document in the collection
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        // Convert each document to a Product object
+                        Product product = documentSnapshot.toObject(Product.class);
+                        // Add the product to your ArrayList or any other data structure
+                        products.add(product);
+                    }
+                    // After retrieving all products, update your adapter
+                    adapter.notifyDataSetChanged();
+                } else {
+                    // Handle case when there are no products in the collection
+                    Log.d("ProductListingFragment", "No products found");
+                }
+            }
+        });
     }
 
 
@@ -143,5 +172,8 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
 
         return false;
     }
+
+
+
 
 }

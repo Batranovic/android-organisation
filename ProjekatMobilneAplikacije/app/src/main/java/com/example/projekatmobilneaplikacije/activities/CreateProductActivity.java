@@ -257,14 +257,14 @@ public class CreateProductActivity extends AppCompatActivity {
 
 
                 Map<String,Object> product = new HashMap<>();
-                product.put("Title", Title);
-                product.put("Description", Description);
-                product.put("Category", Category);
-                product.put("Subcategory", Subcategory);
-                product.put("Price", Price);
-                product.put("Available", Available);
-                product.put("Visible", Visible);
-                product.put("Event type", EventType);
+                product.put("title", Title);
+                product.put("description", Description);
+                product.put("category", Category);
+                product.put("subcategory", Subcategory);
+                product.put("price", Price);
+                product.put("available", Available);
+                product.put("visible", Visible);
+                product.put("eventType", EventType);
 
                 db.collection("products")
                         .add(product)
