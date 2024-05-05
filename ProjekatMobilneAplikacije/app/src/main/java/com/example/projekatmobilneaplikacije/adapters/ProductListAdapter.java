@@ -1,6 +1,7 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,12 +18,18 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.model.Product;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class ProductListAdapter extends ArrayAdapter<Product> implements Filterable {
     private ArrayList<Product> aProducts;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ProductListAdapter(Context context, ArrayList<Product> products){
         super(context, R.layout.product_card, products);
@@ -94,7 +101,19 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
             productPrice.setText(String.valueOf(product.getPrice()));
             productCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
-                Log.i("ShopApp", "Clicked: " + product.getTitle());
+                Log.i("MobileApp", "Clicked: " + product.getTitle());
+                // Handle click event
+                // Start ProductDetailActivity with detailed information about the clicked product
+                Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+                intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
+                intent.putExtra("title", product.getTitle());
+                intent.putExtra("description", product.getDescription());
+                intent.putExtra("subcategory", product.getSubcategory());
+                intent.putExtra("eventType", product.getEventType());
+                intent.putExtra("price", product.getPrice());
+                intent.putExtra("availability", product.getAvailability());
+                intent.putExtra("visibility", product.getVisibility());
+                getContext().startActivity(intent);
                 Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
             });
         }
@@ -245,6 +264,8 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
         addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
         notifyDataSetChanged(); // Obavestite adapter o promenama
     }
+
+
 
 
 }

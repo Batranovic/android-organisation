@@ -55,6 +55,25 @@
             android:text="@string/filters"
             tools:ignore="TextContrastCheck" />
 
+        <ImageButton
+            android:id="@+id/editProductButton"
+            android:background="@drawable/border_background"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/edit_product"
+            android:layout_marginLeft="10dp"
+            />
+
+        <ImageButton
+            android:id="@+id/deleteProductButton"
+            android:background="@drawable/border_background"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            app:srcCompat="@drawable/delete_product"
+            android:layout_marginLeft="10dp"/>
+
     </LinearLayout>
 
     <ListView

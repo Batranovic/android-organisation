@@ -94,6 +94,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_product_listing, container, false);
     }
@@ -106,6 +107,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         adapter = new ProductListAdapter(getActivity(), products);
         // Set adapter for the ListFragment
         setListAdapter(adapter);
+
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
         btnFilters.setOnClickListener(v -> {
@@ -240,6 +242,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
             }
         });
 
+
         for (Product product : products) {
             // Get the title of each product and add it to the productTitles ArrayList
             String title = product.getTitle();
@@ -249,6 +252,8 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         listView.setAdapter(adapter);
 
         searchView.setOnQueryTextListener(this);
+
+
     }
 
 

@@ -44,6 +44,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class CreateProductActivity extends AppCompatActivity {
 
@@ -254,17 +255,19 @@ public class CreateProductActivity extends AppCompatActivity {
                     EventType = EventType.substring(0, EventType.length() - 2);
                 }
 
-
+                String UniqueProductId = UUID.randomUUID().toString();
 
                 Map<String,Object> product = new HashMap<>();
+                product.put("id", UniqueProductId);
                 product.put("title", Title);
                 product.put("description", Description);
                 product.put("category", Category);
                 product.put("subcategory", Subcategory);
                 product.put("price", Price);
                 product.put("availability", Available);
-                product.put("visible", Visible);
+                product.put("visibility", Visible);
                 product.put("eventType", EventType);
+                product.put("isDeleted", false);
 
                 db.collection("products")
                         .add(product)

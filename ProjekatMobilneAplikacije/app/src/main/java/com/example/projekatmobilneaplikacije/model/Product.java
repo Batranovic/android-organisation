@@ -2,11 +2,14 @@ package com.example.projekatmobilneaplikacije.model;
 
 import android.os.Parcel;
 import android.os.Parcelable;
+import java.util.UUID;
+
 
 import androidx.annotation.NonNull;
 
 
 public class Product implements Parcelable {
+    private String id;
     private String title;
 
     private String description;
@@ -15,9 +18,14 @@ public class Product implements Parcelable {
     private int price;
     private String eventType;
     private String availability;
+
+    private String visibility;
     private int imageId;
 
-    public Product(String title, String description, String category, String subcategory, int price, String eventType, String availability, int imageId) {
+    private boolean isDeleted;
+
+    public Product(String id, String title, String description, String category, String subcategory, int price, String eventType, String availability, String visibility, int imageId, boolean isDeleted) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
@@ -25,13 +33,16 @@ public class Product implements Parcelable {
         this.price = price;
         this.eventType = eventType;
         this.availability = availability;
+        this.visibility =visibility;
         this.imageId = imageId;
+        this.isDeleted = isDeleted;
     }
 
     public Product() {
     }
     // Konstruktor za čitanje iz Parcel objekta
     protected Product(Parcel in) {
+        id = in.readString();
         title = in.readString();
         description = in.readString();
         category = in.readString();
@@ -39,7 +50,33 @@ public class Product implements Parcelable {
         price = in.readInt();
         eventType = in.readString();
         availability = in.readString();
+        visibility = in.readString();
         imageId = in.readInt();
+        isDeleted = in.readBoolean();
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
     }
 
     public String getDescription() {
@@ -122,6 +159,7 @@ public class Product implements Parcelable {
      * */
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(category);
@@ -129,7 +167,9 @@ public class Product implements Parcelable {
         dest.writeString(eventType);
         dest.writeInt(price);
         dest.writeString(availability);
+        dest.writeString(visibility);
         dest.writeInt(imageId);
+        dest.writeBoolean(isDeleted);
     }
 
     @Override
@@ -142,6 +182,7 @@ public class Product implements Parcelable {
                 ", price=" + price +
                 ", eventType='" + eventType + '\'' +
                 ", availability='" + availability + '\'' +
+                ", visibility='" + visibility + '\'' +
                 ", imageId=" + imageId +
                 '}';
     }
