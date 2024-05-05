@@ -2,9 +2,14 @@ package com.example.projekatmobilneaplikacije.activities;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,6 +38,7 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.databinding.ActivityCreateProductBinding;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -42,12 +48,17 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
 public class CreateProductActivity extends AppCompatActivity {
-
+    private Uri selectedImageUri;
     EditText title, description;
     Spinner spinner, spinnerSubcategory;
     String available, visible;
@@ -64,7 +75,7 @@ public class CreateProductActivity extends AppCompatActivity {
     private final int GALLERY_REQ_CODE = 1000;
     ImageView imgGallery;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    FirebaseAuth mAuth;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -80,7 +91,7 @@ public class CreateProductActivity extends AppCompatActivity {
 
 
         imgGallery = findViewById(R.id.imgGallery);
-        ImageButton btnGallery = findViewById(R.id.btnCamera);
+        ImageButton btnGallery = findViewById(R.id.btnGallery);
 
         btnGallery.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -200,6 +211,26 @@ public class CreateProductActivity extends AppCompatActivity {
                 String Subcategory = spinnerSubcategory.getSelectedItem().toString();
                 int Price = priceSeekBar.getProgress();
 
+
+                // Enkodiranje slike u Base64 format
+                String base64Image = ""; // Ovdje ćemo smestiti enkodiranu sliku
+                if (selectedImageUri != null) {
+                    try {
+                        // Pretvaranje URI-ja odabrane slike u bitmapu
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImageUri);
+
+                        // Konvertovanje bitmape u byte[] koristeći ByteArrayOutputStream
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] imageData = baos.toByteArray();
+
+                        // Konvertovanje byte[] u Base64 string
+                        base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
                 RadioGroup radioGroupAvailability = findViewById(R.id.availability); // Postavite pravilan ID za RadioGroup
                 int selectedRadioButtonId = radioGroupAvailability.getCheckedRadioButtonId();
 
@@ -269,6 +300,8 @@ public class CreateProductActivity extends AppCompatActivity {
                 product.put("eventType", EventType);
                 product.put("isDeleted", false);
 
+                product.put("image", base64Image);
+
                 db.collection("products")
                         .add(product)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
@@ -321,17 +354,45 @@ public class CreateProductActivity extends AppCompatActivity {
     }
 
 
-    //za sliku
+
     @Override
-    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data){
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-        if(resultCode == RESULT_OK){
-            if(requestCode == GALLERY_REQ_CODE){
-                //FOR GALLERY
-                imgGallery.setImageURI(data.getData());
+        if(resultCode == RESULT_OK) {
+            if (requestCode == GALLERY_REQ_CODE) {
+                // Čuvanje URI-ja odabrane slike u globalnoj promenljivoj
+                selectedImageUri = data.getData();
 
+                // Dobijanje URI-ja odabrane slike iz galerije
+                Uri selectedImageUri = data.getData();
+
+                try {
+                    // Pretvaranje URI-ja u bitmapu
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
+
+                    // Konvertovanje bitmape u byte[] koristeći ByteArrayOutputStream
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] imageData = baos.toByteArray();
+
+                    // Konvertovanje byte[] u Base64 string
+                    String base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
+
+                    // Sada možete sačuvati base64Image u bazi podataka zajedno sa ostalim podacima proizvoda
+
+                    // Prikažite sliku u ImageView-u (opcionalno)
+                    imgGallery.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
         }
     }
+
+
+
+
+
 }

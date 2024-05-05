@@ -1,7 +1,15 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
+import android.Manifest;
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.AsyncTask;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +24,8 @@ import android.widget.Filter;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
@@ -24,17 +34,19 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.InputStream;
+import java.lang.ref.WeakReference;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 
 public class ProductListAdapter extends ArrayAdapter<Product> implements Filterable {
     private ArrayList<Product> aProducts;
-
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public ProductListAdapter(Context context, ArrayList<Product> products){
         super(context, R.layout.product_card, products);
         aProducts = products;
-
     }
     /*
      * Ova metoda vraca ukupan broj elemenata u listi koje treba prikazati
@@ -91,9 +103,11 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
         TextView productSubcategory = convertView.findViewById(R.id.product_subcategory);
         TextView productPrice = convertView.findViewById(R.id.product_price);
 
+        loadImageFromBase64String(product.getImage(), imageView);
+
 
         if(product != null){
-            imageView.setImageResource(product.getImageId());
+            //image??
             productTitle.setText(product.getTitle());
             productEventType.setText(product.getEventType());
             productSubcategory.setText(product.getCategory());
@@ -113,6 +127,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
                 intent.putExtra("price", product.getPrice());
                 intent.putExtra("availability", product.getAvailability());
                 intent.putExtra("visibility", product.getVisibility());
+                intent.putExtra("image", product.getImage());
                 getContext().startActivity(intent);
                 Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
             });
@@ -265,7 +280,22 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
         notifyDataSetChanged(); // Obavestite adapter o promenama
     }
 
+    private void loadImageFromBase64String(String base64Image, ImageView imageView) {
+        if (base64Image != null && !base64Image.isEmpty()) {
+            // Dekodirajte Base64 string u byte[]
+            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
 
+            // Pretvorite byte[] u bitmapu
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            // Postavite bitmapu na ImageView
+            imageView.setImageBitmap(decodedBitmap);
+        } else {
+            // Ako je base64Image null ili prazan, možete postaviti neku podrazumevanu sliku ili poruku
+            // Na primer, postaviti ikonicu "slike nije dostupna"
+            imageView.setImageResource(R.drawable.add_photo);
+        }
+    }
 
 
 }

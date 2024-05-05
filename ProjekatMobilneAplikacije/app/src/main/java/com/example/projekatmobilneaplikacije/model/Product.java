@@ -20,11 +20,11 @@ public class Product implements Parcelable {
     private String availability;
 
     private String visibility;
-    private int imageId;
 
+    private String image;
     private boolean isDeleted;
 
-    public Product(String id, String title, String description, String category, String subcategory, int price, String eventType, String availability, String visibility, int imageId, boolean isDeleted) {
+    public Product(String id, String title, String description, String category, String subcategory, int price, String eventType, String availability, String visibility, String image, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -34,7 +34,7 @@ public class Product implements Parcelable {
         this.eventType = eventType;
         this.availability = availability;
         this.visibility =visibility;
-        this.imageId = imageId;
+        this.image = image;
         this.isDeleted = isDeleted;
     }
 
@@ -51,7 +51,7 @@ public class Product implements Parcelable {
         eventType = in.readString();
         availability = in.readString();
         visibility = in.readString();
-        imageId = in.readInt();
+        image = in.readString();
         isDeleted = in.readBoolean();
     }
 
@@ -103,12 +103,12 @@ public class Product implements Parcelable {
         this.title = title;
     }
 
-    public int getImageId() {
-        return imageId;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageId(int imageId) {
-        this.imageId = imageId;
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getCategory() {
@@ -168,7 +168,7 @@ public class Product implements Parcelable {
         dest.writeInt(price);
         dest.writeString(availability);
         dest.writeString(visibility);
-        dest.writeInt(imageId);
+        dest.writeString(image);
         dest.writeBoolean(isDeleted);
     }
 
@@ -183,7 +183,7 @@ public class Product implements Parcelable {
                 ", eventType='" + eventType + '\'' +
                 ", availability='" + availability + '\'' +
                 ", visibility='" + visibility + '\'' +
-                ", imageId=" + imageId +
+                ", image=" + image +
                 '}';
     }
 
