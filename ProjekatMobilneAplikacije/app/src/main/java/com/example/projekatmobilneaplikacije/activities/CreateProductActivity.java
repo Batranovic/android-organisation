@@ -262,7 +262,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 product.put("category", Category);
                 product.put("subcategory", Subcategory);
                 product.put("price", Price);
-                product.put("available", Available);
+                product.put("availability", Available);
                 product.put("visible", Visible);
                 product.put("eventType", EventType);
 

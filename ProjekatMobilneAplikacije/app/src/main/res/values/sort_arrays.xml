@@ -1,11 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <string-array name="category_list">
-        <item>Hospitality establishments, food, catering</item>
+        <item>Hospitality establishments, food, catering, cakes and pastries</item>
         <item>Accommodation</item>
         <item>Music and entertainment</item>
         <item>Photo and video</item>
-        <item>Decoration and lighting</item>
+        <item>Decoration and lightning</item>
         <item>Clothing and styling</item>
         <item>Care and beauty</item>
         <item>Planning and coordination</item>
@@ -28,5 +28,6 @@
         <item>Video materials</item>
         <item>Digital products</item>
         <item>Additional products</item>
+        <item>Videography</item>
     </string-array>
 </resources>

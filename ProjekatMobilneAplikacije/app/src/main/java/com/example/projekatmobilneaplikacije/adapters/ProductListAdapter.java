@@ -136,4 +136,115 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
             }
         };
     }
+
+    public void filterByCategory(String category) {
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        for(Product product : aProducts) {
+            if(product.getCategory().equalsIgnoreCase(category)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        if(filteredProducts.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for category: " + category);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + category + ": " + filteredProducts.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterBySubcategory(String subcategory) {
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        for(Product product : aProducts) {
+            if(product.getSubcategory().equalsIgnoreCase(subcategory)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        if(filteredProducts.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for subcategory: " + subcategory);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + subcategory + ": " + filteredProducts.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByEventType(String eventType) {
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        for(Product product : aProducts) {
+            if(product.getEventType().equalsIgnoreCase(eventType)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        if(filteredProducts.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for subcategory: " + eventType);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + eventType + ": " + filteredProducts.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByAvailability(String availability) {
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        for(Product product : aProducts) {
+            if(product.getAvailability().equalsIgnoreCase(availability)) {
+                filteredProducts.add(product);
+            }
+        }
+
+        if(filteredProducts.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for subcategory: " + availability);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + availability + ": " + filteredProducts.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByPrice(double minPrice, double maxPrice) {
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        for(Product product : aProducts) {
+            double price = product.getPrice();
+            if(price >= minPrice && price <= maxPrice) {
+                filteredProducts.add(product);
+            }
+        }
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByDescription(String description) {
+        ArrayList<Product> filteredProducts = new ArrayList<>();
+        for (Product product : aProducts) {
+            // Provera da li opis proizvoda sadrži uneti tekst (ignorišući velika i mala slova)
+            if (product.getDescription().toLowerCase().contains(description.toLowerCase())) {
+                filteredProducts.add(product);
+            }
+        }
+
+        if (filteredProducts.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for description: " + description);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for description " + description + ": " + filteredProducts.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+
 }

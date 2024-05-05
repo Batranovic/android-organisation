@@ -15,8 +15,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
+import android.widget.Toast;
+
 import androidx.appcompat.widget.SearchView;
 
 
@@ -109,6 +114,93 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
             View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_filter, null);
             bottomSheetDialog.setContentView(dialogView);
             bottomSheetDialog.show();
+
+
+            RadioGroup categoryRadioGroup = dialogView.findViewById(R.id.categoryRadioGroup);
+            categoryRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                // Dobijanje izabrane kategorije
+                RadioButton radioButton = dialogView.findViewById(checkedId);
+                String selectedCategory = radioButton.getText().toString();
+
+                // Primena izabrane kategorije na listu proizvoda
+                adapter.filterByCategory(selectedCategory);
+            });
+            RadioGroup subcategoryRadioGroup = dialogView.findViewById(R.id.subcategoryRadioGroup);
+            subcategoryRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+
+                RadioButton radioButtonSubcategory= dialogView.findViewById(checkedId);
+                String selectedSubcategory = radioButtonSubcategory.getText().toString();
+
+                adapter.filterBySubcategory(selectedSubcategory);
+            });
+            RadioGroup eventTypeRadioGroup = dialogView.findViewById(R.id.eventTypeRadioGroup);
+            eventTypeRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+
+                RadioButton radioButtonEventType= dialogView.findViewById(checkedId);
+                String selectedEventType = radioButtonEventType.getText().toString();
+
+                adapter.filterByEventType(selectedEventType);
+            });
+            RadioGroup availabilityRadioGroup = dialogView.findViewById(R.id.availabilityRadioGroup);
+            availabilityRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+
+                RadioButton radioButtonAvailability= dialogView.findViewById(checkedId);
+                String selectedAvailability = radioButtonAvailability.getText().toString();
+
+                adapter.filterByAvailability(selectedAvailability);
+            });
+
+            // Dodajte kod za dobijanje unetih vrednosti minimalne i maksimalne cene
+            EditText minPriceEditText = dialogView.findViewById(R.id.minPrice);
+            EditText maxPriceEditText = dialogView.findViewById(R.id.maxPrice);
+            // Pronalaženje dugmeta za primenu filtera
+            Button applyFilterButton = dialogView.findViewById(R.id.applyFilterButton);
+
+            // Dodavanje slušača za klik na dugme za primenu filtera
+            applyFilterButton.setOnClickListener(buttonView -> {
+                // Dobijanje vrednosti minimalne i maksimalne cene iz EditText polja
+                String minPriceString = minPriceEditText.getText().toString();
+                String maxPriceString = maxPriceEditText.getText().toString();
+
+                // Provera da li su uneti stringovi prazni pre konverzije u brojeve
+                if (!minPriceString.isEmpty() && !maxPriceString.isEmpty()) {
+                    try {
+                        // Konvertujte stringove u double vrednosti
+                        double minPrice = Double.parseDouble(minPriceString);
+                        double maxPrice = Double.parseDouble(maxPriceString);
+
+                        // Primena filtera po ceni na listu proizvoda
+                        adapter.filterByPrice(minPrice, maxPrice);
+                    } catch (NumberFormatException e) {
+                        e.printStackTrace();
+                        // Handle exception if necessary
+                        Toast.makeText(getContext(), "Invalid input. Please enter valid numbers.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    // Handle case if either or both input fields are empty
+                    Toast.makeText(getContext(), "Please enter both minimum and maximum price.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
+            Button applyDescriptionFilterButton = dialogView.findViewById(R.id.applyDescriptionFilterButton);
+            EditText descriptionEditText = dialogView.findViewById(R.id.description);
+
+            applyDescriptionFilterButton.setOnClickListener(buttonView -> {
+                // Dobijanje vrednosti unete u polje za opis
+                String description = descriptionEditText.getText().toString();
+
+                // Provera da li je unet opis
+                if (!description.isEmpty()) {
+                    // Primena filtera po opisu na listu proizvoda
+                    adapter.filterByDescription(description);
+                } else {
+                    // Handle case when description is empty
+                    Toast.makeText(getContext(), "Please enter a description.", Toast.LENGTH_SHORT).show();
+                }
+            });
+
+
         });
 
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
@@ -180,7 +272,6 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
 
         return false;
     }
-
 
 
 

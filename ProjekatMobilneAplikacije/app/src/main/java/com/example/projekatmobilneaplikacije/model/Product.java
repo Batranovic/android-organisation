@@ -8,18 +8,23 @@ import androidx.annotation.NonNull;
 
 public class Product implements Parcelable {
     private String title;
+
+    private String description;
     private String category;
     private String subcategory;
     private int price;
     private String eventType;
+    private String availability;
     private int imageId;
 
-    public Product(String title, String category, String subcategory, int price, String eventType, int imageId) {
+    public Product(String title, String description, String category, String subcategory, int price, String eventType, String availability, int imageId) {
         this.title = title;
+        this.description = description;
         this.category = category;
         this.subcategory = subcategory;
         this.price = price;
         this.eventType = eventType;
+        this.availability = availability;
         this.imageId = imageId;
     }
 
@@ -28,11 +33,29 @@ public class Product implements Parcelable {
     // Konstruktor za čitanje iz Parcel objekta
     protected Product(Parcel in) {
         title = in.readString();
+        description = in.readString();
         category = in.readString();
         subcategory = in.readString();
         price = in.readInt();
         eventType = in.readString();
+        availability = in.readString();
         imageId = in.readInt();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
     }
 
     public String getTitle() {
@@ -100,10 +123,12 @@ public class Product implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(title);
+        dest.writeString(description);
         dest.writeString(category);
         dest.writeString(subcategory);
         dest.writeString(eventType);
         dest.writeInt(price);
+        dest.writeString(availability);
         dest.writeInt(imageId);
     }
 
@@ -111,10 +136,12 @@ public class Product implements Parcelable {
     public String toString() {
         return "Product{" +
                 "title='" + title + '\'' +
+                ", description='" + description + '\'' +
                 ", category='" + category + '\'' +
                 ", subcategory='" + subcategory + '\'' +
                 ", price=" + price +
                 ", eventType='" + eventType + '\'' +
+                ", availability='" + availability + '\'' +
                 ", imageId=" + imageId +
                 '}';
     }
