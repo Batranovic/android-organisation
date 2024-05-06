@@ -104,6 +104,97 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
         return convertView;
     }
 
+    public void filterByCategory(String category) {
+        ArrayList<Service> filteredProducts = new ArrayList<>();
+        for(Service service : aServices) {
+            if(!service.isDeleted() && service.getCategory().equalsIgnoreCase(category)) {
+                filteredProducts.add(service);
+            }
+        }
+
+        if(filteredProducts.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for category: " + category);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + category + ": " + filteredProducts.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterBySubcategory(String subcategory) {
+        ArrayList<Service> filteredServices = new ArrayList<>();
+        for(Service service : aServices) {
+            if(!service.isDeleted() && service.getSubcategory().equalsIgnoreCase(subcategory)) {
+                filteredServices.add(service);
+            }
+        }
+
+        if(filteredServices.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for subcategory: " + subcategory);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + subcategory + ": " + filteredServices.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredServices); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByEventType(String eventType) {
+        ArrayList<Service> filteredServices = new ArrayList<>();
+        for(Service service : aServices) {
+            if(!service.isDeleted() && service.getEventType().equalsIgnoreCase(eventType)) {
+                filteredServices.add(service);
+            }
+        }
+
+        if(filteredServices.isEmpty()) {
+            Log.d("ServiceListAdapter", "No services found for subcategory: " + eventType);
+        } else {
+            Log.d("ServiceListAdapter", "Filtered services for category " + eventType + ": " + filteredServices.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredServices); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByAvailability(String availability) {
+        ArrayList<Service> filteredServices = new ArrayList<>();
+        for(Service service : aServices) {
+            if(!service.isDeleted() && service.getAvailability().equalsIgnoreCase(availability)) {
+                filteredServices.add(service);
+            }
+        }
+
+        if(filteredServices.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for subcategory: " + availability);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + availability + ": " + filteredServices.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredServices); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByPrice(double minPrice, double maxPrice) {
+        ArrayList<Service> filteredServices = new ArrayList<>();
+        for(Service service : aServices) {
+            double price = service.getPrice();
+            if(!service.isDeleted() && price >= minPrice && price <= maxPrice) {
+                filteredServices.add(service);
+            }
+        }
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredServices); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+
+
     private void loadImageFromBase64String(String base64Image, ImageView imageView) {
         if (base64Image != null && !base64Image.isEmpty()) {
             // Dekodirajte Base64 string u byte[]

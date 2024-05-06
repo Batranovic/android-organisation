@@ -14,6 +14,7 @@ public class Service implements Parcelable {
     private String specificity;
     private String discount;
     private String category;
+    private String subcategory;
     private String duration;
     private String location;
     private int price;
@@ -25,15 +26,19 @@ public class Service implements Parcelable {
     private String cancellationDeadline;
     private String confirmationMode;
     private String image;
-    private Boolean isDeleted;
+    private boolean isDeleted;
 
-    public Service(String id, String title, String description, String specificity, String discount, String category, String duration, String location, int price, String eventType, String availability, String visibility, String engagement, String reservationDeadline, String cancellationDeadline, String confirmationMode, String image, Boolean isDeleted) {
+    public Service(){
+    }
+
+    public Service(String id, String title, String description, String specificity, String discount, String category, String subcategory, String duration, String location, int price, String eventType, String availability, String visibility, String engagement, String reservationDeadline, String cancellationDeadline, String confirmationMode, String image, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.specificity = specificity;
         this.discount = discount;
         this.category = category;
+        this.subcategory = subcategory;
         this.duration = duration;
         this.location = location;
         this.price = price;
@@ -206,12 +211,17 @@ public class Service implements Parcelable {
         this.image = image;
     }
 
-    public Boolean getDeleted() {
-        return isDeleted;
+
+    public String getSubcategory() {
+        return subcategory;
     }
 
-    public void setDeleted(Boolean deleted) {
-        isDeleted = deleted;
+    public void setSubcategory(String subcategory) {
+        this.subcategory = subcategory;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
     }
 
     @Override
