@@ -1,16 +1,30 @@
 package com.example.projekatmobilneaplikacije.activities;
 
 import android.os.Bundle;
+import android.util.Log;
+import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ServiceDetailActivity extends AppCompatActivity {
 
@@ -60,6 +74,28 @@ public class ServiceDetailActivity extends AppCompatActivity {
         cancellationDeadlineEditText.setText(getIntent().getStringExtra("cancellationDeadline"));
         confirmationModeEditText.setText(getIntent().getStringExtra("confirmationMode"));
 
+        ImageButton deleteButton = findViewById(R.id.deleteProductButton);
+
+        deleteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String serviceId = getIntent().getStringExtra("serviceId");
+                Log.d("ServiceDetailActivity","ServiceId:" + serviceId);
+                deleteService(serviceId);
+            }
+        });
+
+        ImageButton editButton = findViewById(R.id.editProductButton);
+
+        editButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String serviceId = getIntent().getStringExtra("serviceId");
+                Log.d("ServiceDetailActivity","ServiceId:" + serviceId);
+                editService(serviceId);
+            }
+        });
+
 
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
@@ -67,4 +103,123 @@ public class ServiceDetailActivity extends AppCompatActivity {
             return insets;
         });
     }
+
+    private void deleteService(String serviceId) {
+        // Pronalaženje dokumenta sa odgovarajućim productId
+        db.collection("services")
+                .whereEqualTo("id", serviceId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Uzmemo prvi dokument (ako ima više, uzmemo prvi)
+                                String documentId = document.getId();
+                                Log.d("","Document id: " + documentId);
+
+                                // Ažuriranje polja isDeleted na true
+                                db.collection("services")
+                                        .document(documentId)
+                                        .update("isDeleted", true)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(ServiceDetailActivity.this, "Service deleted", Toast.LENGTH_SHORT).show();
+                                                finish(); // Zatvorite aktivnost nakon brisanja
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(ServiceDetailActivity.this, "Failed to delete service", Toast.LENGTH_SHORT).show();
+                                                Log.d("ServiceDetailActivity", "Error deleting service", e);
+                                            }
+                                        });
+                            } else {
+                                Log.d("ServiceDetailActivity", "No document found with serviceId: " + serviceId);
+                            }
+                        } else {
+                            Log.d("ServiceDetailActivity", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+    private void editService(String serviceId) {
+        String newTitle = titleEditText.getText().toString();
+        String newDescription = descriptionEditText.getText().toString();
+        String newSubcategory = subcategoryEditText.getText().toString();
+        String newEventType = eventTypeEditText.getText().toString();
+        int newPrice = Integer.parseInt(priceEditText.getText().toString());
+        String newAvailability = availabilityEditText.getText().toString();
+        String newVisibility = visibilityEditText.getText().toString();
+        String newSpecificity = specificityEditText.getText().toString();
+        String newDiscount = discountEditText.getText().toString();
+        String newDuration = durationEditText.getText().toString();
+        String newEngagement = engagementEditText.getText().toString();
+        String newReservationDeadline = reservationDeadlineEditText.getText().toString();
+        String newCancellationDeadline = cancellationDeadlineEditText.getText().toString();
+        String newConfirmationMode = confirmationModeEditText.getText().toString();
+        // Pronalaženje dokumenta sa odgovarajućim productId
+        db.collection("services")
+                .whereEqualTo("id", serviceId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Uzmemo prvi dokument (ako ima više, uzmemo prvi)
+                                String documentId = document.getId();
+                                Log.d("","Document id: " + documentId);
+
+                                // Mapa koja sadrži nove vrijednosti polja
+                                Map<String, Object> updates = new HashMap<>();
+                                updates.put("title", newTitle);
+                                updates.put("description", newDescription);
+                                updates.put("subcategory", newSubcategory);
+                                updates.put("eventType", newEventType);
+                                updates.put("price", newPrice);
+                                updates.put("availability", newAvailability);
+                                updates.put("visibility", newVisibility);
+                                updates.put("specificity", newSpecificity);
+                                updates.put("discount", newDiscount);
+                                updates.put("duration", newDuration);
+                                updates.put("engagement", newEngagement);
+                                updates.put("reservationDeadline", newReservationDeadline);
+                                updates.put("cancellationDeadline", newCancellationDeadline);
+                                updates.put("confirmationMode", newConfirmationMode);
+
+
+                                // Ažuriranje dokumenta s novim vrijednostima polja
+                                db.collection("services")
+                                        .document(documentId)
+                                        .update(updates)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(ServiceDetailActivity.this, "Service updated", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(ServiceDetailActivity.this, "Failed to update service", Toast.LENGTH_SHORT).show();
+                                                Log.d("ServiceDetailActivity", "Error updating service", e);
+                                            }
+                                        });
+                            } else {
+                                Log.d("ServiceDetailActivity", "No document found with serviceId: " + serviceId);
+                            }
+                        } else {
+                            Log.d("ServiceDetailActivity", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
 }
