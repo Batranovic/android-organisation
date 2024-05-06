@@ -1,6 +1,9 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -8,13 +11,19 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
+import android.provider.MediaStore;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SeekBar;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -22,6 +31,10 @@ import android.widget.TextView;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateServiceActivity;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateServiceFirstBinding;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -40,6 +53,17 @@ public class CreateServiceFirstFragment extends Fragment {
     private String mParam2;
 
     private FragmentCreateServiceFirstBinding fragmentCreateServiceFirstBinding;
+
+
+    private Uri selectedImageUri;
+    EditText title, description, specificity, discount;
+    Spinner spinner, spinnerSubcategory;
+    String available, visible;
+    Button btnSubmit;
+
+    private final int GALLERY_REQ_CODE = 1000;
+    ImageView imgGallery;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public CreateServiceFirstFragment() {
         // Required empty public constructor
@@ -70,31 +94,11 @@ public class CreateServiceFirstFragment extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+
+
+
     }
 
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_create_service_first, container, false);
-    }*/
-
-    /*@Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_create_service_first, container, false);
-
-        ImageButton btnFragment2 = view.findViewById(R.id.nextFragmentButton);
-        btnFragment2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransition.to(CreateServiceSecondFragment.newInstance("Fragment 2", "Ovo je fragment 2"), CreateServiceFirstFragment.this, false, R.id.main);
-            }
-        });
-
-        return view;
-    }*/
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -102,17 +106,7 @@ public class CreateServiceFirstFragment extends Fragment {
         fragmentCreateServiceFirstBinding = FragmentCreateServiceFirstBinding.inflate(inflater, container, false);
 
         View root = fragmentCreateServiceFirstBinding.getRoot();
-        fragmentCreateServiceFirstBinding.nextFragmentButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Fragment secondFragment = new CreateServiceSecondFragment();
 
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.create_service_container, secondFragment)
-                        .addToBackStack(null)
-                        .commit();
-            }
-        });
 
         ImageButton addNewSubcategoryButton = root.findViewById(R.id.addNewSubcategoryButton);
         addNewSubcategoryButton.setOnClickListener(new View.OnClickListener() {
@@ -122,21 +116,17 @@ public class CreateServiceFirstFragment extends Fragment {
             }
         });
 
-        Spinner spinner = fragmentCreateServiceFirstBinding.btnCategory;
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        spinner = fragmentCreateServiceFirstBinding.btnCategory;
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.category_list));
-        // Specify the layout to use when the list of choices appears
         arrayAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinner.setAdapter(arrayAdapter);
 
-        Spinner spinnerSubcategory = fragmentCreateServiceFirstBinding.btnSubcategory;
-        // Create an ArrayAdapter using the string array and a default spinner layout
+        spinnerSubcategory = fragmentCreateServiceFirstBinding.btnSubcategory;
         ArrayAdapter<String> arrayAdapterSubcategory = new ArrayAdapter<>(getActivity(),
                 android.R.layout.simple_spinner_item,
                 getResources().getStringArray(R.array.subcategory_list));
-        // Specify the layout to use when the list of choices appears
         arrayAdapterSubcategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
         spinnerSubcategory.setAdapter(arrayAdapterSubcategory);
 
@@ -161,6 +151,85 @@ public class CreateServiceFirstFragment extends Fragment {
 
             }
         });
+
+        //IMAGE
+        imgGallery = fragmentCreateServiceFirstBinding.imgGallery;
+        ImageButton btnGallery = fragmentCreateServiceFirstBinding.btnGallery;
+
+        btnGallery.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent iGallery = new Intent(Intent.ACTION_PICK);
+                iGallery.setData(MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                startActivityForResult(iGallery, GALLERY_REQ_CODE);
+            }
+        });
+
+
+
+        title = fragmentCreateServiceFirstBinding.title;
+        description = fragmentCreateServiceFirstBinding.editDescription;
+        specificity = fragmentCreateServiceFirstBinding.specificity;
+        discount = fragmentCreateServiceFirstBinding.discount;
+        fragmentCreateServiceFirstBinding.nextFragmentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                RadioGroup radioGroupAvailability = fragmentCreateServiceFirstBinding.availability; // Postavite pravilan ID za RadioGroup
+                int selectedRadioButtonId = radioGroupAvailability.getCheckedRadioButtonId();
+
+                if (selectedRadioButtonId != -1) {
+                    RadioButton selectedRadioButton = root.findViewById(selectedRadioButtonId);
+                    String selectedText = selectedRadioButton.getText().toString();
+                    available = selectedText;
+                } else {
+                    // Nijedan RadioButton nije odabran
+                    available = "";
+                }
+
+                RadioGroup radioGroupVisibility = fragmentCreateServiceFirstBinding.visibility; // Postavite pravilan ID za RadioGroup
+                int selectedRadioVisibilityButtonId = radioGroupVisibility.getCheckedRadioButtonId();
+
+                if (selectedRadioVisibilityButtonId != -1) {
+                    RadioButton selectedRadioVisibilityButton = root.findViewById(selectedRadioVisibilityButtonId);
+                    String selectedText = selectedRadioVisibilityButton.getText().toString();
+                    visible = selectedText;
+                } else {
+                    visible = "";
+                }
+
+                String Available = available;
+                String Visible = visible;
+
+                Fragment secondFragment = CreateServiceSecondFragment.newInstance(title.getText().toString(), description.getText().toString(), specificity.getText().toString(), discount.getText().toString(), spinner.getSelectedItem().toString(), spinnerSubcategory.getSelectedItem().toString(), priceSeekBar.getProgress(), available, visible, selectedImageUri);
+
+                getParentFragmentManager().beginTransaction()
+                        .replace(R.id.create_service_container, secondFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+                // Enkodiranje slike u Base64 format
+                String base64Image = ""; // Ovdje ćemo smestiti enkodiranu sliku
+                if (selectedImageUri != null) {
+                    try {
+                        // Pretvaranje URI-ja odabrane slike u bitmapu
+                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri);
+
+                        // Konvertovanje bitmape u byte[] koristeći ByteArrayOutputStream
+                        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                        bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                        byte[] imageData = baos.toByteArray();
+
+                        // Konvertovanje byte[] u Base64 string
+                        base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+                }
+
+
+            }
+        });
+
 
         return root;
     }
@@ -194,6 +263,43 @@ public class CreateServiceFirstFragment extends Fragment {
         });
 
         builder.show();
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if(resultCode == getActivity().RESULT_OK) {
+            if (requestCode == GALLERY_REQ_CODE) {
+                // Čuvanje URI-ja odabrane slike u globalnoj promenljivoj fragmenta
+                selectedImageUri = data.getData();
+
+                // Dobijanje URI-ja odabrane slike iz galerije
+                Uri selectedImageUri = this.selectedImageUri;
+
+                try {
+                    // Pretvaranje URI-ja u bitmapu
+                    Bitmap bitmap = MediaStore.Images.Media.getBitmap(requireContext().getContentResolver(), selectedImageUri);
+
+                    // Konvertovanje bitmape u byte[] koristeći ByteArrayOutputStream
+                    ByteArrayOutputStream baos = new ByteArrayOutputStream();
+                    bitmap.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+                    byte[] imageData = baos.toByteArray();
+
+                    // Konvertovanje byte[] u Base64 string
+                    String base64Image = Base64.encodeToString(imageData, Base64.DEFAULT);
+
+                    // Sada možete sačuvati base64Image u bazi podataka zajedno sa ostalim podacima proizvoda
+
+                    // Prikažite sliku u ImageView-u (opcionalno)
+                    imgGallery.setImageBitmap(bitmap);
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
     }
 
 }

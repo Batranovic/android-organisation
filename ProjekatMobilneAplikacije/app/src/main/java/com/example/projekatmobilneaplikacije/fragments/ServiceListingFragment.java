@@ -82,7 +82,6 @@ public class ServiceListingFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        prepareServiceList(services);
 
         // Set up the adapter with the updated data
         adapter = new ServiceListAdapter(getActivity(), services);
@@ -116,8 +115,8 @@ public class ServiceListingFragment extends ListFragment {
         });*/
     }
 
-    private void prepareServiceList(ArrayList<Service> services){
+    /*private void prepareServiceList(ArrayList<Service> services){
         services.add(new Service(1L, "Snimanje dronom", "Foto i video", 2, "okolina Novog Sada", 6000,R.drawable.drones));
         services.add(new Service(1L, "Snimanje kamerom 4k", "Foto i video", 1 , "okolina Novog Sada", 5000,R.drawable.drones));
-    }
+    }*/
 }

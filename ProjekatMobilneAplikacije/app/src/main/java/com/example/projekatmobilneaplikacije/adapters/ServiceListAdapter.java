@@ -1,6 +1,9 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -81,8 +84,9 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
         TextView serviceDuration = convertView.findViewById(R.id.service_duration);
         TextView servicePrice = convertView.findViewById(R.id.service_price);
 
+        loadImageFromBase64String(service.getImage(), imageView);
+
         if(service != null){
-            imageView.setImageResource(service.getImage());
             serviceTitle.setText(service.getTitle());
             serviceDuration.setText(String.valueOf(service.getDuration()));
             serviceLocation.setText(service.getLocation());
@@ -98,5 +102,22 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
         }
 
         return convertView;
+    }
+
+    private void loadImageFromBase64String(String base64Image, ImageView imageView) {
+        if (base64Image != null && !base64Image.isEmpty()) {
+            // Dekodirajte Base64 string u byte[]
+            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+
+            // Pretvorite byte[] u bitmapu
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            // Postavite bitmapu na ImageView
+            imageView.setImageBitmap(decodedBitmap);
+        } else {
+            // Ako je base64Image null ili prazan, možete postaviti neku podrazumevanu sliku ili poruku
+            // Na primer, postaviti ikonicu "slike nije dostupna"
+            imageView.setImageResource(R.drawable.add_photo);
+        }
     }
 }
