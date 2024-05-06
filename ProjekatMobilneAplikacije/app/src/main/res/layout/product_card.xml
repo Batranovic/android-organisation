@@ -66,34 +66,6 @@
 
         </LinearLayout>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="40dp"
-            android:orientation="horizontal">
-
-            <View
-                android:layout_width="0dp"
-                android:layout_height="50dp"
-                android:layout_weight="1" />
-
-            <ImageButton
-                android:id="@+id/editProductButton"
-                android:background="@drawable/border_background"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:src="@drawable/edit_product"
-                />
-
-            <ImageButton
-                android:id="@+id/deleteProductButton"
-                android:background="@drawable/border_background"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                app:srcCompat="@drawable/delete_product"
-                android:layout_marginLeft="10dp"/>
-
-
-        </LinearLayout>
 
 
     </LinearLayout>

@@ -49,30 +49,23 @@
 
         <Button
             android:id="@+id/btnFilters"
-            android:layout_width="wrap_content"
+            android:layout_width="140dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/filters"
             tools:ignore="TextContrastCheck" />
 
-        <ImageButton
-            android:id="@+id/editProductButton"
+        <Button
+            android:id="@+id/removeFiltersButton"
             android:background="@drawable/border_background"
-            android:layout_width="40dp"
+            android:layout_width="140dp"
             android:layout_height="40dp"
             android:layout_gravity="center"
-            android:src="@drawable/edit_product"
-            android:layout_marginLeft="10dp"
+            android:layout_marginLeft="5dp"
+            android:textSize="12dp"
+            android:text="Remove filters"
             />
 
-        <ImageButton
-            android:id="@+id/deleteProductButton"
-            android:background="@drawable/border_background"
-            android:layout_width="40dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/delete_product"
-            android:layout_marginLeft="10dp"/>
 
     </LinearLayout>
 

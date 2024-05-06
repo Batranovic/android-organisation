@@ -146,12 +146,17 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
 
                 if (constraint == null || constraint.length() == 0) {
                     // No filter implemented, return all products
-                    filteredProducts.addAll(aProducts);
+                    //filteredProducts.addAll(aProducts);
+                    for (Product product : aProducts) {
+                        if (!product.isDeleted()) {
+                            filteredProducts.add(product);
+                        }
+                    }
                 } else {
                     String filterPattern = constraint.toString().toLowerCase().trim();
 
                     for (Product product : aProducts) {
-                        if (product.getTitle().toLowerCase().contains(filterPattern)) {
+                        if (!product.isDeleted() && product.getTitle().toLowerCase().contains(filterPattern)) {
                             filteredProducts.add(product);
                         }
                     }
@@ -174,7 +179,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public void filterByCategory(String category) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
         for(Product product : aProducts) {
-            if(product.getCategory().equalsIgnoreCase(category)) {
+            if(!product.isDeleted() && product.getCategory().equalsIgnoreCase(category)) {
                 filteredProducts.add(product);
             }
         }
@@ -193,7 +198,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public void filterBySubcategory(String subcategory) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
         for(Product product : aProducts) {
-            if(product.getSubcategory().equalsIgnoreCase(subcategory)) {
+            if(!product.isDeleted() && product.getSubcategory().equalsIgnoreCase(subcategory)) {
                 filteredProducts.add(product);
             }
         }
@@ -212,7 +217,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public void filterByEventType(String eventType) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
         for(Product product : aProducts) {
-            if(product.getEventType().equalsIgnoreCase(eventType)) {
+            if(!product.isDeleted() && product.getEventType().equalsIgnoreCase(eventType)) {
                 filteredProducts.add(product);
             }
         }
@@ -231,7 +236,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public void filterByAvailability(String availability) {
         ArrayList<Product> filteredProducts = new ArrayList<>();
         for(Product product : aProducts) {
-            if(product.getAvailability().equalsIgnoreCase(availability)) {
+            if(!product.isDeleted() && product.getAvailability().equalsIgnoreCase(availability)) {
                 filteredProducts.add(product);
             }
         }
@@ -251,7 +256,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
         ArrayList<Product> filteredProducts = new ArrayList<>();
         for(Product product : aProducts) {
             double price = product.getPrice();
-            if(price >= minPrice && price <= maxPrice) {
+            if(!product.isDeleted() && price >= minPrice && price <= maxPrice) {
                 filteredProducts.add(product);
             }
         }
@@ -264,7 +269,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
         ArrayList<Product> filteredProducts = new ArrayList<>();
         for (Product product : aProducts) {
             // Provera da li opis proizvoda sadrži uneti tekst (ignorišući velika i mala slova)
-            if (product.getDescription().toLowerCase().contains(description.toLowerCase())) {
+            if (!product.isDeleted() && product.getDescription().toLowerCase().contains(description.toLowerCase())) {
                 filteredProducts.add(product);
             }
         }

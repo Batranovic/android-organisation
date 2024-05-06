@@ -39,6 +39,7 @@ import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.ActivityCreateProductBinding;
+import com.example.projekatmobilneaplikacije.fragments.ProductListingFragment;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -75,6 +76,12 @@ public class CreateProductActivity extends AppCompatActivity {
     private final int GALLERY_REQ_CODE = 1000;
     ImageView imgGallery;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private ProductListingFragment productListingFragment;
+
+    public void setProductListingFragment(ProductListingFragment fragment) {
+        this.productListingFragment = fragment;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

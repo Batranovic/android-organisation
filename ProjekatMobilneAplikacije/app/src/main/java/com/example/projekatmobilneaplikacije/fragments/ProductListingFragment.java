@@ -79,6 +79,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         adapter = new ProductListAdapter(getActivity(), products);
 
         if (getArguments() != null) {
@@ -230,7 +231,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         // Convert each document to a Product object
                         Product product = documentSnapshot.toObject(Product.class);
-                        // Add the product to your ArrayList or any other data structure
+
                         products.add(product);
                     }
                     // After retrieving all products, update your adapter
@@ -239,6 +240,14 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
                     // Handle case when there are no products in the collection
                     Log.d("ProductListingFragment", "No products found");
                 }
+            }
+        });
+
+        Button removeFiltersButton = view.findViewById(R.id.removeFiltersButton);
+        removeFiltersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshProductList();
             }
         });
 
@@ -268,7 +277,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         ArrayList<Product> filteredProducts = new ArrayList<Product>();
 
         for(Product product: products){
-            if(product.getTitle().toLowerCase().contains(newText.toLowerCase())){
+            if(!product.isDeleted() && product.getTitle().toLowerCase().contains(newText.toLowerCase())){
                 filteredProducts.add(product);
             }
         }
@@ -278,6 +287,30 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         return false;
     }
 
+    public void refreshProductList() {
+        productsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                products.clear();
+
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Product product = documentSnapshot.toObject(Product.class);
+                        products.add(product);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.d("ProductListingFragment", "No products found");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshProductList();
+    }
 
 
 }
