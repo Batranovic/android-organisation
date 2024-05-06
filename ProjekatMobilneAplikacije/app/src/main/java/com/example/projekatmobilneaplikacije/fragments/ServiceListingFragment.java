@@ -22,7 +22,6 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateServiceActivity;
 import com.example.projekatmobilneaplikacije.adapters.ServiceListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentServiceListingBinding;
-import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Service;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
  * Use the {@link ServiceListingFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ServiceListingFragment extends ListFragment {
+public class ServiceListingFragment extends ListFragment implements SearchView.OnQueryTextListener{
 
     private static final String ARG_PARAM = "param";
 
@@ -180,6 +179,8 @@ public class ServiceListingFragment extends ListFragment {
 
         });
 
+
+
         FloatingActionButton fab = view.findViewById(R.id.floatingActionButton);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -193,31 +194,89 @@ public class ServiceListingFragment extends ListFragment {
         listView = view.findViewById(android.R.id.list);
 
 
+        Button removeFiltersButton = view.findViewById(R.id.removeFiltersButton);
+        removeFiltersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshServiceList();
+            }
+        });
 
         servicesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 services.clear();
 
-                // Check if there are any documents in the collection
                 if (!queryDocumentSnapshots.isEmpty()) {
-                    // Iterate through each document in the collection
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        // Convert each document to a Product object
                         Service service = documentSnapshot.toObject(Service.class);
 
                         services.add(service);
                     }
-                    // After retrieving all products, update your adapter
                     adapter.notifyDataSetChanged();
                 } else {
-                    // Handle case when there are no products in the collection
                     Log.d("ServiceListingFragment", "No services found");
                 }
             }
         });
 
+        for (Service service : services) {
+            String title = service.getTitle();
+            serviceTitles.add(title);
+        }
+
+        listView.setAdapter(adapter);
+
+        searchView.setOnQueryTextListener(this);
 
     }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d("ServiceListingFragment", "New text: " + newText);
+        ArrayList<Service> filteredServices = new ArrayList<Service>();
+
+        for(Service service: services){
+            if(!service.isDeleted() && service.getTitle().toLowerCase().contains(newText.toLowerCase())){
+                filteredServices.add(service);
+            }
+        }
+        adapter = new ServiceListAdapter(getContext(), filteredServices);
+        listView.setAdapter(adapter);
+
+        return false;
+    }
+
+    public void refreshServiceList() {
+        servicesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                services.clear();
+
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Service service = documentSnapshot.toObject(Service.class);
+                        services.add(service);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.d("ServiceListingFragment", "No services found");
+                }
+            }
+        });
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        refreshServiceList();
+    }
+
+
 
 }
