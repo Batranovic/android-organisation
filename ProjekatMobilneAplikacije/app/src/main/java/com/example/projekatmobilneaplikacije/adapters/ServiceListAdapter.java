@@ -1,6 +1,7 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.util.Base64;
@@ -19,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
+import com.example.projekatmobilneaplikacije.activities.ServiceDetailActivity;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Service;
 
@@ -80,23 +83,42 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
         LinearLayout serviceCard = convertView.findViewById(R.id.service_card_item);
         ImageView imageView = convertView.findViewById(R.id.service_image);
         TextView serviceTitle = convertView.findViewById(R.id.service_title);
-        TextView serviceLocation = convertView.findViewById(R.id.service_location);
-        TextView serviceCategory = convertView.findViewById(R.id.service_category);
         TextView serviceDuration = convertView.findViewById(R.id.service_duration);
         TextView servicePrice = convertView.findViewById(R.id.service_price);
+        TextView serviceSpecificity = convertView.findViewById(R.id.specificity);
 
         loadImageFromBase64String(service.getImage(), imageView);
 
         if(service != null){
             serviceTitle.setText(service.getTitle());
             serviceDuration.setText(String.valueOf(service.getDuration()));
-            serviceLocation.setText(service.getLocation());
-            serviceCategory.setText(service.getCategory());
             servicePrice.setText(String.valueOf(service.getPrice()));
+            serviceSpecificity.setText(service.getSpecificity());
             serviceCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
-                Log.i("ShopApp", "Clicked: " + service.getTitle() + ", id: " +
+                Log.i("MobileApp", "Clicked: " + service.getTitle() + ", id: " +
                         service.getId().toString());
+
+                // Handle click event
+                Intent intent = new Intent(getContext(), ServiceDetailActivity.class);
+                intent.putExtra("serviceId", service.getId());
+                intent.putExtra("title", service.getTitle());
+                intent.putExtra("description", service.getDescription());
+                intent.putExtra("subcategory", service.getSubcategory());
+                intent.putExtra("eventType", service.getEventType());
+                intent.putExtra("price", service.getPrice());
+                intent.putExtra("availability", service.getAvailability());
+                intent.putExtra("visibility", service.getVisibility());
+                intent.putExtra("specificity", service.getSpecificity());
+                intent.putExtra("discount", service.getDiscount());
+                intent.putExtra("duration", service.getDuration());
+                intent.putExtra("engagement", service.getEngagement());
+                intent.putExtra("reservationDeadline", service.getReservationDeadline());
+                intent.putExtra("cancellationDeadline", service.getCancellationDeadline());
+                intent.putExtra("confirmationMode", service.getConfirmationMode());
+                intent.putExtra("image", service.getImage());
+                getContext().startActivity(intent);
+
                 Toast.makeText(getContext(), "Clicked: " + service.getTitle()  +
                         ", id: " + service.getId().toString(), Toast.LENGTH_SHORT).show();
             });
@@ -106,22 +128,22 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
     }
 
     public void filterByCategory(String category) {
-        ArrayList<Service> filteredProducts = new ArrayList<>();
+        ArrayList<Service> filteredServices = new ArrayList<>();
         for(Service service : aServices) {
             if(!service.isDeleted() && service.getCategory().equalsIgnoreCase(category)) {
-                filteredProducts.add(service);
+                filteredServices.add(service);
             }
         }
 
-        if(filteredProducts.isEmpty()) {
-            Log.d("ProductListAdapter", "No products found for category: " + category);
+        if(filteredServices.isEmpty()) {
+            Log.d("ServiceListAdapter", "No services found for category: " + category);
         } else {
-            Log.d("ProductListAdapter", "Filtered products for category " + category + ": " + filteredProducts.size());
+            Log.d("ServiceListAdapter", "Filtered services for category " + category + ": " + filteredServices.size());
         }
 
-        clear(); // Očisti postojeće podatke u adapteru
-        addAll(filteredProducts); // Dodajte filtrirane proizvode u adapter
-        notifyDataSetChanged(); // Obavestite adapter o promenama
+        clear();
+        addAll(filteredServices);
+        notifyDataSetChanged();
     }
 
     public void filterBySubcategory(String subcategory) {
