@@ -84,6 +84,7 @@ public class CreateEvent implements Parcelable {
         this.location = location;
     }
 
+
     public String getDate() {
         return date;
     }

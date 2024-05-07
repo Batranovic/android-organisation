@@ -1,5 +1,7 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import static android.service.controls.ControlsProviderService.TAG;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -7,6 +9,7 @@ import androidx.navigation.fragment.NavHostFragment;
 
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,6 +23,8 @@ import com.example.projekatmobilneaplikacije.databinding.ListCreatedEventsBindin
 
 import com.example.projekatmobilneaplikacije.databinding.PageEventListBinding;
 import com.example.projekatmobilneaplikacije.model.CreateEvent;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -38,13 +43,29 @@ public class EventPageFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = PageEventListBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        prepareEventsList(events);
 
-        //NavHostFragment.findNavController(EventPageFragment.this)
-          //              .navigate(R.id.nav_action_events_list);
+        FirebaseFirestore db=FirebaseFirestore.getInstance();
+        db.collection("createEvents")
+                        .get()
+                        .addOnCompleteListener(task-> {
+                            if(task.isSuccessful()){
+                                events.clear();
+                                for (QueryDocumentSnapshot document : task.getResult()) {
+                                    CreateEvent createEvent = document.toObject(CreateEvent.class);
+                                    events.add(createEvent);
+                                }
+                                FragmentTransition.to(EventListFragment.newInstance(events), getActivity(),
+                                        false, R.id.scroll_events_list);
+                            }
+                            else{
+                                Log.d(TAG,"Error getting documents", task.getException());
+                            }
+                        });
+
 
         FragmentTransition.to(EventListFragment.newInstance(events), getActivity(),
                 false, R.id.scroll_events_list);
+
 
 
         return root;
@@ -62,8 +83,5 @@ public class EventPageFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    private void prepareEventsList(ArrayList<CreateEvent> events){
-        events.add(new CreateEvent(1L,"Wedding", "Wedding T and M", "Romantic wedding located in Italy, Como Lake with a lot of flower decorations...", 200, "Novi Sad, up to 50 km", "20.03.2024", true));
-        events.add(new CreateEvent(2L, "Other", "Birthday Party", "///", 100, "Belgrade, up to 30 km", "15.05.2024", false));
-    }
+
 }

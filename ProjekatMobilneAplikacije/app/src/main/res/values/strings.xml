@@ -146,6 +146,18 @@
     <string name="suggestion_cat">"All suggested event categories"</string>
     <string name="suggestion_desc">"Suggested categories description"</string>
     <string name="planned_budget_items">"Planned budget items"</string>
+    <string-array name="spinner_items_event">
+        <item>Privatni događaji</item>
+        <item>Korporativni događaji</item>
+        <item>Događaji u obrazovanju</item>
+        <item>Kulturni i zabavni događaji</item>
+        <item>Sportski događaji</item>
+        <item>Humanitarni i dobrotvorni događaji</item>
+        <item>Vlada i politički događaji</item>
+        <item>Drugo</item>
+        <!-- Dodajte više stavki po potrebi -->
+    </string-array>
+
 
     <!-- Ostali string resursi -->
 
