@@ -83,7 +83,7 @@ public class ServiceListingFragment extends ListFragment implements SearchView.O
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             services = getArguments().getParcelableArrayList(ARG_PARAM);
-            adapter = new ServiceListAdapter(getActivity(), services);
+            adapter = new ServiceListAdapter(getActivity(), services, null);
             setListAdapter(adapter);
         }
     }
@@ -100,7 +100,7 @@ public class ServiceListingFragment extends ListFragment implements SearchView.O
         super.onViewCreated(view, savedInstanceState);
 
         // Set up the adapter with the updated data
-        adapter = new ServiceListAdapter(getActivity(), services);
+        adapter = new ServiceListAdapter(getActivity(), services, null);
         setListAdapter(adapter);
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
@@ -246,7 +246,7 @@ public class ServiceListingFragment extends ListFragment implements SearchView.O
                 filteredServices.add(service);
             }
         }
-        adapter = new ServiceListAdapter(getContext(), filteredServices);
+        adapter = new ServiceListAdapter(getContext(), filteredServices, null);
         listView.setAdapter(adapter);
 
         return false;

@@ -81,9 +81,7 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
         TextView bundlePrice = convertView.findViewById(R.id.bundle_price);
 
         if(bundle != null){
-            imageView.setImageResource(bundle.getImage());
             bundleTitle.setText(bundle.getTitle());
-            bundleEventType.setText(bundle.getEventType());
             bundleCategory.setText(bundle.getCategory());
             bundlePrice.setText(String.valueOf(bundle.getPrice()));
             bundleCard.setOnClickListener(v -> {

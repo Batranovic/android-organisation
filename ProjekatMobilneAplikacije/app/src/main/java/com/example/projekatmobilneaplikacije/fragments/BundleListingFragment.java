@@ -75,7 +75,6 @@ public class BundleListingFragment extends ListFragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        prepareBundleList(bundles);
 
         // Set up the adapter with the updated data
         adapter = new BundleListAdapter(getActivity(), bundles);
@@ -111,8 +110,5 @@ public class BundleListingFragment extends ListFragment {
         });*/
     }
 
-    private void prepareBundleList(ArrayList<CustomBundle> bundles){
-        bundles.add(new CustomBundle(1L, "Snimanje događaja", "Foto i video", "svadbe", 18000, R.drawable.drones));
-        bundles.add(new CustomBundle(1L, "Snimanje događaja", "Foto i video", "svadbe", 15000, R.drawable.drones));
-    }
+
 }

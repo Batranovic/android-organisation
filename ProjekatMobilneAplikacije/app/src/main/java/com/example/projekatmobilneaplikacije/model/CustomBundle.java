@@ -5,28 +5,49 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
-public class CustomBundle implements Parcelable  {
-    private Long id;
-    private String title;
-    private String category;
-    private String eventType;
-    private int price;
-    private int image;
+import java.util.List;
 
-    public CustomBundle(Long id, String title, String category, String eventType, int price, int image) {
+public class CustomBundle implements Parcelable  {
+    private String id;
+    private String title;
+    private String description;
+    private int price;
+    private String discount;
+    private List<String> images;
+    private String visibility;
+    private String availability;
+    private String category;
+    private List<String> subcategories;
+    private List<String> eventTypes;
+    private String reservationDeadline;
+    private String cancellationDeadline;
+    private String confirmationMode;
+    private boolean isDeleted;
+
+
+    public CustomBundle(String id, String title, String description, int price, String discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted) {
         this.id = id;
         this.title = title;
-        this.category = category;
-        this.eventType = eventType;
+        this.description = description;
         this.price = price;
-        this.image = image;
+        this.discount = discount;
+        this.images = images;
+        this.visibility = visibility;
+        this.availability = availability;
+        this.category = category;
+        this.subcategories = subcategories;
+        this.eventTypes = eventTypes;
+        this.reservationDeadline = reservationDeadline;
+        this.cancellationDeadline = cancellationDeadline;
+        this.confirmationMode = confirmationMode;
+        this.isDeleted = isDeleted;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -38,6 +59,26 @@ public class CustomBundle implements Parcelable  {
         this.title = title;
     }
 
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+
+
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
+    }
+
+
     public String getCategory() {
         return category;
     }
@@ -46,12 +87,26 @@ public class CustomBundle implements Parcelable  {
         this.category = category;
     }
 
-    public String getEventType() {
-        return eventType;
+    public List<String> getSubcategories() {
+        return subcategories;
     }
 
-    public void setEventType(String eventType) {
-        this.eventType = eventType;
+    public void setSubcategories(List<String> subcategories) {
+        this.subcategories = subcategories;
+    }
+
+    public List<String> getEventTypes() {
+        return eventTypes;
+    }
+
+    public void setEventTypes(List<String> eventTypes) {
+        this.eventTypes = eventTypes;
+    }
+
+
+
+    public String getConfirmationMode() {
+        return confirmationMode;
     }
 
     public int getPrice() {
@@ -62,35 +117,98 @@ public class CustomBundle implements Parcelable  {
         this.price = price;
     }
 
-    public int getImage() {
-        return image;
+    public String getDiscount() {
+        return discount;
     }
 
-    public void setImage(int image) {
-        this.image = image;
+    public void setDiscount(String discount) {
+        this.discount = discount;
+    }
+
+    public String getVisibility() {
+        return visibility;
+    }
+
+    public void setVisibility(String visibility) {
+        this.visibility = visibility;
+    }
+
+    public String getAvailability() {
+        return availability;
+    }
+
+    public void setAvailability(String availability) {
+        this.availability = availability;
+    }
+
+    public String getReservationDeadline() {
+        return reservationDeadline;
+    }
+
+    public void setReservationDeadline(String reservationDeadline) {
+        this.reservationDeadline = reservationDeadline;
+    }
+
+    public String getCancellationDeadline() {
+        return cancellationDeadline;
+    }
+
+    public void setCancellationDeadline(String cancellationDeadline) {
+        this.cancellationDeadline = cancellationDeadline;
+    }
+
+    public void setConfirmationMode(String confirmationMode) {
+        this.confirmationMode = confirmationMode;
+    }
+
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
     }
 
     @Override
     public String toString() {
-        return "Bundle{" +
-                "id=" + id +
+        return "CustomBundle{" +
+                "id='" + id + '\'' +
                 ", title='" + title + '\'' +
-                ", category='" + category + '\'' +
-                ", eventType='" + eventType + '\'' +
+                ", description='" + description + '\'' +
                 ", price=" + price +
-                ", image=" + image +
+                ", discount=" + discount +
+                ", images=" + images +
+                ", visibility=" + visibility +
+                ", availability=" + availability +
+                ", category='" + category + '\'' +
+                ", subcategories=" + subcategories +
+                ", eventTypes=" + eventTypes +
+                ", reservationDeadline=" + reservationDeadline +
+                ", cancellationDeadline=" + cancellationDeadline +
+                ", confirmationMode='" + confirmationMode + '\'' +
+                ", isDeleted=" + isDeleted +
                 '}';
     }
 
     protected CustomBundle(Parcel in) {
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
-        id = in.readLong();
+        id = in.readString();
         title = in.readString();
-        category = in.readString();
-        eventType = in.readString();
+        description = in.readString();
         price = in.readInt();
-        image = in.readInt();
+        discount = in.readString();
+        images = in.createStringArrayList();
+        visibility = in.readString();
+        availability = in.readString();
+        category = in.readString();
+        subcategories = in.createStringArrayList();
+        eventTypes = in.createStringArrayList();
+        reservationDeadline = in.readString();
+        cancellationDeadline = in.readString();
+        confirmationMode = in.readString();
+        isDeleted = in.readBoolean();
     }
+
 
     @Override
     public int describeContents() {
@@ -99,12 +217,10 @@ public class CustomBundle implements Parcelable  {
 
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(title);
         dest.writeString(category);
-        dest.writeString(eventType);
         dest.writeInt(price);
-        dest.writeInt(image);
     }
 
     public static final Creator<CustomBundle> CREATOR = new Creator<CustomBundle>() {

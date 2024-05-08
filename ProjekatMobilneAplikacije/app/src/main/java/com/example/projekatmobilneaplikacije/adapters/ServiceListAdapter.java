@@ -22,6 +22,7 @@ import androidx.annotation.Nullable;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.activities.ServiceDetailActivity;
+import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Service;
 
@@ -30,10 +31,16 @@ import java.util.ArrayList;
 public class ServiceListAdapter extends ArrayAdapter<Service> {
     private ArrayList<Service> aServices;
 
-    public ServiceListAdapter(Context context, ArrayList<Service> services){
+    private Context mContext;
+    private CreateBundleSecondFragment mCreateBundleSecondFragment;
+
+
+
+    public ServiceListAdapter(Context context, ArrayList<Service> services, CreateBundleSecondFragment createBundleSecondFragment){
         super(context, R.layout.service_card, services);
         aServices = services;
-
+        mContext = context;
+        mCreateBundleSecondFragment = createBundleSecondFragment;
     }
     /*
      * Ova metoda vraca ukupan broj elemenata u listi koje treba prikazati
@@ -89,39 +96,46 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
 
         loadImageFromBase64String(service.getImage(), imageView);
 
-        if(service != null){
+        if(service != null) {
             serviceTitle.setText(service.getTitle());
             serviceDuration.setText(String.valueOf(service.getDuration()));
             servicePrice.setText(String.valueOf(service.getPrice()));
             serviceSpecificity.setText(service.getSpecificity());
-            serviceCard.setOnClickListener(v -> {
-                // Handle click on the item at 'position'
-                Log.i("MobileApp", "Clicked: " + service.getTitle() + ", id: " +
-                        service.getId().toString());
+            if (mCreateBundleSecondFragment == null) {
+                serviceCard.setOnClickListener(v -> {
+                    // Handle click on the item at 'position'
+                    Log.i("MobileApp", "Clicked: " + service.getTitle() + ", id: " +
+                            service.getId().toString());
 
-                // Handle click event
-                Intent intent = new Intent(getContext(), ServiceDetailActivity.class);
-                intent.putExtra("serviceId", service.getId());
-                intent.putExtra("title", service.getTitle());
-                intent.putExtra("description", service.getDescription());
-                intent.putExtra("subcategory", service.getSubcategory());
-                intent.putExtra("eventType", service.getEventType());
-                intent.putExtra("price", service.getPrice());
-                intent.putExtra("availability", service.getAvailability());
-                intent.putExtra("visibility", service.getVisibility());
-                intent.putExtra("specificity", service.getSpecificity());
-                intent.putExtra("discount", service.getDiscount());
-                intent.putExtra("duration", service.getDuration());
-                intent.putExtra("engagement", service.getEngagement());
-                intent.putExtra("reservationDeadline", service.getReservationDeadline());
-                intent.putExtra("cancellationDeadline", service.getCancellationDeadline());
-                intent.putExtra("confirmationMode", service.getConfirmationMode());
-                intent.putExtra("image", service.getImage());
-                getContext().startActivity(intent);
 
-                Toast.makeText(getContext(), "Clicked: " + service.getTitle()  +
-                        ", id: " + service.getId().toString(), Toast.LENGTH_SHORT).show();
-            });
+                    // Handle click event
+                    Intent intent = new Intent(mContext, ServiceDetailActivity.class);
+                    intent.putExtra("serviceId", service.getId());
+                    intent.putExtra("title", service.getTitle());
+                    intent.putExtra("description", service.getDescription());
+                    intent.putExtra("subcategory", service.getSubcategory());
+                    intent.putExtra("eventType", service.getEventType());
+                    intent.putExtra("price", service.getPrice());
+                    intent.putExtra("availability", service.getAvailability());
+                    intent.putExtra("visibility", service.getVisibility());
+                    intent.putExtra("specificity", service.getSpecificity());
+                    intent.putExtra("discount", service.getDiscount());
+                    intent.putExtra("duration", service.getDuration());
+                    intent.putExtra("engagement", service.getEngagement());
+                    intent.putExtra("reservationDeadline", service.getReservationDeadline());
+                    intent.putExtra("cancellationDeadline", service.getCancellationDeadline());
+                    intent.putExtra("confirmationMode", service.getConfirmationMode());
+                    intent.putExtra("image", service.getImage());
+                    mContext.startActivity(intent);
+
+                    Toast.makeText(getContext(), "Clicked: " + service.getTitle() +
+                            ", id: " + service.getId().toString(), Toast.LENGTH_SHORT).show();
+                });
+            } else {
+                Log.d("Create Bundle","Bundle");
+            }
+
+
         }
 
         return convertView;

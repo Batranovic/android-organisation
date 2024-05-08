@@ -80,11 +80,11 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        adapter = new ProductListAdapter(getActivity(), products);
+        adapter = new ProductListAdapter(getActivity(), products, null);
 
         if (getArguments() != null) {
             products = getArguments().getParcelableArrayList(ARG_PARAM);
-            adapter = new ProductListAdapter(getActivity(), products);
+            adapter = new ProductListAdapter(getActivity(), products, null);
             setListAdapter(adapter);
         }
 
@@ -105,7 +105,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         super.onViewCreated(view, savedInstanceState);
         //prepareProductList(products);
 
-        adapter = new ProductListAdapter(getActivity(), products);
+        adapter = new ProductListAdapter(getActivity(), products, null);
         // Set adapter for the ListFragment
         setListAdapter(adapter);
 
@@ -281,7 +281,7 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
                 filteredProducts.add(product);
             }
         }
-        adapter = new ProductListAdapter(getContext(), filteredProducts);
+        adapter = new ProductListAdapter(getContext(), filteredProducts, null);
         listView.setAdapter(adapter);
 
         return false;
