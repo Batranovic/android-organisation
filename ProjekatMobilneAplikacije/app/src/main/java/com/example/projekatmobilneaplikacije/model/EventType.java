@@ -49,8 +49,8 @@ public class EventType  implements Parcelable {
         return active;
     }
 
-    public void setIsActive(Boolean active) {
-        active = active;
+    public void setIsActive(Boolean isactive) {
+        active = isactive;
     }
 
     public List<Subcategory> getSubcategories() {

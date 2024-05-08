@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -33,11 +34,14 @@ import com.google.firebase.firestore.QuerySnapshot;
 import org.w3c.dom.Text;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class EditEventTypeActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     private List<String> selectedSubcategories = new ArrayList<>(); // Declare and initialize here
+    private Map<String, Boolean> selectedSubcategoriesMap = new HashMap<>(); // Mapa za praćenje stanja selekcije potkategorija
 
     private TextView eventNameEditText;
     private EditText eventDescriptionEditText;
@@ -60,16 +64,7 @@ public class EditEventTypeActivity extends AppCompatActivity {
         eventNameEditText.setText(eventName);
         eventDescriptionEditText.setText(eventDescription);
 
-        FloatingActionButton selectSubcategoryButton = findViewById(R.id.select_subcategory);
 
-        // Postavite slušača događaja na dugme
-        selectSubcategoryButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Pozovite metod koji otvara Bottom Sheet dijalog
-                fetchSubcategories();
-            }
-        });
         FirebaseFirestore db = FirebaseFirestore.getInstance();
         db.collection("eventTypes")
                 .whereEqualTo("name", eventName)
@@ -194,18 +189,22 @@ public class EditEventTypeActivity extends AppCompatActivity {
                         CheckBox checkBox = new CheckBox(EditEventTypeActivity.this);
                         checkBox.setText(name);
 
-                        // Dodavanje ček-boksa u odgovarajuću sekciju
-                        if ("PRODUCT".equals(type)) {
-                            if (productSubcategoryNames.contains(name)) {
-                                checkBox.setChecked(true);
-                                selectedSubcategories.add(name);
+                        // Postavljanje stanja selekcije potkategorije u mapu
+                        boolean isSelected = (type.equals("PRODUCT") && productSubcategoryNames.contains(name)) ||
+                                (type.equals("SERVICE") && serviceSubcategoryNames.contains(name));
+                        selectedSubcategoriesMap.put(name, isSelected);
+
+                        // Dodavanje slušača događaja za ažuriranje mape prilikom promene stanja ček-boksa
+                        checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                            @Override
+                            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                                selectedSubcategoriesMap.put(name, isChecked);
                             }
+                        });
+
+                        if ("PRODUCT".equals(type)) {
                             productSection.addView(checkBox);
                         } else if ("SERVICE".equals(type)) {
-                            if (serviceSubcategoryNames.contains(name)) {
-                                checkBox.setChecked(true);
-                                selectedSubcategories.add(name);
-                            }
                             serviceSection.addView(checkBox);
                         }
                     }
@@ -216,8 +215,11 @@ public class EditEventTypeActivity extends AppCompatActivity {
     }
 
 
-
-
-
-
 }
+
+
+
+
+
+
+
