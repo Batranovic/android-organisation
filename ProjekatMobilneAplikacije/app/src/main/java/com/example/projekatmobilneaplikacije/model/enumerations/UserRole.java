@@ -1,6 +1,5 @@
 package com.example.projekatmobilneaplikacije.model.enumerations;
 
-public enum Subcategory {
-    PRODUCT, SERVICE
-
+public enum UserRole {
+    EventOrganizer, Admin, Employee, Owner
 }

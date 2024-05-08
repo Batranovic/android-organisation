@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1029355440883",
+    "project_id": "projekat-mobilne-aplikacije",
+    "storage_bucket": "projekat-mobilne-aplikacije.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1029355440883:android:b7cfb4a9f12d5b4f798586",
+        "android_client_info": {
+          "package_name": "com.example.projekatmobilneaplikacije"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAddrT-K0bE2qzF2MkG5Zoa0uRPrxjaAMg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

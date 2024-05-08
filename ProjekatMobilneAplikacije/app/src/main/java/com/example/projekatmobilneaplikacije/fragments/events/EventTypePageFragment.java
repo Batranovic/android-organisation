@@ -1,5 +1,7 @@
 package com.example.projekatmobilneaplikacije.fragments.events;
 
+import static android.content.ContentValues.TAG;
+
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -7,6 +9,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.navigation.fragment.NavHostFragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -21,6 +24,8 @@ import com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.Service
 import com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductPageFragment;
 import com.example.projekatmobilneaplikacije.model.Category;
 import com.example.projekatmobilneaplikacije.model.EventType;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 
@@ -37,7 +42,7 @@ public class EventTypePageFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         binding = FragmentEventTypePageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
-        prepareEventTypeList(eventTypes);
+
 
         Button createEventTypeButton = root.findViewById(R.id.create_event_type);
         createEventTypeButton.setOnClickListener(new View.OnClickListener() {
@@ -48,7 +53,22 @@ public class EventTypePageFragment extends Fragment {
                         .navigate(R.id.action_nav_event_type_page_to_nav_event_type_create);
             }
         });
-
+        FirebaseFirestore db = FirebaseFirestore.getInstance();
+        db.collection("eventTypes")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        eventTypes.clear();
+                        for (QueryDocumentSnapshot document : task.getResult()) {
+                            EventType eventType = document.toObject(EventType.class);
+                            eventTypes.add(eventType);
+                        }
+                        FragmentTransition.to(EventTypeListFragment.newInstance(eventTypes), getActivity(),
+                                false, R.id.scroll_event_type_list);
+                    } else {
+                        Log.d(TAG, "Error getting documents: ", task.getException());
+                    }
+                });
 
 
         FragmentTransition.to(EventTypeListFragment.newInstance(eventTypes), getActivity(),
@@ -70,10 +90,5 @@ public class EventTypePageFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    private void prepareEventTypeList(ArrayList<EventType> eventTypes){
-        eventTypes.add(new EventType(1L, "Privatni događaji", "Bebine zabave (baby showers) i krštenja.", true));
-        eventTypes.add(new EventType(2L, "Kulturni i zabavni događaji", "Festivali (muzički, filmski, umetnički).",true));
-        eventTypes.add(new EventType(3L, "Humanitarni i dobrotvorni događaji", "Kampanje za prikupljanje sredstava.", true));
-        eventTypes.add(new EventType(4L, "Vlada i politički događaji", "Državne ceremonije i proslave.", true));
-    }
+
 }
