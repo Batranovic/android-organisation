@@ -24,6 +24,7 @@ public class CustomBundle implements Parcelable  {
     private String confirmationMode;
     private boolean isDeleted;
 
+    public CustomBundle() { }
 
     public CustomBundle(String id, String title, String description, int price, String discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted) {
         this.id = id;
@@ -234,4 +235,6 @@ public class CustomBundle implements Parcelable  {
             return new CustomBundle[size];
         }
     };
+
+
 }

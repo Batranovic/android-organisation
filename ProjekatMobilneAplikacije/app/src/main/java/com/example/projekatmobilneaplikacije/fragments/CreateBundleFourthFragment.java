@@ -220,7 +220,8 @@ public class CreateBundleFourthFragment extends Fragment {
                 String Available = available != null ? available : "";
                 String Visible = visible != null ? visible : "";
                 String Subcategory = spinner.getSelectedItem() != null ? spinner.getSelectedItem().toString() : "";
-                String Price = priceTextView != null ? priceTextView.getText().toString() : "";
+                String priceText = priceTextView.getText().toString();
+                int Price = Integer.parseInt(priceText);
                 String ReservationDeadline = reservationDeadlineTextView != null ? reservationDeadlineTextView.getText().toString() : "";
                 String CancellationDeadline = cancellationDeadlineTextView != null ? cancellationDeadlineTextView.getText().toString() : "";
                 String ConfirmationMode = methodTextView != null ? methodTextView.getText().toString() : "";

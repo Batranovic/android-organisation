@@ -10,6 +10,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.text.TextUtils;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -84,6 +85,11 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
             bundleTitle.setText(bundle.getTitle());
             bundleCategory.setText(bundle.getCategory());
             bundlePrice.setText(String.valueOf(bundle.getPrice()));
+            if (bundle.getEventTypes() != null) {
+                bundleEventType.setText(TextUtils.join(", ", bundle.getEventTypes()));
+            } else {
+                bundleEventType.setText(""); // Postavite na prazan string ako nema eventTypes
+            }
             bundleCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
                 Log.i("ShopApp", "Clicked: " + bundle.getTitle() + ", id: " +
@@ -95,4 +101,76 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
 
         return convertView;
     }
+
+    public void filterByCategory(String category) {
+        ArrayList<CustomBundle> filteredBundles = new ArrayList<>();
+        for(CustomBundle bundle : aBundles) {
+            if(!bundle.isDeleted() && bundle.getCategory().equalsIgnoreCase(category)) {
+                filteredBundles.add(bundle);
+            }
+        }
+
+        if(filteredBundles.isEmpty()) {
+            Log.d("BundleListAdapter", "No bundles found for category: " + category);
+        } else {
+            Log.d("BundleListAdapter", "Filtered bundles for category " + category + ": " + filteredBundles.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredBundles); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterBySubcategory(String subcategory) {
+        ArrayList<CustomBundle> filteredBundles = new ArrayList<>();
+        for(CustomBundle bundle : aBundles) {
+            if(!bundle.isDeleted() && bundle.getSubcategories().contains(subcategory)) {
+                filteredBundles.add(bundle);
+            }
+        }
+
+        if(filteredBundles.isEmpty()) {
+            Log.d("ProductListAdapter", "No products found for subcategory: " + subcategory);
+        } else {
+            Log.d("ProductListAdapter", "Filtered products for category " + subcategory + ": " + filteredBundles.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredBundles); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+    public void filterByEventType(String eventType) {
+        ArrayList<CustomBundle> filteredBundles = new ArrayList<>();
+        for(CustomBundle bundle : aBundles) {
+            if(!bundle.isDeleted() && bundle.getEventTypes().contains(eventType)) {
+                filteredBundles.add(bundle);
+            }
+        }
+
+        if(filteredBundles.isEmpty()) {
+            Log.d("ServiceListAdapter", "No services found for subcategory: " + eventType);
+        } else {
+            Log.d("ServiceListAdapter", "Filtered services for category " + eventType + ": " + filteredBundles.size());
+        }
+
+        clear(); // Očisti postojeće podatke u adapteru
+        addAll(filteredBundles); // Dodajte filtrirane proizvode u adapter
+        notifyDataSetChanged(); // Obavestite adapter o promenama
+    }
+
+
+    public void filterByPrice(double minPrice, double maxPrice) {
+        ArrayList<CustomBundle> filteredBundles = new ArrayList<>();
+        for(CustomBundle bundle : aBundles) {
+            double price = bundle.getPrice();
+            if(!bundle.isDeleted() && price >= minPrice && price <= maxPrice) {
+                filteredBundles.add(bundle);
+            }
+        }
+        clear();
+        addAll(filteredBundles);
+        notifyDataSetChanged();
+    }
+
 }
