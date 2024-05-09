@@ -23,6 +23,12 @@
             android:name=".activities.EditEventTypeActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.ServiceDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ProductDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SubcategorySuggestionActivity"
             android:exported="false" />
         <activity
