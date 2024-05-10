@@ -38,7 +38,7 @@ public class ServiceAndProductFragment extends Fragment {
 
         radioGroupCategory = rootView.findViewById(R.id.radioGroupCategory);
         radioButtonSubcategory = rootView.findViewById(R.id.sub_category);
-        editTextCatName2 = rootView.findViewById(R.id.cat_name2);
+        editTextCatName2 = rootView.findViewById(R.id.cat_name);
 
         Button buttonCreate = rootView.findViewById(R.id.buttonCreate);
 
@@ -59,7 +59,7 @@ public class ServiceAndProductFragment extends Fragment {
                     rootView.findViewById(R.id.service).setEnabled(false);
                     rootView.findViewById(R.id.product).setEnabled(false);
                     editTextCatName2.setEnabled(false);
-                    rootView.findViewById(R.id.cat_name2).setEnabled(false);
+                    rootView.findViewById(R.id.cat_name).setEnabled(false);
                     setRadioButtonColor(rootView.findViewById(R.id.service), Color.RED); // Postavi boju radiobuttona na crvenu
                     setRadioButtonColor(rootView.findViewById(R.id.product), Color.RED); // Postavi boju radiobuttona na crvenu
                 } else {

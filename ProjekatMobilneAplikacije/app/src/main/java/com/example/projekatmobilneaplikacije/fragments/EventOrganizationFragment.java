@@ -22,9 +22,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.CompoundButton;
 import android.widget.DatePicker;
 
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.PopupWindow;
 
 
@@ -41,14 +44,22 @@ import com.example.projekatmobilneaplikacije.activities.budget.BudgetActivity;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateEventBinding;
 import com.example.projekatmobilneaplikacije.fragments.budget.BudgetFragment;
 import com.example.projekatmobilneaplikacije.model.CreateEvent;
+import com.example.projekatmobilneaplikacije.model.Subcategory;
+import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class EventOrganizationFragment extends Fragment {
@@ -59,6 +70,7 @@ public class EventOrganizationFragment extends Fragment {
 
     private TextView eventDateField;
     private DatePickerDialog.OnDateSetListener dateSetListener;
+    private List<Subcategory> selectedSubcategories = new ArrayList<>();
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -106,6 +118,16 @@ public class EventOrganizationFragment extends Fragment {
         EditText createDistance = root.findViewById(R.id.event_km_field);
         EditText createParticipants = root.findViewById(R.id.event_guest_number_field);
 
+        Button selectSubcategory = root.findViewById(R.id.pick_subcat);
+        selectSubcategory.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("ShopApp", "Bottom Sheet Dialog");
+
+                // Dobavljanje liste imena subkategorija iz baze podataka
+                fetchSubcategories();
+            }
+        });
 
 
 
@@ -121,6 +143,7 @@ public class EventOrganizationFragment extends Fragment {
                         .setPositiveButton("YES", new DialogInterface.OnClickListener() {
 
                             public void onClick(DialogInterface dialog, int id) {
+                                saveCreateEventDataToFirestore(createName,createDescription, createLocation, createDistance,createParticipants);
 
                                 Intent intent = new Intent(requireActivity(), BudgetActivity.class);
                                 startActivity(intent);
@@ -181,6 +204,7 @@ private void saveCreateEventDataToFirestore(EditText createName, EditText create
     String selectedSpinnerValue = spinner.getSelectedItem().toString();
     String selectedDate = eventDateField.getText().toString();
 
+
     // Sada možete dodati ovu vrijednost u CreateEvent objekt
 
     CreateEvent createEvent = new CreateEvent();
@@ -192,6 +216,7 @@ private void saveCreateEventDataToFirestore(EditText createName, EditText create
     createEvent.setParticipants(maxParticipants);
     createEvent.setDate(selectedDate);
     createEvent.setPrivate(true);
+    createEvent.setSubcategories(selectedSubcategories);
 
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
@@ -210,14 +235,7 @@ private void saveCreateEventDataToFirestore(EditText createName, EditText create
                 }
             });
 
-
-
-
-
 }
-
-
-
     private void showDatePickerDialog() {
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);
@@ -233,4 +251,130 @@ private void saveCreateEventDataToFirestore(EditText createName, EditText create
         );
         datePickerDialog.show();
     }
-}
+
+    private void fetchSubcategories() {
+        db.collection("subcategories")
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        // Ovdje rukujte s uspjehom
+                        List<String> serviceSubcategoryNames = new ArrayList<>();
+                        List<String> productSubcategoryNames = new ArrayList<>();
+
+                        for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                            String id = document.getId(); // Dohvati ID dokumenta
+                            String name = document.getString("name");
+                            String type = document.getString("subcategoryType");
+
+                            if ("SERVICE".equals(type)) {
+                                serviceSubcategoryNames.add(name);
+                            } else if ("PRODUCT".equals(type)) {
+                                productSubcategoryNames.add(name);
+                            }
+                        }
+
+                        showSubcategoryNamesInBottomSheet(serviceSubcategoryNames, productSubcategoryNames);
+
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        // Ovdje rukujte s greškom ako se dogodi
+                        Log.d("Firestore", "Error getting documents: ", e);
+                    }
+                });
+    }
+
+    private void showSubcategoryNamesInBottomSheet(List<String> serviceSubcategoryNames, List<String> productSubcategoryNames) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(getActivity(), R.style.FullScreenBottomSheetDialog);
+        View dialogView = getLayoutInflater().inflate(R.layout.service_and_product_sheet, null);
+        bottomSheetDialog.setContentView(dialogView);
+
+        LinearLayout serviceSection = dialogView.findViewById(R.id.service_section);
+        LinearLayout productSection = dialogView.findViewById(R.id.product_section);
+
+        TextView serviceLabel = new TextView(getContext());
+        serviceLabel.setText("Services");
+        serviceSection.addView(serviceLabel);
+
+        for (String name : serviceSubcategoryNames) {
+            CheckBox checkBox = new CheckBox(getContext());
+            checkBox.setText(name);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        fetchSubcategoryByName(name, SubcategoryType.SERVICE);
+                    } else {
+                        // Uklonite odabranu subkategoriju iz liste
+                        removeSubcategoryByName(name);
+                    }
+                }
+            });
+            serviceSection.addView(checkBox);
+        }
+
+        TextView productLabel = new TextView(getContext());
+        productLabel.setText("Products");
+        productSection.addView(productLabel);
+
+        for (String name : productSubcategoryNames) {
+            CheckBox checkBox = new CheckBox(getContext());
+            checkBox.setText(name);
+            checkBox.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+                @Override
+                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                    if (isChecked) {
+                        fetchSubcategoryByName(name, SubcategoryType.PRODUCT);
+                    } else {
+                        // Uklonite odabranu subkategoriju iz liste
+                        removeSubcategoryByName(name);
+                    }
+                }
+            });
+            productSection.addView(checkBox);
+        }
+
+        bottomSheetDialog.show();
+    }
+
+    private void fetchSubcategoryByName(String name, SubcategoryType type) {
+        db.collection("subcategories")
+                .whereEqualTo("name", name)
+                .whereEqualTo("subcategoryType", type)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                Subcategory subcategory = document.toObject(Subcategory.class);
+                                selectedSubcategories.add(subcategory);
+                            }
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.d("Firestore", "Error getting documents: ", e);
+                    }
+                });
+    }
+    private void removeSubcategoryByName(String name) {
+        for (Subcategory subcategory : selectedSubcategories) {
+            if (subcategory.getName().equals(name)) {
+                selectedSubcategories.remove(subcategory);
+                break; // Prekidamo petlju kada nađemo i uklonimo odabranu podkategoriju
+            }
+        }
+
+
+    }
+
+    }
+
+
+

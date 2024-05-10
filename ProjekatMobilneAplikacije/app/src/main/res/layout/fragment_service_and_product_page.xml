@@ -48,6 +48,29 @@
 
 
         </LinearLayout>
+        <RadioGroup
+            android:id="@+id/radioGroupType"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="15dp"
+            android:layout_marginStart="32dp"
+            android:checkedButton="@id/categoryFilter"
+            android:onClick="onRadioButtonClicked">
+            <RadioButton
+                android:id="@+id/categoryFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Category" />
+
+            <RadioButton
+                android:id="@+id/subcategoryFilter"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:text="Subcategory" />
+        </RadioGroup>
+
 
         <RelativeLayout
             android:layout_width="match_parent"

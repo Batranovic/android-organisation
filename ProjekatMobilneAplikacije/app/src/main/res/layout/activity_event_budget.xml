@@ -22,7 +22,6 @@
         android:textStyle="bold" />
 
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -34,25 +33,27 @@
             android:id="@+id/event_category_suggestion"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="1dp"
             android:text="@string/suggestion_cat"
             android:textSize="20sp"
             android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/event_category_suggestion_desc"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="15dp"
-            android:text="@string/suggestion_desc"
-            android:textSize="15sp" />
+            <LinearLayout
+                android:id="@+id/list_subcat"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                >
+                <include
+                    layout="@layout/list_subcategorys_forevent"
+                    android:layout_width="match_parent"
+                    android:layout_height="300dp"
+                    android:layout_marginBottom="5dp"/>
 
-        <RelativeLayout
-            android:id="@+id/scroll_categories_list"
-            android:layout_width="match_parent"
-            android:layout_height="138dp"
-            android:layout_margin="10dp" />
+            </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -79,23 +80,6 @@
 
         </LinearLayout>
 
-
-        <RelativeLayout
-            android:id="@+id/scroll_budget_items_list"
-            android:layout_width="match_parent"
-            android:layout_height="183dp"
-            android:layout_margin="10dp" />
-
-        <TextView
-            android:id="@+id/total_price_planned"
-            android:layout_width="match_parent"
-            android:layout_height="52dp"
-            android:layout_gravity="end"
-            android:layout_marginStart="15dp"
-            android:layout_marginTop="5dp"
-            android:text="                 Total price: 1200e"
-            android:textSize="20sp"
-            android:textStyle="bold" />
 
         <Button
             android:id="@+id/button2"

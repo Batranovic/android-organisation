@@ -143,9 +143,11 @@
     <string name="category_suggestion">"Category suggestion"</string>
     <string name="category_suggestion_desc">"Suggestion Description"</string>
     <string name="budget_plan">"Budget plan"</string>
-    <string name="suggestion_cat">"All suggested event categories"</string>
+    <string name="suggestion_cat">"All suggested event subcategories"</string>
     <string name="suggestion_desc">"Suggested categories description"</string>
     <string name="planned_budget_items">"Planned budget items"</string>
+    <string name="pick_subcat">"Pick subcategory"</string>
+    <string name="add_sub">"Add"</string>
     <string-array name="spinner_items_event">
         <item>Privatni događaji</item>
         <item>Korporativni događaji</item>

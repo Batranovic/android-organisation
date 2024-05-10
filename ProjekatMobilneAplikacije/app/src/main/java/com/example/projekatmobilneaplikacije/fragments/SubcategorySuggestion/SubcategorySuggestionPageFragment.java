@@ -14,7 +14,8 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentSubcategorySuggestionPageBinding;
 import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
 import com.example.projekatmobilneaplikacije.model.SubcategorySuggestion;
-import com.example.projekatmobilneaplikacije.model.enumerations.Subcategory;
+
+import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
 
 import java.util.ArrayList;
 
@@ -53,9 +54,6 @@ public class SubcategorySuggestionPageFragment extends Fragment {
         binding = null;
     }
     private void prepareSubcategorySuggestionList(ArrayList<SubcategorySuggestion> subcategorySuggestions){
-        subcategorySuggestions.add(new SubcategorySuggestion(1L, "Smestaj", Subcategory.PRODUCT ));
-        subcategorySuggestions.add(new SubcategorySuggestion(2L, "Foto i video", Subcategory.SERVICE));
-        subcategorySuggestions.add(new SubcategorySuggestion(3L, "Fotografije i Albumi", Subcategory.PRODUCT));
-        subcategorySuggestions.add(new SubcategorySuggestion(4L, "Nega i lepota",Subcategory.SERVICE ));
+
     }
 }

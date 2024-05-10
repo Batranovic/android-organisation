@@ -29,11 +29,6 @@ public class BudgetFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.activity_event_budget, container, false);
-        return view;
-    }
-
-    @Override
-    public void onViewCreated(@NonNull View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
         Button createButton = view.findViewById(R.id.btnAddNewItem);
@@ -44,8 +39,9 @@ public class BudgetFragment extends Fragment {
 
             }
         });
+        return view;
+    }
 
 
     }
 
-}

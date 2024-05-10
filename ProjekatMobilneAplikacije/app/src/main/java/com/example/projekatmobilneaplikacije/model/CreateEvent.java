@@ -3,6 +3,10 @@ package com.example.projekatmobilneaplikacije.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+
+import java.util.List;
+
 public class CreateEvent implements Parcelable {
     private Long id;
     private String eventType;
@@ -12,8 +16,9 @@ public class CreateEvent implements Parcelable {
     private String location;
     private String date;
     private boolean isPrivate;
+    private List<Subcategory> subcategories;
 
-    public CreateEvent(Long id, String eventType, String name, String description, int participants, String location, String date, boolean isPrivate) {
+    public CreateEvent(Long id, String eventType, String name, String description, int participants, String location, String date, boolean isPrivate,List<Subcategory> subcategories) {
         this.id = id;
         this.eventType = eventType;
         this.name = name;
@@ -22,6 +27,7 @@ public class CreateEvent implements Parcelable {
         this.location = location;
         this.date = date;
         this.isPrivate = isPrivate;
+        this.subcategories = subcategories;
     }
 
     public CreateEvent() {}
@@ -100,6 +106,15 @@ public class CreateEvent implements Parcelable {
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
+    public List<Subcategory> getSubcategories() {
+        return subcategories;
+    }
+
+
+    public void setSubcategories(List<Subcategory> subcategories) {
+        this.subcategories = subcategories;
+    }
+
 
     @Override
     public String toString() {
@@ -141,5 +156,7 @@ public class CreateEvent implements Parcelable {
         public CreateEvent[] newArray(int size) {
             return new CreateEvent[size];
         }
+
+
     };
 }

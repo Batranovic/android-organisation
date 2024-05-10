@@ -58,10 +58,7 @@ public class SubcategorySuggestionListAdapter extends ArrayAdapter<SubcategorySu
             subcategorySuggestionType.setText(subcategorySuggestion.getSubcategory().toString()); // Ako postoji metoda getType() koja vraća String
             subcategorySuggestionCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
-                Log.i("ShopApp", "Clicked: " + subcategorySuggestion.getName() + ", id: " +
-                        subcategorySuggestion.getId().toString());
-                Toast.makeText(getContext(), "Clicked: " + subcategorySuggestion.getName()  +
-                        ", id: " + subcategorySuggestion.getId().toString(), Toast.LENGTH_SHORT).show();
+
             });
         }
 
@@ -69,3 +66,4 @@ public class SubcategorySuggestionListAdapter extends ArrayAdapter<SubcategorySu
     }
 
 }
+

@@ -26,14 +26,16 @@ public class ServiceAndProductListFragment extends ListFragment {
     private FragmentServiceAndProductListBinding binding;
     private ServiceAndProductListAdapter adapter;
     private static final String ARG_PARAM = "param";
-    private ArrayList<Category> mCategories;
-    public static ServiceAndProductListFragment newInstance(ArrayList<Category> categories){
+    private ArrayList<Object> mData; // Promenjen tip liste
+
+    public static <T> ServiceAndProductListFragment newInstance(ArrayList<T> data) {
         ServiceAndProductListFragment fragment = new ServiceAndProductListFragment();
         Bundle args = new Bundle();
-        args.putParcelableArrayList(ARG_PARAM, categories);
+        args.putSerializable(ARG_PARAM, data);
         fragment.setArguments(args);
         return fragment;
     }
+
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container,
@@ -48,8 +50,8 @@ public class ServiceAndProductListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mCategories = getArguments().getParcelableArrayList(ARG_PARAM);
-            adapter = new ServiceAndProductListAdapter(getActivity(), mCategories);
+            mData = (ArrayList<Object>) getArguments().getSerializable(ARG_PARAM); // Promenjeno preuzimanje podataka
+            adapter = new ServiceAndProductListAdapter(getActivity(), mData); // Promenjen konstruktor adaptera
             setListAdapter(adapter);
         }
 
@@ -61,4 +63,5 @@ public class ServiceAndProductListFragment extends ListFragment {
         binding = null;
     }
 }
+
 
