@@ -12,7 +12,7 @@ public class CustomBundle implements Parcelable  {
     private String title;
     private String description;
     private int price;
-    private String discount;
+    private int discount;
     private List<String> images;
     private String visibility;
     private String availability;
@@ -26,7 +26,7 @@ public class CustomBundle implements Parcelable  {
 
     public CustomBundle() { }
 
-    public CustomBundle(String id, String title, String description, int price, String discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted) {
+    public CustomBundle(String id, String title, String description, int price, int discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -69,7 +69,9 @@ public class CustomBundle implements Parcelable  {
     }
 
 
-
+    public int getPriceWithDiscount() {
+        return price - (price * discount / 100);
+    }
 
     public List<String> getImages() {
         return images;
@@ -118,11 +120,11 @@ public class CustomBundle implements Parcelable  {
         this.price = price;
     }
 
-    public String getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -197,7 +199,7 @@ public class CustomBundle implements Parcelable  {
         title = in.readString();
         description = in.readString();
         price = in.readInt();
-        discount = in.readString();
+        discount = in.readInt();
         images = in.createStringArrayList();
         visibility = in.readString();
         availability = in.readString();
@@ -217,11 +219,23 @@ public class CustomBundle implements Parcelable  {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
+        // Pisanje atributa u Parcel objekat
         dest.writeString(id);
         dest.writeString(title);
-        dest.writeString(category);
+        dest.writeString(description);
         dest.writeInt(price);
+        dest.writeInt(discount);
+        dest.writeStringList(images);
+        dest.writeString(visibility);
+        dest.writeString(availability);
+        dest.writeString(category);
+        dest.writeStringList(subcategories);
+        dest.writeStringList(eventTypes);
+        dest.writeString(reservationDeadline);
+        dest.writeString(cancellationDeadline);
+        dest.writeString(confirmationMode);
+        dest.writeByte((byte) (isDeleted ? 1 : 0));
     }
 
     public static final Creator<CustomBundle> CREATOR = new Creator<CustomBundle>() {

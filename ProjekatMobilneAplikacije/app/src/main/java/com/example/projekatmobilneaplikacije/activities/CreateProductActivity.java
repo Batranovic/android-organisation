@@ -182,11 +182,32 @@ public class CreateProductActivity extends AppCompatActivity {
         SeekBar priceSeekBar = findViewById(R.id.priceSeekBar);
         TextView priceText = findViewById(R.id.textViewPrice);
 
+        SeekBar discountSeekBar = findViewById(R.id.discountSeekBar);
+        TextView discountText = findViewById(R.id.textViewDiscount);
+
         priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 priceText.setVisibility(View.VISIBLE);
                 priceText.setText(progress+"/100");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        discountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                discountText.setVisibility(View.VISIBLE);
+                discountText.setText(progress+"/100");
             }
 
             @Override
@@ -217,6 +238,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 String Category = spinner.getSelectedItem().toString();
                 String Subcategory = spinnerSubcategory.getSelectedItem().toString();
                 int Price = priceSeekBar.getProgress();
+                int Discount = discountSeekBar.getProgress();
 
 
                 // Enkodiranje slike u Base64 format
@@ -302,6 +324,7 @@ public class CreateProductActivity extends AppCompatActivity {
                 product.put("category", Category);
                 product.put("subcategory", Subcategory);
                 product.put("price", Price);
+                product.put("discount", Discount);
                 product.put("availability", Available);
                 product.put("visibility", Visible);
                 product.put("eventType", EventType);

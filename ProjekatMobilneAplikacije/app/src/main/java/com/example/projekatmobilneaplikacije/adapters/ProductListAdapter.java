@@ -28,6 +28,7 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
@@ -97,54 +98,73 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Product product = getItem(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_card,
-                    parent, false);
-        }
+        if (mContext instanceof PriceListActivity) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
+            }
 
-        LinearLayout productCard = convertView.findViewById(R.id.product_card_item);
-        ImageView imageView = convertView.findViewById(R.id.product_image);
-        TextView productTitle = convertView.findViewById(R.id.product_title);
-        TextView productEventType = convertView.findViewById(R.id.product_event_type);
-        TextView productCategory = convertView.findViewById(R.id.product_category);
-        TextView productSubcategory = convertView.findViewById(R.id.product_subcategory);
-        TextView productPrice = convertView.findViewById(R.id.product_price);
+            TextView title = convertView.findViewById(R.id.title);
+            TextView price = convertView.findViewById(R.id.price);
+            TextView discount = convertView.findViewById(R.id.discount);
+            TextView discountPrice = convertView.findViewById(R.id.discountPrice);
 
-        loadImageFromBase64String(product.getImage(), imageView);
+            if (product != null) {
+                title.setText(product.getTitle());
+                price.setText(String.valueOf(product.getPrice()));
+                discount.setText(String.valueOf(product.getDiscount()));
+                discountPrice.setText(String.valueOf(product.getPriceWithDiscount()));
+            }
+        } else {
+
+            if(convertView == null){
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_card,
+                        parent, false);
+            }
+
+            LinearLayout productCard = convertView.findViewById(R.id.product_card_item);
+            ImageView imageView = convertView.findViewById(R.id.product_image);
+            TextView productTitle = convertView.findViewById(R.id.product_title);
+            TextView productEventType = convertView.findViewById(R.id.product_event_type);
+            TextView productCategory = convertView.findViewById(R.id.product_category);
+            TextView productSubcategory = convertView.findViewById(R.id.product_subcategory);
+            TextView productPrice = convertView.findViewById(R.id.product_price);
+
+            loadImageFromBase64String(product.getImage(), imageView);
 
 
-        if(product != null) {
-            //image??
-            productTitle.setText(product.getTitle());
-            productEventType.setText(product.getEventType());
-            productSubcategory.setText(product.getCategory());
-            productCategory.setText(product.getSubcategory());
-            productPrice.setText(String.valueOf(product.getPrice()));
-            if (mCreateBundleThirdFragment == null) {
-                productCard.setOnClickListener(v -> {
-                    // Handle click on the item at 'position'
-                    Log.i("MobileApp", "Clicked: " + product.getTitle());
+            if(product != null) {
 
-                    // Handle click event
-                    // Start ProductDetailActivity with detailed information about the clicked product
+                productTitle.setText(product.getTitle());
+                productEventType.setText(product.getEventType());
+                productSubcategory.setText(product.getCategory());
+                productCategory.setText(product.getSubcategory());
+                productPrice.setText(String.valueOf(product.getPrice()));
+                if (mCreateBundleThirdFragment == null) {
+                    productCard.setOnClickListener(v -> {
+                        // Handle click on the item at 'position'
+                        Log.i("MobileApp", "Clicked: " + product.getTitle());
 
-                    Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-                    intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
-                    intent.putExtra("title", product.getTitle());
-                    intent.putExtra("description", product.getDescription());
-                    intent.putExtra("subcategory", product.getSubcategory());
-                    intent.putExtra("eventType", product.getEventType());
-                    intent.putExtra("price", product.getPrice());
-                    intent.putExtra("availability", product.getAvailability());
-                    intent.putExtra("visibility", product.getVisibility());
-                    intent.putExtra("image", product.getImage());
-                    getContext().startActivity(intent);
+                        // Handle click event
+                        // Start ProductDetailActivity with detailed information about the clicked product
 
-                    Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
-                });
+                        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+                        intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
+                        intent.putExtra("title", product.getTitle());
+                        intent.putExtra("description", product.getDescription());
+                        intent.putExtra("subcategory", product.getSubcategory());
+                        intent.putExtra("eventType", product.getEventType());
+                        intent.putExtra("price", product.getPrice());
+                        intent.putExtra("availability", product.getAvailability());
+                        intent.putExtra("visibility", product.getVisibility());
+                        intent.putExtra("image", product.getImage());
+                        getContext().startActivity(intent);
 
-            } else {
-                Log.d("Create Bundle", "Bundle");
+                        Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                    });
+
+                } else {
+                    Log.d("Create Bundle", "Bundle");
+                }
             }
 
         }

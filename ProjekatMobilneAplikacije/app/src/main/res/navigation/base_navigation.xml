@@ -203,11 +203,11 @@
         app:popUpToInclusive="true"
         />
 
-    <fragment
-        android:id="@+id/nav_notifications"
-        android:name="com.example.projekatmobilneaplikacije.fragments.NotificationsFragment"
-        android:label="Notifications"
-        tools:layout="@layout/fragment_notifications"
+    <activity
+        android:id="@+id/nav_price_list"
+        android:name="com.example.projekatmobilneaplikacije.activities.PriceListActivity"
+        android:label="Price list"
+        tools:layout="@layout/activity_price_list"
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
