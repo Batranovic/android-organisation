@@ -40,8 +40,7 @@
             android:layout_width="match_parent"
             android:layout_height="49dp"
             android:layout_marginLeft="145dp"
-            android:textSize="25dp"
-            android:text="@string/employee_common_name" />
+            android:textSize="25dp"/>
 
 
     </LinearLayout>
@@ -50,22 +49,19 @@
         android:id="@+id/em_email"
         android:layout_width="match_parent"
         android:layout_height="76dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/employee_email" />
+        android:gravity="center_horizontal|center_vertical" />
 
     <TextView
         android:id="@+id/em_phone_number"
         android:layout_width="match_parent"
         android:layout_height="79dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/em_phone_number" />
+        android:gravity="center_horizontal|center_vertical" />
 
     <TextView
         android:id="@+id/em_address"
         android:layout_width="match_parent"
         android:layout_height="74dp"
-        android:gravity="center_horizontal|center_vertical"
-        android:text="@string/em_address" />
+        android:gravity="center_horizontal|center_vertical" />
 
     <LinearLayout
         android:layout_width="match_parent"

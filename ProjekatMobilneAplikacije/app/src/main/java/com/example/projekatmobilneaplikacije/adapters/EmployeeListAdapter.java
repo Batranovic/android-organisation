@@ -2,6 +2,9 @@ package com.example.projekatmobilneaplikacije.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.util.Base64;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -18,16 +21,21 @@ import androidx.annotation.Nullable;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfileActivity;
 import com.example.projekatmobilneaplikacije.model.Employee;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
 public class EmployeeListAdapter extends ArrayAdapter<Employee> {
     private ArrayList<Employee> aEmployees;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private Context mContext;
+
     public EmployeeListAdapter(Context context, ArrayList<Employee> employees){
         super(context, R.layout.employee_card, employees);
         aEmployees = employees;
-
+        mContext = context;
     }
 
     @Override
@@ -77,16 +85,18 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
         TextView employeeCommonName = convertView.findViewById(R.id.employee_common_name);
         TextView employeeEmail = convertView.findViewById(R.id.employee_email);
 
+        loadImageFromBase64String(employee.getImage(), imageView);
+
         if(employee != null){
-            imageView.setImageResource(employee.getImage());
+           // imageView.setImageResource(employee.getImage());
             employeeCommonName.setText(employee.getCommonName());
             employeeEmail.setText(employee.getEmail());
             employeeCard.setOnClickListener(v -> {
                 // Handle click on the item at 'position'
                 Log.i("App", "Clicked: " + employee.getCommonName() + ", id: " +
-                        employee.getId().toString());
-                Toast.makeText(getContext(), "Clicked: " + employee.getCommonName()  +
-                        ", id: " + employee.getId().toString(), Toast.LENGTH_SHORT).show();
+                        employee.getId());
+                Toast.makeText(getContext(), "Clicked: " + employee.getCommonName() +
+                        ", id: " + employee.getId(), Toast.LENGTH_SHORT).show();
             });
         }
 
@@ -97,11 +107,34 @@ public class EmployeeListAdapter extends ArrayAdapter<Employee> {
                 // Handle click event
                 Intent intent = new Intent(v.getContext(), EmployeeProfileActivity.class);
                 intent.putExtra("id", employee.getId());
+                intent.putExtra("name", employee.getName());
+                intent.putExtra("surname", employee.getSurname());
+                intent.putExtra("commonName", employee.getCommonName());
+                intent.putExtra("address", employee.getAddress());
+                intent.putExtra("phoneNumber", employee.getPhoneNumber());
+                intent.putExtra("image", employee.getImage());
                 v.getContext().startActivity(intent);
             }
         });
 
         return convertView;
+    }
+
+    private void loadImageFromBase64String(String base64Image, ImageView imageView) {
+        if (base64Image != null && !base64Image.isEmpty()) {
+            // Dekodirajte Base64 string u byte[]
+            byte[] decodedString = Base64.decode(base64Image, Base64.DEFAULT);
+
+            // Pretvorite byte[] u bitmapu
+            Bitmap decodedBitmap = BitmapFactory.decodeByteArray(decodedString, 0, decodedString.length);
+
+            // Postavite bitmapu na ImageView
+            imageView.setImageBitmap(decodedBitmap);
+        } else {
+            // Ako je base64Image null ili prazan, možete postaviti neku podrazumevanu sliku ili poruku
+            // Na primer, postaviti ikonicu "slike nije dostupna"
+            imageView.setImageResource(R.drawable.add_photo);
+        }
     }
 
 }

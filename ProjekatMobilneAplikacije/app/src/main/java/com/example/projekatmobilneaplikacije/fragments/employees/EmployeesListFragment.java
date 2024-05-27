@@ -20,6 +20,12 @@ import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfil
 import com.example.projekatmobilneaplikacije.adapters.EmployeeListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeesListBinding;
 import com.example.projekatmobilneaplikacije.model.Employee;
+import com.example.projekatmobilneaplikacije.model.Product;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
 
@@ -30,6 +36,9 @@ public class EmployeesListFragment extends ListFragment {
     private static final String ARG_PARAM = "param";
     private ArrayList<Employee> mEmployees;
     private FragmentEmployeesListBinding binding;
+
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    CollectionReference employeesRef = db.collection("employees");
 
     public EmployeesListFragment() {
     }
@@ -61,6 +70,29 @@ public class EmployeesListFragment extends ListFragment {
         View root = binding.getRoot();
 
         ListView listView = binding.list;
+
+        employeesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                mEmployees.clear();
+
+                // Check if there are any documents in the collection
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    // Iterate through each document in the collection
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        // Convert each document to a Product object
+                        Employee employee = documentSnapshot.toObject(Employee.class);
+
+                        mEmployees.add(employee);
+                    }
+                    // After retrieving all products, update your adapter
+                    adapter.notifyDataSetChanged();
+                } else {
+                }
+            }
+        });
+
+        listView.setAdapter(adapter);
 
 
         return root;
