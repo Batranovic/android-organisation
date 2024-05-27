@@ -86,12 +86,7 @@ public class RegistrationFragment extends Fragment {
         binding.registerPUP.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment registerFragment = new RegisterFragment();
-
-                getParentFragmentManager().beginTransaction()
-                        .replace(R.id.fragment_registration_container, registerFragment)
-                        .addToBackStack(null)
-                        .commit();
+                registerUser();
             }
         });
 
@@ -160,6 +155,47 @@ public class RegistrationFragment extends Fragment {
 
         return root;
     }
+
+    private void registerUser() {
+        String email = username.getText().toString().trim();
+        String password = password_reg.getText().toString().trim();
+        String password2 = password_check.getText().toString().trim();
+        String namet = name.getText().toString().trim();
+        String surnamet = surname.getText().toString().trim();
+        String addresst = address.getText().toString().trim();
+        String phonet = phone.getText().toString().trim();
+
+        // Perform validation and actions with the gathered information
+        if (TextUtils.isEmpty(email) || TextUtils.isEmpty(password) || TextUtils.isEmpty(password2)) {
+            Toast.makeText(requireContext(), "Enter email and password", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        if (!password.equals(password2)) {
+            Toast.makeText(requireContext(), "Passwords do not match", Toast.LENGTH_SHORT).show();
+            return;
+        }
+
+        // Create a Bundle to pass data to the new fragment
+        Bundle bundle = new Bundle();
+        bundle.putString("email", email);
+        bundle.putString("password", password);
+        bundle.putString("name", namet);
+        bundle.putString("surname", surnamet);
+        bundle.putString("address", addresst);
+        bundle.putString("phone", phonet);
+
+        // Create the new fragment instance and set arguments
+        Fragment registerFragment = new RegisterFragment();
+        registerFragment.setArguments(bundle);
+
+        // Transition to the new fragment
+        getParentFragmentManager().beginTransaction()
+                .replace(R.id.fragment_registration_container, registerFragment)
+                .addToBackStack(null)
+                .commit();
+    }
+
     private void sendActivationEmail(FirebaseUser user) {
         user.sendEmailVerification()
                 .addOnCompleteListener(new OnCompleteListener<Void>() {

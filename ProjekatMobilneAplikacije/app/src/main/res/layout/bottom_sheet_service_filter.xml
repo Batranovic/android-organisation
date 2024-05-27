@@ -31,6 +31,46 @@
             android:background="@color/black"
             android:layout_margin="2dp"
             />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_margin="2dp">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Price"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+
+                <EditText
+                    android:id="@+id/minPrice"
+                    android:layout_width="200px"
+                    android:layout_height="120px"
+                    android:layout_marginRight="30px"
+                    android:hint="min"/>
+                <EditText
+                    android:id="@+id/maxPrice"
+                    android:layout_width="200px"
+                    android:layout_height="wrap_content"
+                    android:hint="max"/>
+
+                <Button
+                    android:id="@+id/applyFilterButton"
+                    android:layout_width="250px"
+                    android:layout_height="wrap_content"
+                    android:hint="apply"/>
+
+            </LinearLayout>
+
+        </LinearLayout>
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -41,6 +81,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/category"/>
             <RadioGroup
+                android:id="@+id/categoryRadioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
@@ -98,6 +139,7 @@
                 android:layout_height="wrap_content"
                 android:text="Subcategory"/>
             <RadioGroup
+                android:id="@+id/subcategoryRadioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
@@ -174,6 +216,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/eventType"/>
             <RadioGroup
+                android:id="@+id/eventTypeRadioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
@@ -208,11 +251,6 @@
 
             </RadioGroup>
 
-            <EditText
-                android:id="@+id/editTextPrice"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="@string/enter_price"/>
 
             <View
                 android:layout_width="match_parent"
@@ -225,16 +263,17 @@
                 android:layout_height="wrap_content"
                 android:text="@string/availability"/>
             <RadioGroup
+                android:id="@+id/availabilityRadioGroup"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/available"/>
+                    android:text="Yes"/>
                 <RadioButton
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="@string/not_available"/>
+                    android:text="No"/>
             </RadioGroup>
 
             <EditText

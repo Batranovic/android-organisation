@@ -8,7 +8,6 @@ public class UserDetails {
     private String surname;
     private String home_address;
     private String phone;
-
     private UserRole role;
     public String getUsername() {
         return username;

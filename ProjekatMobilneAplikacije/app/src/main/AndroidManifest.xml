@@ -17,6 +17,18 @@
         android:theme="@style/Theme.ProjekatMobilneAplikacije"
         tools:targetApi="31">
         <activity
+            android:name=".fragments.registration.TimePickerDialogActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.EditEventTypeActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ServiceDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.ProductDetailActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.SubcategorySuggestionActivity"
             android:exported="false" />
         <activity

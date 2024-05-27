@@ -22,10 +22,10 @@
     <string name="category3">Music and entertainment</string>
     <string name="category4">Photo and video</string>
     <string name="category5">Decoration and lightning</string>
-    <string name="category6">Category</string>
-    <string name="category7">Beauty</string>
-    <string name="category8">Category</string>
-    <string name="category9">Invitations</string>
+    <string name="category6">Clothing and styling</string>
+    <string name="category7">Care and beauty</string>
+    <string name="category8">Planning and coordination</string>
+    <string name="category9">Invitations and stationery</string>
     <string name="category10">Logistics and security</string>
     <string name="eventType">Event type</string>
     <string name="wedding">Weddings</string>

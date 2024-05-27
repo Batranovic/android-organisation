@@ -21,7 +21,7 @@ import com.example.projekatmobilneaplikacije.fragments.CreateServiceFirstFragmen
 import com.example.projekatmobilneaplikacije.fragments.CreateServiceSecondFragment;
 import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
 
-public class CreateServiceActivity extends AppCompatActivity {
+public class CreateServiceActivity extends AppCompatActivity implements CreateServiceSecondFragment.OnServiceCreatedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,7 +36,12 @@ public class CreateServiceActivity extends AppCompatActivity {
 
         FragmentTransition.to(CreateServiceFirstFragment.newInstance("Fragment 1", "Ovo je fragment 1"), CreateServiceActivity.this, false, R.id.create_service_container);
 
+    }
 
+    @Override
+    public void onServiceCreated() {
+        // Handle the event when the service is created
+        finish(); // Finish the activity
     }
 
 

@@ -20,13 +20,32 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="40dp">
 
-        <ImageButton
-            android:id="@+id/imageButton3"
-            android:layout_width="100dp"
-            android:layout_height="90dp"
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="0dp"
+        android:layout_marginRight="5dp"
+        android:layout_marginLeft="5dp">
+
+        <ImageView
+            android:id="@+id/imgGallery"
+            android:layout_width="150dp"
+            android:layout_height="150dp"
             android:layout_gravity="center"
+            android:layout_marginBottom="10dp"/>
+
+        <ImageButton
+            android:id="@+id/btnGallery"
+            android:layout_width="50dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:text="Open Gallery"
             android:background="@drawable/border_background"
             android:src="@drawable/add_photo_product" />
+
+    </LinearLayout>
+
 
 
         <!--<TextView
@@ -65,7 +84,9 @@
                 android:text="@string/category"
                 android:tooltipText="@string/category"
                 android:contentDescription="@string/category"
+                android:spinnerMode="dropdown"
                 />
+
 
         </LinearLayout>
 
@@ -92,6 +113,7 @@
                 android:text="@string/subcategory"
                 android:tooltipText="@string/subcategory"
                 android:contentDescription="@string/subcategory"
+                android:spinnerMode="dropdown"
                 />
 
             <ImageButton
@@ -115,12 +137,12 @@
                 android:layout_width="100dp"
                 android:layout_height="30dp"
                 android:layout_margin="5dp"
-                android:text="@string/title"
+                android:text="Title"
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
             <EditText
-                android:id="@+id/editTitle"
+                android:id="@+id/title"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -169,14 +191,32 @@
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
-            <EditText
-                android:id="@+id/editPrice"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="0.3"
-                android:hint="Enter price"
-                android:inputType="text" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/priceSeekBar"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.3" />
+
+                <TextView
+                    android:id="@+id/textViewPrice"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:gravity="center_vertical"
+                    tools:text="TextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/priceSeekBar"/>
+
+            </LinearLayout>
+
+
 
         </LinearLayout>
 
@@ -195,6 +235,7 @@
                 android:textStyle="italic" />
 
             <RadioGroup
+                android:id="@+id/availability"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -202,11 +243,13 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/availableRadio"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/yes" />
 
                 <RadioButton
+                    android:id="@+id/unavailableRadio"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/no" />
@@ -230,6 +273,7 @@
                 android:textStyle="italic" />
 
             <RadioGroup
+                android:id="@+id/visibility"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
@@ -237,11 +281,13 @@
                 android:orientation="horizontal">
 
                 <RadioButton
+                    android:id="@+id/visibleRadio"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/yes" />
 
                 <RadioButton
+                    android:id="@+id/invisibleRadio"
                     android:layout_width="100dp"
                     android:layout_height="wrap_content"
                     android:text="@string/no" />

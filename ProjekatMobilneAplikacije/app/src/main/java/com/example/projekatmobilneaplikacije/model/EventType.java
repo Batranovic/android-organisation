@@ -11,13 +11,13 @@ import java.util.List;
 public class EventType  implements Parcelable {
     private String name;
     private String description;
-    private Boolean isActive;
+    private Boolean active;
     private List<Subcategory> subcategories; // Lista subkategorija
 
     public EventType(String name, String description, Boolean isActive, List<Subcategory> subcategories) {
         this.name = name;
         this.description = description;
-        this.isActive = isActive;
+        this.active = isActive;
         this.subcategories = subcategories;
     }
 
@@ -28,7 +28,7 @@ public class EventType  implements Parcelable {
         // Čitanje ostalih atributa proizvoda iz Parcel objekta
         name = in.readString();
         description = in.readString();
-        isActive = in.readBoolean();
+        active = (Boolean) in.readValue(Boolean.class.getClassLoader());
     }
 
     public String getName() {
@@ -46,11 +46,11 @@ public class EventType  implements Parcelable {
     }
 
     public Boolean isActive() {
-        return isActive;
+        return active;
     }
 
-    public void setActive(Boolean active) {
-        isActive = active;
+    public void setIsActive(Boolean isactive) {
+        active = isactive;
     }
 
     public List<Subcategory> getSubcategories() {
@@ -64,7 +64,7 @@ public class EventType  implements Parcelable {
     public String toString() {
         return "EventType{" +
                 "name='" + name + '\'' +
-                ", description='" + description + '\'' + ", isActive='" + isActive +
+                ", description='" + description + '\'' + ", isActive='" + active +
                 '}';
     }
     /*
@@ -85,7 +85,7 @@ public class EventType  implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(name);
         dest.writeString(description);
-        dest.writeBoolean(isActive);
+        dest.writeValue(active);
     }
     /*
      * Da biste omogućili Androidu da regeneriše vaš objekat iz Parcel-a,
@@ -96,15 +96,16 @@ public class EventType  implements Parcelable {
      * - newArray(int size): Vraća niz vaše klase, što Android koristi kada se
      * regenerišu nizovi Parcelable objekata.
      * */
-    public static final Parcelable.Creator<Category> CREATOR = new Parcelable.Creator<Category>() {
+    public static final Parcelable.Creator<EventType> CREATOR = new Parcelable.Creator<EventType>() {
         @Override
-        public Category createFromParcel(Parcel in) {
-            return new Category(in);
+        public EventType createFromParcel(Parcel in) {
+            return new EventType(in);
         }
 
         @Override
-        public Category[] newArray(int size) {
-            return new Category[size];
+        public EventType[] newArray(int size) {
+            return new EventType[size];
         }
     };
+
 }

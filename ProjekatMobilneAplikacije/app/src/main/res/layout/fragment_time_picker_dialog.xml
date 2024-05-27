@@ -1,214 +1,285 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/date_time_container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="100dp"
-    tools:context=".fragments.registration.TimePickerDialogFragment">
+    android:fillViewport="true">
 
-
-    <LinearLayout
-        android:id="@+id/work_hours_layout"
+    <FrameLayout
+        android:id="@+id/date_time_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="16dp"
-        android:orientation="vertical">
-
+        tools:context=".fragments.registration.TimePickerDialogFragment">
 
         <LinearLayout
+            android:id="@+id/work_hours_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+            android:layout_marginTop="16dp"
+            android:orientation="vertical">
 
+            <!-- Monday -->
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/monday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Monday"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/monday_time"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
+                android:orientation="horizontal">
 
+                <TimePicker
+                    android:id="@+id/monday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+                <TimePicker
+                    android:id="@+id/monday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/tuesday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Tuesday"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/tuesday_time"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
+                android:orientation="horizontal">
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+                <TimePicker
+                    android:id="@+id/tuesday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+
+                <TimePicker
+                    android:id="@+id/tuesday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+            <!-- Wednesday -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/wednesday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Wednesday"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/wednesday_time"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+                android:orientation="horizontal">
+
+                <TimePicker
+                    android:id="@+id/wednesday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+
+                <TimePicker
+                    android:id="@+id/wednesday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+            <!-- Thursday -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/thursday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Thursday"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/thursday_time"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+                android:orientation="horizontal">
+
+                <TimePicker
+                    android:id="@+id/thursday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+
+                <TimePicker
+                    android:id="@+id/thursday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+            <!-- Friday -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/friday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Friday"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/friday_time"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
+                android:orientation="horizontal">
 
+                <TimePicker
+                    android:id="@+id/friday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+                <TimePicker
+                    android:id="@+id/friday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+            <!-- Saturday -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/saturday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Saturday"
-                android:textSize="16sp" />
+                android:textSize="16sp"
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/saturday_time"
-                android:layout_width="0dp"
+            <LinearLayout
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="32dp"
-            android:layout_marginTop="8dp"
-            android:layout_marginEnd="16dp"
-            android:orientation="horizontal">
+                android:orientation="horizontal">
+
+                <TimePicker
+                    android:id="@+id/saturday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+
+                <TimePicker
+                    android:id="@+id/saturday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+            <!-- Sunday -->
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@android:color/darker_gray"/>
 
             <TextView
-                android:layout_width="0dp"
+                android:id="@+id/sunday_day"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:text="Sunday"
                 android:textSize="16sp"
-                />
+                android:gravity="center"/>
 
-            <EditText
-                android:id="@+id/sunday_time"
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TimePicker
+                    android:id="@+id/sunday_start_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+
+                <TimePicker
+                    android:id="@+id/sunday_end_clock"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:headerBackground="@android:color/transparent"
+                    android:spinnersShown="true" />
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="bottom">
+
+            <Button
+                android:id="@+id/button_ok"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:hint="edit time"
-                android:inputType="time"
-                android:minHeight="48dp"/>
+                android:text="Save"/>
+
         </LinearLayout>
 
-
-    </LinearLayout>
-
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="bottom">
-
-
-
-        <Button
-            android:id="@+id/button_ok"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_weight="1"
-            android:text="Save"/>
-    </LinearLayout>
-
-</FrameLayout>
+    </FrameLayout>
+</ScrollView>

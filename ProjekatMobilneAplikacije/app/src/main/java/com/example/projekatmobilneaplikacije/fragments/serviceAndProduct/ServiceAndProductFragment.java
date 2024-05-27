@@ -68,8 +68,11 @@ public class ServiceAndProductFragment extends Fragment {
                 // Dobijanje unetih podataka iz EditText polja
                 String categoryName = ((EditText) rootView.findViewById(R.id.cat_name)).getText().toString();
                 String categoryDescription = ((EditText) rootView.findViewById(R.id.cat_desc)).getText().toString();
-                String selectedCategoryName = categorySpinner.getSelectedItem().toString(); // Dobijanje imena odabrane kategorije
 
+                String selectedCategoryName = "";
+                if (categorySpinner.getSelectedItem() != null) {
+                    selectedCategoryName = categorySpinner.getSelectedItem().toString();
+                }
                 // Provera da li je odabrana kategorija ili potkategorija
                 boolean isCategorySelected = radioGroupCategory.getCheckedRadioButtonId() == R.id.category;
                 boolean isServiceSelected = ((RadioButton) rootView.findViewById(R.id.service)).isChecked();
