@@ -1,12 +1,16 @@
 package com.example.projekatmobilneaplikacije.activities;
 
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.FileProvider;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -24,7 +28,22 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.io.File;
 import java.util.ArrayList;
+
+import com.itextpdf.io.font.constants.StandardFonts;
+import com.itextpdf.kernel.colors.ColorConstants;
+import com.itextpdf.kernel.font.PdfFont;
+import com.itextpdf.kernel.font.PdfFontFactory;
+import com.itextpdf.kernel.geom.PageSize;
+import com.itextpdf.kernel.pdf.PdfDocument;
+import com.itextpdf.kernel.pdf.PdfWriter;
+import com.itextpdf.layout.Document;
+import com.itextpdf.layout.element.Cell;
+import com.itextpdf.layout.element.Paragraph;
+import com.itextpdf.layout.element.Table;
+import com.itextpdf.layout.property.TextAlignment;
+
 
 public class PriceListActivity extends AppCompatActivity {
     public static final String ARG_PARAM = "product_list";
@@ -136,11 +155,110 @@ public class PriceListActivity extends AppCompatActivity {
         listViewBundle = findViewById(R.id.bundlesList);
         listViewBundle.setAdapter(bundleAdapter);
 
+        Button btnPdf = findViewById(R.id.btnPdf);
+        btnPdf.setOnClickListener(v -> generatePdf());
+
         ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.price_list), (v, insets) -> {
             Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
             return insets;
         });
+    }
+
+
+    private void generatePdf() {
+        try {
+            // Create a PDF file in the external storage directory
+            String pdfPath = getExternalFilesDir(null) + "/price_list.pdf";
+            PdfWriter writer = new PdfWriter(pdfPath);
+            PdfDocument pdfDocument = new PdfDocument(writer);
+            Document document = new Document(pdfDocument, PageSize.A4);
+
+            document.add(new Paragraph("Price List")
+                    .setBold()
+                    .setFontSize(20)
+                    .setTextAlignment(TextAlignment.CENTER));
+
+            // Adding Products
+            document.add(new Paragraph("Products")
+                    .setBold()
+                    .setFontSize(18)
+                    .setTextAlignment(TextAlignment.LEFT));
+
+            Table productTable = new Table(new float[]{4, 4, 4, 4});
+            productTable.addHeaderCell("Name");
+            productTable.addHeaderCell("Price");
+            productTable.addHeaderCell("Discount");
+            productTable.addHeaderCell("Discount Price");
+
+            for (Product product : products) {
+                productTable.addCell(product.getTitle());
+                productTable.addCell(String.valueOf(product.getPrice()));
+                productTable.addCell(String.valueOf(product.getDiscount()));
+                productTable.addCell(String.valueOf(product.getPriceWithDiscount()));
+            }
+            document.add(productTable);
+
+            // Adding Services
+            document.add(new Paragraph("Services")
+                    .setBold()
+                    .setFontSize(18)
+                    .setTextAlignment(TextAlignment.LEFT));
+
+            Table serviceTable = new Table(new float[]{4, 4, 4, 4});
+            serviceTable.addHeaderCell("Name");
+            serviceTable.addHeaderCell("Price");
+            serviceTable.addHeaderCell("Discount");
+            serviceTable.addHeaderCell("Discount Price");
+
+            for (Service service : services) {
+                serviceTable.addCell(service.getTitle());
+                serviceTable.addCell(String.valueOf(service.getPrice()));
+                serviceTable.addCell(String.valueOf(service.getDiscount()));
+                serviceTable.addCell(String.valueOf(service.getPriceWithDiscount()));
+            }
+            document.add(serviceTable);
+
+            // Adding Bundles
+            document.add(new Paragraph("Bundles")
+                    .setBold()
+                    .setFontSize(18)
+                    .setTextAlignment(TextAlignment.LEFT));
+
+            Table bundleTable = new Table(new float[]{4, 4, 4, 4});
+            bundleTable.addHeaderCell("Name");
+            bundleTable.addHeaderCell("Price");
+            bundleTable.addHeaderCell("Discount");
+            bundleTable.addHeaderCell("Discount Price");
+
+            for (CustomBundle bundle : bundles) {
+                bundleTable.addCell(bundle.getTitle());
+                bundleTable.addCell(String.valueOf(bundle.getPrice()));
+                bundleTable.addCell(String.valueOf(bundle.getDiscount()));
+                bundleTable.addCell(String.valueOf(bundle.getPriceWithDiscount()));
+            }
+            document.add(bundleTable);
+
+            document.close();
+            writer.close();
+
+            Toast.makeText(this, "PDF generated successfully", Toast.LENGTH_SHORT).show();
+            openPdf(pdfPath);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            Toast.makeText(this, "Error generating PDF", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    private void openPdf(String pdfPath) {
+        File pdfFile = new File(pdfPath);
+        Uri pdfUri = FileProvider.getUriForFile(this, getApplicationContext().getPackageName() + ".provider", pdfFile);
+
+        Intent intent = new Intent(Intent.ACTION_VIEW);
+        intent.setDataAndType(pdfUri, "application/pdf");
+        intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
+        startActivity(intent);
     }
 
 }
