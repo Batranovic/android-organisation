@@ -80,14 +80,7 @@ public class Company implements Parcelable {
         this.workingHours = workingHours;
     }
 
-    protected Company(Parcel in) {
-        email = in.readString();
-        name = in.readString();
-        address = in.readString();
-        phoneNumber = in.readString();
-        description = in.readString();
-        photo = in.readString();
-    }
+
     @Override
     public String toString() {
         return "Company{" +
@@ -105,14 +98,27 @@ public class Company implements Parcelable {
         return 0;
     }
 
+    protected Company(Parcel in) {
+        email = in.readString();
+        name = in.readString();
+        address = in.readString();
+        phoneNumber = in.readString();
+        description = in.readString();
+        photo = in.readString();
+        workingHours = in.readParcelable(WorkingHours.class.getClassLoader());
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
+        dest.writeString(email);
         dest.writeString(name);
-        dest.writeString(description);
-        dest.writeString(phoneNumber);
         dest.writeString(address);
+        dest.writeString(phoneNumber);
+        dest.writeString(description);
         dest.writeString(photo);
+        dest.writeParcelable((Parcelable) workingHours, flags);
     }
+
 
     public static final Creator<Company> CREATOR = new Creator<Company>() {
         @Override
