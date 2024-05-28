@@ -172,6 +172,7 @@ public class CustomBundle implements Parcelable  {
         isDeleted = deleted;
     }
 
+
     @Override
     public String toString() {
         return "CustomBundle{" +

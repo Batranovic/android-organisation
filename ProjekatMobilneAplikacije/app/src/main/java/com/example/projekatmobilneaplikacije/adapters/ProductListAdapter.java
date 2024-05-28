@@ -29,6 +29,7 @@ import androidx.core.content.ContextCompat;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
+import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
@@ -46,6 +47,8 @@ import java.util.ArrayList;
 public class ProductListAdapter extends ArrayAdapter<Product> implements Filterable {
     private ArrayList<Product> aProducts;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private static final int REQUEST_CODE_EDIT_ITEM = 1;
 
     private Context mContext;
     private CreateBundleThirdFragment mCreateBundleThirdFragment;
@@ -103,6 +106,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
             }
 
+            LinearLayout priceListCard = convertView.findViewById(R.id.price_list_card);
             TextView title = convertView.findViewById(R.id.title);
             TextView price = convertView.findViewById(R.id.price);
             TextView discount = convertView.findViewById(R.id.discount);
@@ -113,6 +117,23 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
                 price.setText(String.valueOf(product.getPrice()));
                 discount.setText(String.valueOf(product.getDiscount()));
                 discountPrice.setText(String.valueOf(product.getPriceWithDiscount()));
+
+
+                priceListCard.setOnClickListener(v -> {
+                    // Handle click on the item at 'position'
+                    Log.i("MobileApp", "Clicked: " + product.getTitle());
+
+                    Intent intent = new Intent(getContext(), PriceListItemActivity.class);
+                    intent.putExtra("itemType", "product");
+                    intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
+                    intent.putExtra("title", product.getTitle());
+                    intent.putExtra("price", product.getPrice());
+                    intent.putExtra("discount", product.getDiscount());
+                    //getContext().startActivity(intent);
+                    ((Activity) getContext()).startActivityForResult(intent, REQUEST_CODE_EDIT_ITEM);
+
+                    Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                });
             }
         } else {
 

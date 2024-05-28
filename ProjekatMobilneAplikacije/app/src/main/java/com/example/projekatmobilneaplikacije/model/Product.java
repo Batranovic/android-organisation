@@ -55,6 +55,7 @@ public class Product implements Parcelable {
         discount = in.readInt();
     }
 
+
     public int getPriceWithDiscount() {
         return price - (price * discount / 100);
     }

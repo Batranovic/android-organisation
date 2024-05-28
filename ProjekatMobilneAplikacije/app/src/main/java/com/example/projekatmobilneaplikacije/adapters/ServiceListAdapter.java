@@ -21,6 +21,7 @@ import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
+import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.activities.ServiceDetailActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
@@ -90,6 +91,7 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
             }
 
+            LinearLayout priceListCard = convertView.findViewById(R.id.price_list_card);
             TextView title = convertView.findViewById(R.id.title);
             TextView price = convertView.findViewById(R.id.price);
             TextView discount = convertView.findViewById(R.id.discount);
@@ -100,6 +102,21 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
                 price.setText(String.valueOf(service.getPrice()));
                 discount.setText(String.valueOf(service.getDiscount()));
                 discountPrice.setText(String.valueOf(service.getPriceWithDiscount()));
+
+                priceListCard.setOnClickListener(v -> {
+                    // Handle click on the item at 'position'
+                    Log.i("MobileApp", "Clicked: " + service.getTitle());
+
+                    Intent intent = new Intent(getContext(), PriceListItemActivity.class);
+                    intent.putExtra("itemType", "service");
+                    intent.putExtra("serviceId", service.getId()); // Pass the product ID or any other identifier
+                    intent.putExtra("title", service.getTitle());
+                    intent.putExtra("price", service.getPrice());
+                    intent.putExtra("discount", service.getDiscount());
+                    getContext().startActivity(intent);
+
+                    Toast.makeText(getContext(), "Clicked: " + service.getTitle(), Toast.LENGTH_SHORT).show();
+                });
             }
         } else {
             if(convertView == null){

@@ -27,6 +27,8 @@ import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import androidx.annotation.Nullable;
+
 
 import java.io.File;
 import java.util.ArrayList;
@@ -47,6 +49,7 @@ import com.itextpdf.layout.property.TextAlignment;
 
 public class PriceListActivity extends AppCompatActivity {
     public static final String ARG_PARAM = "product_list";
+    private static final int REQUEST_CODE_EDIT_ITEM = 1;
     private ProductListAdapter adapter;
     private ServiceListAdapter serviceAdapter;
     private BundleListAdapter bundleAdapter;
@@ -259,6 +262,64 @@ public class PriceListActivity extends AppCompatActivity {
         intent.setDataAndType(pdfUri, "application/pdf");
         intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION);
         startActivity(intent);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_EDIT_ITEM && resultCode == RESULT_OK) {
+            refreshLists();  // Custom method to refresh your lists
+        }
+    }
+
+    private void refreshLists() {
+        productsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                products.clear();
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Product product = documentSnapshot.toObject(Product.class);
+                        products.add(product);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.d("PriceListActivity", "No products found");
+                }
+            }
+        });
+
+        servicesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                services.clear();
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Service service = documentSnapshot.toObject(Service.class);
+                        services.add(service);
+                    }
+                    serviceAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d("PriceListActivity", "No services found");
+                }
+            }
+        });
+
+        bundlesRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                bundles.clear();
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        CustomBundle bundle = documentSnapshot.toObject(CustomBundle.class);
+                        bundles.add(bundle);
+                    }
+                    bundleAdapter.notifyDataSetChanged();
+                } else {
+                    Log.d("PriceListActivity", "No bundles found");
+                }
+            }
+        });
     }
 
 }

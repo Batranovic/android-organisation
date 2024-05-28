@@ -227,6 +227,10 @@ public class Service implements Parcelable {
         return isDeleted;
     }
 
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Override
     public int describeContents() {
         return 0;
