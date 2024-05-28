@@ -12,6 +12,7 @@ public class RegistrationRequest implements Parcelable {
     public Owner owner;
 
     public Date sentRequest;
+    public String denialReason;
     public Owner getOwner() {
         return owner;
     }
@@ -30,10 +31,19 @@ public class RegistrationRequest implements Parcelable {
     public void setSentRequest(Date sentRequest) {
         this.sentRequest = sentRequest;
     }
-    public RegistrationRequest(Boolean isApproved, Owner owner, Date sentRequest) {
+
+    public String getDenialReason() {
+        return denialReason;
+    }
+
+    public void setDenialReason(String denialReason) {
+        this.denialReason = denialReason;
+    }
+    public RegistrationRequest(Boolean isApproved, Owner owner, Date sentRequest, String denialReason) {
         this.isApproved = isApproved;
         this.owner = owner;
         this.sentRequest = sentRequest;
+        this.denialReason = denialReason;
     }
 
     public RegistrationRequest(){}
@@ -43,6 +53,7 @@ public class RegistrationRequest implements Parcelable {
         dest.writeByte((byte) (isApproved ? 1 : 0));
         dest.writeParcelable(owner, flags);
         dest.writeLong(sentRequest != null ? sentRequest.getTime() : -1); // Čuvanje vremena kao long vrijednosti
+        dest.writeString(denialReason);
     }
 
     protected RegistrationRequest(Parcel in) {
@@ -50,6 +61,7 @@ public class RegistrationRequest implements Parcelable {
         owner = in.readParcelable(Owner.class.getClassLoader());
         long time = in.readLong();
         sentRequest = time != -1 ? new Date(time) : null; // Rekonstrukcija datuma iz long vrijednosti
+        denialReason = in.readString();
     }
 
     // Kreator (potreban za dekodiranje objekta)

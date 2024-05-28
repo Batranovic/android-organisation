@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.widget.SearchView;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -53,13 +54,14 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 
-public class RegistrationRequestsFragment extends ListFragment {
+public class RegistrationRequestsFragment extends ListFragment  implements SearchView.OnQueryTextListener{
 
     private FragmentRegistrationRequestsBinding binding;
     public static ArrayList<RegistrationRequest> registrationRequests = new ArrayList<>();
     private RegistrationRequestsListAdapter adapter;
     private static final String ARG_PARAM = "param";
     ListView listView;
+    SearchView searchView;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference regRef = db.collection("registrationRequests");
 
@@ -129,6 +131,7 @@ public class RegistrationRequestsFragment extends ListFragment {
                 bottomSheetDialog.dismiss();
             });
         });
+        searchView = view.findViewById(R.id.action_search);
 
         listView = view.findViewById(android.R.id.list);
 
@@ -151,6 +154,8 @@ public class RegistrationRequestsFragment extends ListFragment {
         removeFiltersButton.setOnClickListener(v -> refreshRequestsList());
 
         listView.setAdapter(adapter);
+        searchView.setOnQueryTextListener(this);
+
     }
 
     public void refreshRequestsList() {
@@ -166,6 +171,30 @@ public class RegistrationRequestsFragment extends ListFragment {
                 Log.d("RegistrationRequestFragment", "No registrationRequest found");
             }
         });
+    }
+
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
+
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d("RegistrationRequestFragment", "New text: " + newText);
+        ArrayList<RegistrationRequest> filteredRequests = new ArrayList<RegistrationRequest>();
+
+        for(RegistrationRequest registrationRequest: registrationRequests){
+            if(registrationRequest.getOwner().getCompany().getName().toLowerCase().contains(newText.toLowerCase())
+            || registrationRequest.getOwner().getUserDetails().getName().toLowerCase().contains(newText.toLowerCase())
+            ||  registrationRequest.getOwner().getUserDetails().getUsername().toLowerCase().contains(newText.toLowerCase())
+            ||  registrationRequest.getOwner().getCompany().getEmail().toLowerCase().contains(newText.toLowerCase())){
+                filteredRequests.add(registrationRequest);
+            }
+        }
+        adapter = new RegistrationRequestsListAdapter(getContext(), filteredRequests);
+        listView.setAdapter(adapter);
+
+        return false;
     }
 
     @Override

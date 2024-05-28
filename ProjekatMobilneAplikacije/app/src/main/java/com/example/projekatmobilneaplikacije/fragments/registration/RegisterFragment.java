@@ -248,7 +248,7 @@ public class RegisterFragment extends Fragment  {
                 Company company = new Company(company_email, company_name, company_address, company_phoneNumber, company_description, "123", workingHours);
                 UserDetails userDetails = new UserDetails(email, name, surname, address, phone, UserRole.Owner);
                 Owner owner = new Owner(company, userDetails, selectedCategories, selectedEventTypes);
-                RegistrationRequest registrationRequest = new RegistrationRequest(false, owner,new Date());
+                RegistrationRequest registrationRequest = new RegistrationRequest(false, owner,new Date(), null);
                 addCompanyToFirestore(company, userDetails, owner,registrationRequest);
 
 
