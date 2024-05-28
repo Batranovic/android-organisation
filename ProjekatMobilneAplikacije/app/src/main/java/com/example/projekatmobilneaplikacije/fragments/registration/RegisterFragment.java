@@ -31,6 +31,7 @@ import com.example.projekatmobilneaplikacije.model.Category;
 import com.example.projekatmobilneaplikacije.model.Company;
 import com.example.projekatmobilneaplikacije.model.DayWorkingHours;
 import com.example.projekatmobilneaplikacije.model.EventType;
+import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
 import com.example.projekatmobilneaplikacije.model.UserDetails;
 import com.example.projekatmobilneaplikacije.model.enumerations.Owner;
 import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
@@ -50,6 +51,7 @@ import com.google.firebase.firestore.QuerySnapshot;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -155,50 +157,50 @@ public class RegisterFragment extends Fragment  {
             public void onClick(View v) {
                 int mondayHour = mondayStartClock.getHour();
                 int mondayMinute = mondayStartClock.getMinute();
-                Time mondayStartTime = new Time(mondayHour, mondayMinute, 0);
+                Date mondayStartTime = new Date(mondayHour, mondayMinute, 0);
                 int mondayEndHour = mondayEndClock.getHour();
                 int mondayEndMinute = mondayEndClock.getMinute();
-                Time mondayEndTime = new Time(mondayEndHour, mondayEndMinute, 0);
+                Date mondayEndTime = new Date(mondayEndHour, mondayEndMinute, 0);
                 int tuesdayHour = tuesdayStartClock.getHour();
                 int tuesdayMinute = tuesdayStartClock.getMinute();
-                Time tuesdayStartTime = new Time(tuesdayHour, tuesdayMinute, 0);
+                Date tuesdayStartTime = new Date(tuesdayHour, tuesdayMinute, 0);
                 int tuesdayEndHour = tuesdayEndClock.getHour();
                 int tuesdayEndMinute = tuesdayEndClock.getMinute();
-                Time tuesdayEndTime = new Time(tuesdayEndHour, tuesdayEndMinute, 0);
+                Date tuesdayEndTime = new Date(tuesdayEndHour, tuesdayEndMinute, 0);
 
                 int wednesdayHour = wednesdayStartClock.getHour();
                 int wednesdaMinute = wednesdayStartClock.getMinute();
-                Time wednesdayStartTime = new Time(wednesdayHour, wednesdaMinute, 0);
+                Date wednesdayStartTime = new Date(wednesdayHour, wednesdaMinute, 0);
                 int wednsedayEndHour = wednesdayEndClock.getHour();
                 int wednesdayEndMinute = wednesdayEndClock.getMinute();
-                Time wednesdayEndTime = new Time(wednsedayEndHour, wednesdayEndMinute, 0);
+                Date wednesdayEndTime = new Date(wednsedayEndHour, wednesdayEndMinute, 0);
                 int thursdayHour = thursdayStartClock.getHour();
                 int thursdayMinute = thursdayStartClock.getMinute();
-                Time thursdayStartTime = new Time(thursdayHour, thursdayMinute, 0);
+                Date thursdayStartTime = new Date(thursdayHour, thursdayMinute, 0);
                 int thursdayEndHour = thursdayEndClock.getHour();
                 int thursdayEndMinute = thursdayEndClock.getMinute();
-                Time thursdayEndTime = new Time(thursdayEndHour, thursdayEndMinute, 0);
+                Date thursdayEndTime = new Date(thursdayEndHour, thursdayEndMinute, 0);
 
                 int fridayHour = fridayStartClock.getHour();
                 int fridayMinute = fridayStartClock.getMinute();
-                Time fridayStartTime = new Time(fridayHour, fridayMinute, 0);
+                Date fridayStartTime = new Date(fridayHour, fridayMinute, 0);
                 int fridayEndHour = fridayEndClock.getHour();
                 int fridayEndMinute = fridayEndClock.getMinute();
-                Time fridayEndTime = new Time(fridayEndHour, fridayEndMinute, 0);
+                Date fridayEndTime = new Date(fridayEndHour, fridayEndMinute, 0);
 
                 int saturdayHour = saturdayStartClock.getHour();
                 int saturdayMinute = saturdayStartClock.getMinute();
-                Time saturdayStartTime = new Time(saturdayHour, saturdayMinute, 0);
+                Date saturdayStartTime = new Date(saturdayHour, saturdayMinute, 0);
                 int saturdayEndHour = saturdayEndClock.getHour();
                 int saturdayEndMinute = saturdayEndClock.getMinute();
-                Time saturdayEndTime = new Time(saturdayEndHour, saturdayEndMinute, 0);
+                Date saturdayEndTime = new Date(saturdayEndHour, saturdayEndMinute, 0);
 
                 int sundayHour = sundayStartClock.getHour();
                 int sundayMinute = sundayStartClock.getMinute();
-                Time sundayStartTime = new Time(sundayHour, sundayMinute, 0);
+                Date sundayStartTime = new Date(sundayHour, sundayMinute, 0);
                 int sundayEndHour = sundayEndClock.getHour();
                 int sundayEndMinute = sundayEndClock.getMinute();
-                Time sundayEndTime = new Time(sundayEndHour, sundayEndMinute, 0);
+                Date sundayEndTime = new Date(sundayEndHour, sundayEndMinute, 0);
 
                 DayWorkingHours mondayWorkingHours = new DayWorkingHours(mondayStartTime, mondayEndTime);
                 DayWorkingHours tuesdayWorkingHours = new DayWorkingHours(tuesdayStartTime, tuesdayEndTime);
@@ -245,8 +247,9 @@ public class RegisterFragment extends Fragment  {
 
                 Company company = new Company(company_email, company_name, company_address, company_phoneNumber, company_description, "123", workingHours);
                 UserDetails userDetails = new UserDetails(email, name, surname, address, phone, UserRole.Owner);
-                Owner owner = new Owner(UUID.randomUUID(), company, userDetails, selectedCategories, selectedEventTypes);
-                addCompanyToFirestore(company, userDetails, owner);
+                Owner owner = new Owner(company, userDetails, selectedCategories, selectedEventTypes);
+                RegistrationRequest registrationRequest = new RegistrationRequest(false, owner,new Date());
+                addCompanyToFirestore(company, userDetails, owner,registrationRequest);
 
 
 
@@ -471,7 +474,7 @@ public class RegisterFragment extends Fragment  {
     }
 
 
-    private void addUserDetailsToFirestore(UserDetails userDetails, Owner owner) {
+    private void addUserDetailsToFirestore(UserDetails userDetails, Owner owner, RegistrationRequest registrationRequest) {
         // Add userDetails to Firestore
         db.collection("userDetails")
                 .add(userDetails)
@@ -480,7 +483,7 @@ public class RegisterFragment extends Fragment  {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "UserDetails added with ID: " + documentReference.getId());
                         // Handle success, if needed
-                        addOwnerToFirestore(owner);
+                        addOwnerToFirestore(owner, registrationRequest);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -491,7 +494,7 @@ public class RegisterFragment extends Fragment  {
                     }
                 });
     }
-    private void addCompanyToFirestore(Company company, UserDetails userDetails, Owner owner) {
+    private void addCompanyToFirestore(Company company, UserDetails userDetails, Owner owner, RegistrationRequest registrationRequest) {
         // Add userDetails to Firestore
         db.collection("companies")
                 .add(company)
@@ -500,7 +503,26 @@ public class RegisterFragment extends Fragment  {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Company added with ID: " + documentReference.getId());
                         // Handle success, if needed
-                        addUserDetailsToFirestore(userDetails, owner);
+                        addUserDetailsToFirestore(userDetails, owner, registrationRequest);
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w(TAG, "Error adding document", e);
+                        // Handle failure, if needed
+                    }
+                });
+    }
+    private void addRegistrationRequest(RegistrationRequest registrationRequest) {
+        // Add userDetails to Firestore
+        db.collection("registrationRequests")
+                .add(registrationRequest)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d(TAG, "registrationRequests added with ID: " + documentReference.getId());
+
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
@@ -512,7 +534,7 @@ public class RegisterFragment extends Fragment  {
                 });
     }
 
-    private void addOwnerToFirestore(Owner owner) {
+    private void addOwnerToFirestore(Owner owner, RegistrationRequest registrationRequest) {
         // Add userDetails to Firestore
         db.collection("owners")
                 .add(owner)
@@ -521,6 +543,7 @@ public class RegisterFragment extends Fragment  {
                     public void onSuccess(DocumentReference documentReference) {
                         Log.d(TAG, "Owner added with ID: " + documentReference.getId());
                         // Handle success, if needed
+                        addRegistrationRequest(registrationRequest);
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {

@@ -58,5 +58,10 @@
             android:title="All created events"
             android:icon="@drawable/ic_hamburger"
             android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_registration_requests"
+            android:title="Registration requests"
+            android:icon="@drawable/ic_hamburger"
+            android:orderInCategory="300" />
     </group>
 </menu>
