@@ -63,7 +63,6 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference productsRef = db.collection("products");
 
-    private ArrayList<Product> originalProducts = new ArrayList<>();
 
     public ProductListingFragment() { }
 

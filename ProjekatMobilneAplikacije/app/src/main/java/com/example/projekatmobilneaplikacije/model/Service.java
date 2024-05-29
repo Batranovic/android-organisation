@@ -12,18 +12,18 @@ public class Service implements Parcelable {
     private String title;
     private String description;
     private String specificity;
-    private String discount;
+    private int discount;
     private String category;
     private String subcategory;
-    private String duration;
+    private int duration;
     private String location;
     private int price;
     private String eventType;
     private String availability;
     private String visibility;
-    private String engagement;
-    private String reservationDeadline;
-    private String cancellationDeadline;
+    private int engagement;
+    private int reservationDeadline;
+    private int cancellationDeadline;
     private String confirmationMode;
     private String image;
     private boolean isDeleted;
@@ -31,7 +31,7 @@ public class Service implements Parcelable {
     public Service(){
     }
 
-    public Service(String id, String title, String description, String specificity, String discount, String category, String subcategory, String duration, String location, int price, String eventType, String availability, String visibility, String engagement, String reservationDeadline, String cancellationDeadline, String confirmationMode, String image, boolean isDeleted) {
+    public Service(String id, String title, String description, String specificity, int discount, String category, String subcategory, int duration, String location, int price, String eventType, String availability, String visibility, int engagement, int reservationDeadline, int cancellationDeadline, String confirmationMode, String image, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -58,22 +58,25 @@ public class Service implements Parcelable {
         title = in.readString();
         description = in.readString();
         specificity = in.readString();
-        discount = in.readString();
+        discount = in.readInt();
         category = in.readString();
-        duration = in.readString();
+        duration = in.readInt();
         location = in.readString();
         price = in.readInt();
         eventType = in.readString();
         availability = in.readString();
         visibility = in.readString();
-        engagement = in.readString();
-        reservationDeadline = in.readString();
-        cancellationDeadline = in.readString();
+        engagement = in.readInt();
+        reservationDeadline = in.readInt();
+        cancellationDeadline = in.readInt();
         confirmationMode = in.readString();
         image = in.readString();
         isDeleted = in.readBoolean();
     }
 
+    public int getPriceWithDiscount() {
+        return price - (price * discount / 100);
+    }
 
     public String getId() {
         return id;
@@ -107,11 +110,11 @@ public class Service implements Parcelable {
         this.specificity = specificity;
     }
 
-    public String getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -123,13 +126,7 @@ public class Service implements Parcelable {
         this.category = category;
     }
 
-    public String getDuration() {
-        return duration;
-    }
 
-    public void setDuration(String duration) {
-        this.duration = duration;
-    }
 
     public String getLocation() {
         return location;
@@ -171,29 +168,6 @@ public class Service implements Parcelable {
         this.visibility = visibility;
     }
 
-    public String getEngagement() {
-        return engagement;
-    }
-
-    public void setEngagement(String engagement) {
-        this.engagement = engagement;
-    }
-
-    public String getReservationDeadline() {
-        return reservationDeadline;
-    }
-
-    public void setReservationDeadline(String reservationDeadline) {
-        this.reservationDeadline = reservationDeadline;
-    }
-
-    public String getCancellationDeadline() {
-        return cancellationDeadline;
-    }
-
-    public void setCancellationDeadline(String cancellationDeadline) {
-        this.cancellationDeadline = cancellationDeadline;
-    }
 
     public String getConfirmationMode() {
         return confirmationMode;
@@ -224,9 +198,45 @@ public class Service implements Parcelable {
         return isDeleted;
     }
 
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Override
     public int describeContents() {
         return 0;
+    }
+
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public int getEngagement() {
+        return engagement;
+    }
+
+    public void setEngagement(int engagement) {
+        this.engagement = engagement;
+    }
+
+    public int getReservationDeadline() {
+        return reservationDeadline;
+    }
+
+    public void setReservationDeadline(int reservationDeadline) {
+        this.reservationDeadline = reservationDeadline;
+    }
+
+    public int getCancellationDeadline() {
+        return cancellationDeadline;
+    }
+
+    public void setCancellationDeadline(int cancellationDeadline) {
+        this.cancellationDeadline = cancellationDeadline;
     }
 
     @Override
@@ -235,17 +245,17 @@ public class Service implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(specificity);
-        dest.writeString(discount);
+        dest.writeInt(discount);
         dest.writeString(category);
-        dest.writeString(duration);
+        dest.writeInt(duration);
         dest.writeString(location);
         dest.writeInt(price);
         dest.writeString(eventType);
         dest.writeString(availability);
         dest.writeString(visibility);
-        dest.writeString(engagement);
-        dest.writeString(reservationDeadline);
-        dest.writeString(cancellationDeadline);
+        dest.writeInt(engagement);
+        dest.writeInt(reservationDeadline);
+        dest.writeInt(cancellationDeadline);
         dest.writeString(confirmationMode);
         dest.writeString(image);
         dest.writeBoolean(isDeleted);

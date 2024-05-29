@@ -20,6 +20,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
+import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.activities.ServiceDetailActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
@@ -83,59 +85,93 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Service service = getItem(position);
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.service_card,
-                    parent, false);
-        }
-        LinearLayout serviceCard = convertView.findViewById(R.id.service_card_item);
-        ImageView imageView = convertView.findViewById(R.id.service_image);
-        TextView serviceTitle = convertView.findViewById(R.id.service_title);
-        TextView serviceDuration = convertView.findViewById(R.id.service_duration);
-        TextView servicePrice = convertView.findViewById(R.id.service_price);
-        TextView serviceSpecificity = convertView.findViewById(R.id.specificity);
 
-        loadImageFromBase64String(service.getImage(), imageView);
-
-        if(service != null) {
-            serviceTitle.setText(service.getTitle());
-            serviceDuration.setText(String.valueOf(service.getDuration()));
-            servicePrice.setText(String.valueOf(service.getPrice()));
-            serviceSpecificity.setText(service.getSpecificity());
-            if (mCreateBundleSecondFragment == null) {
-                serviceCard.setOnClickListener(v -> {
-                    // Handle click on the item at 'position'
-                    Log.i("MobileApp", "Clicked: " + service.getTitle() + ", id: " +
-                            service.getId().toString());
-
-
-                    // Handle click event
-                    Intent intent = new Intent(mContext, ServiceDetailActivity.class);
-                    intent.putExtra("serviceId", service.getId());
-                    intent.putExtra("title", service.getTitle());
-                    intent.putExtra("description", service.getDescription());
-                    intent.putExtra("subcategory", service.getSubcategory());
-                    intent.putExtra("eventType", service.getEventType());
-                    intent.putExtra("price", service.getPrice());
-                    intent.putExtra("availability", service.getAvailability());
-                    intent.putExtra("visibility", service.getVisibility());
-                    intent.putExtra("specificity", service.getSpecificity());
-                    intent.putExtra("discount", service.getDiscount());
-                    intent.putExtra("duration", service.getDuration());
-                    intent.putExtra("engagement", service.getEngagement());
-                    intent.putExtra("reservationDeadline", service.getReservationDeadline());
-                    intent.putExtra("cancellationDeadline", service.getCancellationDeadline());
-                    intent.putExtra("confirmationMode", service.getConfirmationMode());
-                    intent.putExtra("image", service.getImage());
-                    mContext.startActivity(intent);
-
-                    Toast.makeText(getContext(), "Clicked: " + service.getTitle() +
-                            ", id: " + service.getId().toString(), Toast.LENGTH_SHORT).show();
-                });
-            } else {
-                Log.d("Create Bundle","Bundle");
+        if (mContext instanceof PriceListActivity) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
             }
 
+            LinearLayout priceListCard = convertView.findViewById(R.id.price_list_card);
+            TextView title = convertView.findViewById(R.id.title);
+            TextView price = convertView.findViewById(R.id.price);
+            TextView discount = convertView.findViewById(R.id.discount);
+            TextView discountPrice = convertView.findViewById(R.id.discountPrice);
 
+            if (service != null) {
+                title.setText(service.getTitle());
+                price.setText(String.valueOf(service.getPrice()));
+                discount.setText(String.valueOf(service.getDiscount()));
+                discountPrice.setText(String.valueOf(service.getPriceWithDiscount()));
+
+                priceListCard.setOnClickListener(v -> {
+                    // Handle click on the item at 'position'
+                    Log.i("MobileApp", "Clicked: " + service.getTitle());
+
+                    Intent intent = new Intent(getContext(), PriceListItemActivity.class);
+                    intent.putExtra("itemType", "service");
+                    intent.putExtra("serviceId", service.getId()); // Pass the product ID or any other identifier
+                    intent.putExtra("title", service.getTitle());
+                    intent.putExtra("price", service.getPrice());
+                    intent.putExtra("discount", service.getDiscount());
+                    getContext().startActivity(intent);
+
+                    Toast.makeText(getContext(), "Clicked: " + service.getTitle(), Toast.LENGTH_SHORT).show();
+                });
+            }
+        } else {
+            if(convertView == null){
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.service_card,
+                        parent, false);
+            }
+            LinearLayout serviceCard = convertView.findViewById(R.id.service_card_item);
+            ImageView imageView = convertView.findViewById(R.id.service_image);
+            TextView serviceTitle = convertView.findViewById(R.id.service_title);
+            TextView serviceDuration = convertView.findViewById(R.id.service_duration);
+            TextView servicePrice = convertView.findViewById(R.id.service_price);
+            TextView serviceSpecificity = convertView.findViewById(R.id.specificity);
+
+            loadImageFromBase64String(service.getImage(), imageView);
+
+            if(service != null) {
+                serviceTitle.setText(service.getTitle());
+                serviceDuration.setText(String.valueOf(service.getDuration()));
+                servicePrice.setText(String.valueOf(service.getPrice()));
+                serviceSpecificity.setText(service.getSpecificity());
+                if (mCreateBundleSecondFragment == null) {
+                    serviceCard.setOnClickListener(v -> {
+                        // Handle click on the item at 'position'
+                        Log.i("MobileApp", "Clicked: " + service.getTitle() + ", id: " +
+                                service.getId().toString());
+
+
+                        // Handle click event
+                        Intent intent = new Intent(mContext, ServiceDetailActivity.class);
+                        intent.putExtra("serviceId", service.getId());
+                        intent.putExtra("title", service.getTitle());
+                        intent.putExtra("description", service.getDescription());
+                        intent.putExtra("subcategory", service.getSubcategory());
+                        intent.putExtra("eventType", service.getEventType());
+                        intent.putExtra("price", service.getPrice());
+                        intent.putExtra("availability", service.getAvailability());
+                        intent.putExtra("visibility", service.getVisibility());
+                        intent.putExtra("specificity", service.getSpecificity());
+                        intent.putExtra("discount", service.getDiscount());
+                        intent.putExtra("duration", service.getDuration());
+                        intent.putExtra("engagement", service.getEngagement());
+                        intent.putExtra("reservationDeadline", service.getReservationDeadline());
+                        intent.putExtra("cancellationDeadline", service.getCancellationDeadline());
+                        intent.putExtra("confirmationMode", service.getConfirmationMode());
+                        intent.putExtra("image", service.getImage());
+                        mContext.startActivity(intent);
+
+                        Toast.makeText(getContext(), "Clicked: " + service.getTitle() +
+                                ", id: " + service.getId().toString(), Toast.LENGTH_SHORT).show();
+                    });
+                } else {
+                    Log.d("Create Bundle", "Bundle");
+                }
+
+            }
         }
 
         return convertView;

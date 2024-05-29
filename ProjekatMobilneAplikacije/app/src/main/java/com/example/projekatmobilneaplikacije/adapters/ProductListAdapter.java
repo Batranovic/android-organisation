@@ -28,6 +28,8 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
+import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
@@ -45,6 +47,8 @@ import java.util.ArrayList;
 public class ProductListAdapter extends ArrayAdapter<Product> implements Filterable {
     private ArrayList<Product> aProducts;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    private static final int REQUEST_CODE_EDIT_ITEM = 1;
 
     private Context mContext;
     private CreateBundleThirdFragment mCreateBundleThirdFragment;
@@ -97,54 +101,91 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Product product = getItem(position);
 
-        if(convertView == null){
-            convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_card,
-                    parent, false);
-        }
+        if (mContext instanceof PriceListActivity) {
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
+            }
 
-        LinearLayout productCard = convertView.findViewById(R.id.product_card_item);
-        ImageView imageView = convertView.findViewById(R.id.product_image);
-        TextView productTitle = convertView.findViewById(R.id.product_title);
-        TextView productEventType = convertView.findViewById(R.id.product_event_type);
-        TextView productCategory = convertView.findViewById(R.id.product_category);
-        TextView productSubcategory = convertView.findViewById(R.id.product_subcategory);
-        TextView productPrice = convertView.findViewById(R.id.product_price);
+            LinearLayout priceListCard = convertView.findViewById(R.id.price_list_card);
+            TextView title = convertView.findViewById(R.id.title);
+            TextView price = convertView.findViewById(R.id.price);
+            TextView discount = convertView.findViewById(R.id.discount);
+            TextView discountPrice = convertView.findViewById(R.id.discountPrice);
 
-        loadImageFromBase64String(product.getImage(), imageView);
+            if (product != null) {
+                title.setText(product.getTitle());
+                price.setText(String.valueOf(product.getPrice()));
+                discount.setText(String.valueOf(product.getDiscount()));
+                discountPrice.setText(String.valueOf(product.getPriceWithDiscount()));
 
 
-        if(product != null) {
-            //image??
-            productTitle.setText(product.getTitle());
-            productEventType.setText(product.getEventType());
-            productSubcategory.setText(product.getCategory());
-            productCategory.setText(product.getSubcategory());
-            productPrice.setText(String.valueOf(product.getPrice()));
-            if (mCreateBundleThirdFragment == null) {
-                productCard.setOnClickListener(v -> {
+                priceListCard.setOnClickListener(v -> {
                     // Handle click on the item at 'position'
                     Log.i("MobileApp", "Clicked: " + product.getTitle());
 
-                    // Handle click event
-                    // Start ProductDetailActivity with detailed information about the clicked product
-
-                    Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+                    Intent intent = new Intent(getContext(), PriceListItemActivity.class);
+                    intent.putExtra("itemType", "product");
                     intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
                     intent.putExtra("title", product.getTitle());
-                    intent.putExtra("description", product.getDescription());
-                    intent.putExtra("subcategory", product.getSubcategory());
-                    intent.putExtra("eventType", product.getEventType());
                     intent.putExtra("price", product.getPrice());
-                    intent.putExtra("availability", product.getAvailability());
-                    intent.putExtra("visibility", product.getVisibility());
-                    intent.putExtra("image", product.getImage());
-                    getContext().startActivity(intent);
+                    intent.putExtra("discount", product.getDiscount());
+                    //getContext().startActivity(intent);
+                    ((Activity) getContext()).startActivityForResult(intent, REQUEST_CODE_EDIT_ITEM);
 
                     Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
                 });
+            }
+        } else {
 
-            } else {
-                Log.d("Create Bundle", "Bundle");
+            if(convertView == null){
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.product_card,
+                        parent, false);
+            }
+
+            LinearLayout productCard = convertView.findViewById(R.id.product_card_item);
+            ImageView imageView = convertView.findViewById(R.id.product_image);
+            TextView productTitle = convertView.findViewById(R.id.product_title);
+            TextView productEventType = convertView.findViewById(R.id.product_event_type);
+            TextView productCategory = convertView.findViewById(R.id.product_category);
+            TextView productSubcategory = convertView.findViewById(R.id.product_subcategory);
+            TextView productPrice = convertView.findViewById(R.id.product_price);
+
+            loadImageFromBase64String(product.getImage(), imageView);
+
+
+            if(product != null) {
+
+                productTitle.setText(product.getTitle());
+                productEventType.setText(product.getEventType());
+                productSubcategory.setText(product.getCategory());
+                productCategory.setText(product.getSubcategory());
+                productPrice.setText(String.valueOf(product.getPrice()));
+                if (mCreateBundleThirdFragment == null) {
+                    productCard.setOnClickListener(v -> {
+                        // Handle click on the item at 'position'
+                        Log.i("MobileApp", "Clicked: " + product.getTitle());
+
+                        // Handle click event
+                        // Start ProductDetailActivity with detailed information about the clicked product
+
+                        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
+                        intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
+                        intent.putExtra("title", product.getTitle());
+                        intent.putExtra("description", product.getDescription());
+                        intent.putExtra("subcategory", product.getSubcategory());
+                        intent.putExtra("eventType", product.getEventType());
+                        intent.putExtra("price", product.getPrice());
+                        intent.putExtra("availability", product.getAvailability());
+                        intent.putExtra("visibility", product.getVisibility());
+                        intent.putExtra("image", product.getImage());
+                        getContext().startActivity(intent);
+
+                        Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
+                    });
+
+                } else {
+                    Log.d("Create Bundle", "Bundle");
+                }
             }
 
         }

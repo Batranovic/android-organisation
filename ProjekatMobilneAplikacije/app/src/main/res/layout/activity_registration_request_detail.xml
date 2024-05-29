@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+xmlns:tools="http://schemas.android.com/tools"
+android:layout_width="match_parent"
+android:layout_height="match_parent"
+android:orientation="vertical"
+android:layout_marginTop="30dp"
+android:id="@+id/registration_details"
+tools:context=".activities.registration.RegistrationRequestDetailActivity">
+
+
+
+
+<TextView
+    android:id="@+id/request_company_name"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Comapny name"
+    android:layout_marginTop="20dp"
+    android:layout_marginStart="32dp"
+    android:layout_marginEnd="32dp"
+    android:minHeight="48dp"
+    />
+
+<TextView
+    android:id="@+id/request_company_mail"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:hint="Company mail"
+    android:layout_marginTop="20dp"
+    android:layout_marginEnd="32dp"
+    android:layout_marginStart="32dp"
+    android:minHeight="48dp"
+    />
+
+
+    <TextView
+        android:id="@+id/request_company_owner_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Owner name"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:minHeight="48dp"
+        />
+
+    <TextView
+        android:id="@+id/request_company_owner_mail"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Owner name"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:minHeight="48dp"
+        />
+
+
+    <EditText
+        android:id="@+id/denial_reason"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Denial Reason"
+        android:minHeight="60dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"/>
+
+
+
+
+    <LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginTop="136dp"
+    android:layout_gravity="bottom">
+
+        <Button
+            android:id="@+id/buttonApproveRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:text="Approve" />
+
+        <Button
+        android:id="@+id/buttonRejectRequest"
+        android:layout_width="0dp"
+        android:layout_weight="1"
+        android:layout_height="wrap_content"
+        android:text="Reject" />
+</LinearLayout>
+
+</LinearLayout>

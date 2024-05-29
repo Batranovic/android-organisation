@@ -217,8 +217,52 @@
             </LinearLayout>
 
 
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_margin="5dp">
+
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="30dp"
+                android:layout_margin="5dp"
+                android:text="Discount"
+                android:textSize="14sp"
+                android:textStyle="italic" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/discountSeekBar"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.3" />
+
+                <TextView
+                    android:id="@+id/textViewDiscount"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:gravity="center_vertical"
+                    tools:text="TextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/priceSeekBar"/>
+
+            </LinearLayout>
+
 
         </LinearLayout>
+
+
+
 
         <LinearLayout
             android:layout_width="match_parent"

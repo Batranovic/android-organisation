@@ -1,5 +1,6 @@
 package com.example.projekatmobilneaplikacije.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,6 +16,9 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveServiceActivity;
+import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
+import com.example.projekatmobilneaplikacije.model.Service;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -74,8 +78,48 @@ public class ServiceDetailActivity extends AppCompatActivity {
         cancellationDeadlineEditText.setText(getIntent().getStringExtra("cancellationDeadline"));
         confirmationModeEditText.setText(getIntent().getStringExtra("confirmationMode"));
 
-        ImageButton deleteButton = findViewById(R.id.deleteProductButton);
+        ImageButton reserveServiceButton = findViewById(R.id.reserveServiceButton);
+        reserveServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Step 1: Get Service ID
+                String serviceId = getIntent().getStringExtra("serviceId");
 
+                // Step 2: Retrieve Service from Firestore
+                db.collection("services")
+                        .whereEqualTo("id", serviceId) // Query for documents where "id" field is equal to serviceId
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                        DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Get the first document
+                                        Service service = document.toObject(Service.class);
+
+                                        if (service.getAvailability() != null && service.getAvailability().equalsIgnoreCase("Yes")) {
+                                            // Service is available, navigate to ReserveServiceActivity
+                                            Intent intent = new Intent(ServiceDetailActivity.this, ReserveServiceActivity.class);
+                                            intent.putExtra("serviceId", serviceId);
+                                            startActivity(intent);
+                                        } else {
+                                            // Service is not available, show toast message
+                                            Toast.makeText(ServiceDetailActivity.this, "Service is unavailable", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Log.d("ServiceDetailActivity", "No such document found for serviceId: " + serviceId);
+                                    }
+                                } else {
+                                    Log.d("ServiceDetailActivity", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+            }
+        });
+
+
+        ImageButton deleteButton = findViewById(R.id.deleteProductButton);
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

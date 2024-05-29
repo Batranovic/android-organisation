@@ -144,14 +144,30 @@
                 android:textSize="14sp"
                 android:textStyle="italic" />
 
-            <EditText
-                android:id="@+id/editDiscount"
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginStart="10dp"
-                android:layout_weight="0.3"
-                android:hint="Enter discount"
-                android:inputType="text" />
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <SeekBar
+                    android:id="@+id/discountSeekBar"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:max="100"
+                    android:layout_marginStart="10dp"
+                    android:layout_weight="0.3" />
+
+                <TextView
+                    android:id="@+id/textViewDiscount"
+                    android:layout_width="50dp"
+                    android:layout_height="match_parent"
+                    android:visibility="invisible"
+                    android:gravity="center_vertical"
+                    tools:text="TextView"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/discountSeekBar"/>
+
+            </LinearLayout>
 
         </LinearLayout>
 

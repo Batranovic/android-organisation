@@ -66,9 +66,9 @@ public class CreateServiceSecondFragment extends Fragment {
     boolean isCulturalEventChecked = false;
     boolean isHumanitarianEventChecked = false;
 
-    String title, description, specificity, discount, category, subcategory, available, visible;
+    String title, description, specificity, category, subcategory, available, visible;
 
-    int price;
+    int price, discount;
     Uri selectedImageUri;
 
     Button btnSubmit;
@@ -91,13 +91,13 @@ public class CreateServiceSecondFragment extends Fragment {
      * @return A new instance of fragment CreateServiceSecondFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateServiceSecondFragment newInstance(String title, String description, String specificity, String discount, String category, String subcategory, int price, String available, String visible, Uri selectedImageUri) {
+    public static CreateServiceSecondFragment newInstance(String title, String description, String specificity, int discount, String category, String subcategory, int price, String available, String visible, Uri selectedImageUri) {
         CreateServiceSecondFragment fragment = new CreateServiceSecondFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("description", description);
         args.putString("specificity", specificity);
-        args.putString("discount", discount);
+        args.putInt("discount", discount);
         args.putString("category", category);
         args.putString("subcategory", subcategory);
         args.putInt("price", price);
@@ -131,7 +131,7 @@ public class CreateServiceSecondFragment extends Fragment {
             title = args.getString("title", "");
             description = args.getString("description", "");
             specificity = args.getString("specificity", "");
-            discount = args.getString("discount", "");
+            discount = args.getInt("discount", 0);
             selectedImageUri = args.getParcelable("selectedImageUri");
             category = args.getString("category", "");
             subcategory = args.getString("subcategory", "");
@@ -194,14 +194,40 @@ public class CreateServiceSecondFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Duration = duration.getText().toString();
-                String Engagement = engagement.getText().toString();
-                String ReservationDeadline = reservationDeadline.getText().toString();
-                String CancellationDeadline = cancellationDeadline.getText().toString();
+                String durationText = duration.getText().toString();
+                int Duration = durationText.isEmpty() ? 0 : Integer.parseInt(durationText);
+
+                String engagementText = engagement.getText().toString();
+                int Engagement;
+                try {
+                    Engagement = Integer.parseInt(engagementText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for engagement", Toast.LENGTH_SHORT).show();
+                    return; // Izađi iz onClick metode ako unos nije validan
+                }
+
+                String reservationDeadlineText = reservationDeadline.getText().toString();
+                int ReservationDeadline;
+                try {
+                    ReservationDeadline = Integer.parseInt(reservationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for reservation deadline", Toast.LENGTH_SHORT).show();
+                    return; // Izađi iz onClick metode ako unos nije validan
+                }
+
+                String cancellationDeadlineText = cancellationDeadline.getText().toString();
+                int CancellationDeadline;
+                try {
+                    CancellationDeadline = Integer.parseInt(cancellationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for cancellation deadline", Toast.LENGTH_SHORT).show();
+                    return; // Izađi iz onClick metode ako unos nije validan
+                }
+
                 String Title = title;
                 String Description = description;
                 String Specificity = specificity;
-                String Discount = discount;
+                int Discount = discount;
                 String Category = category;
                 String Subcategory = subcategory;
                 int Price = price;

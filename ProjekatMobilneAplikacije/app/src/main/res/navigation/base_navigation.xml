@@ -203,6 +203,29 @@
         app:popUpToInclusive="true"
         />
 
+        android:id="@+id/nav_registration_requests"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegistrationRequestsFragment"
+        android:label="Requests"
+        tools:layout="@layout/fragment_registration_requests"
+        app:popUpToInclusive="true"
+        />
 
+    <fragment
+        android:id="@+id/nav_reports"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_reports"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
+    <activity
+        android:id="@+id/nav_price_list"
+        android:name="com.example.projekatmobilneaplikacije.activities.PriceListActivity"
+        android:label="Price list"
+        tools:layout="@layout/activity_price_list"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
 
 </navigation>

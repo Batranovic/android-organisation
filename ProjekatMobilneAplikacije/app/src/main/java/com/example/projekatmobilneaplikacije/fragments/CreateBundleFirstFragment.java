@@ -119,7 +119,27 @@ public class CreateBundleFirstFragment extends Fragment {
 
         title = binding.editTitle;
         description = binding.editDescription;
-        discount = binding.editDiscount;
+
+        SeekBar discountSeekBar = binding.discountSeekBar;
+        TextView discountText = binding.textViewDiscount;
+
+        discountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                discountText.setVisibility(View.VISIBLE);
+                discountText.setText(progress+"/100");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
 
 
         binding.nextFragmentButton.setOnClickListener(new View.OnClickListener() {
@@ -153,7 +173,7 @@ public class CreateBundleFirstFragment extends Fragment {
                 String Visible = visible;
 
 
-                Fragment secondFragment = CreateBundleSecondFragment.newInstance(title.getText().toString(), description.getText().toString(), spinner.getSelectedItem().toString(), discount.toString(), available, visible, selectedImageUri);
+                Fragment secondFragment = CreateBundleSecondFragment.newInstance(title.getText().toString(), description.getText().toString(), spinner.getSelectedItem().toString(),  discountSeekBar.getProgress(), available, visible, selectedImageUri);
 
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.create_bundle_container, secondFragment)

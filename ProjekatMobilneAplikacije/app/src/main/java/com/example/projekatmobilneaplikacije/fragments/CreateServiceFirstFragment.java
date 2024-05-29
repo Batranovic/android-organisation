@@ -56,7 +56,7 @@ public class CreateServiceFirstFragment extends Fragment {
 
 
     private Uri selectedImageUri;
-    EditText title, description, specificity, discount;
+    EditText title, description, specificity;
     Spinner spinner, spinnerSubcategory;
     String available, visible;
     Button btnSubmit;
@@ -132,11 +132,32 @@ public class CreateServiceFirstFragment extends Fragment {
         SeekBar priceSeekBar = fragmentCreateServiceFirstBinding.priceSeekBar;
         TextView priceText = fragmentCreateServiceFirstBinding.textViewPrice;
 
+        SeekBar discountSeekBar = fragmentCreateServiceFirstBinding.discountSeekBar;
+        TextView discountText = fragmentCreateServiceFirstBinding.textViewDiscount;
+
         priceSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override
             public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
                 priceText.setVisibility(View.VISIBLE);
                 priceText.setText(progress+"/100");
+            }
+
+            @Override
+            public void onStartTrackingTouch(SeekBar seekBar) {
+
+            }
+
+            @Override
+            public void onStopTrackingTouch(SeekBar seekBar) {
+
+            }
+        });
+
+        discountSeekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+            @Override
+            public void onProgressChanged(SeekBar seekBar, int progress, boolean fromUser) {
+                discountText.setVisibility(View.VISIBLE);
+                discountText.setText(progress+"/100");
             }
 
             @Override
@@ -168,7 +189,7 @@ public class CreateServiceFirstFragment extends Fragment {
         title = fragmentCreateServiceFirstBinding.title;
         description = fragmentCreateServiceFirstBinding.editDescription;
         specificity = fragmentCreateServiceFirstBinding.specificity;
-        discount = fragmentCreateServiceFirstBinding.discount;
+        //discount = fragmentCreateServiceFirstBinding.discount;
         fragmentCreateServiceFirstBinding.nextFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -198,7 +219,7 @@ public class CreateServiceFirstFragment extends Fragment {
                 String Available = available;
                 String Visible = visible;
 
-                Fragment secondFragment = CreateServiceSecondFragment.newInstance(title.getText().toString(), description.getText().toString(), specificity.getText().toString(), discount.getText().toString(), spinner.getSelectedItem().toString(), spinnerSubcategory.getSelectedItem().toString(), priceSeekBar.getProgress(), available, visible, selectedImageUri);
+                Fragment secondFragment = CreateServiceSecondFragment.newInstance(title.getText().toString(), description.getText().toString(), specificity.getText().toString(), discountSeekBar.getProgress(), spinner.getSelectedItem().toString(), spinnerSubcategory.getSelectedItem().toString(), priceSeekBar.getProgress(), available, visible, selectedImageUri);
 
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.create_service_container, secondFragment)

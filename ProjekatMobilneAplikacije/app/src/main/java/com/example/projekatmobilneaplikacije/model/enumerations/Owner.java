@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.UUID;
 
 public class Owner  implements Parcelable {
-    private UUID id;
+
     private Company company;
     private UserDetails userDetails;
 
@@ -22,23 +22,16 @@ public class Owner  implements Parcelable {
     private List<EventType> eventTypes;
 
 
-    public Owner(UUID id, Company company, UserDetails userDetails, List<Category> categories,  List<EventType> eventTypes){
-        this.id = id;
+    public Owner() {}
+
+    public Owner(Company company, UserDetails userDetails, List<Category> categories, List<EventType> eventTypes) {
         this.company = company;
         this.userDetails = userDetails;
         this.categories = categories;
         this.eventTypes = eventTypes;
     }
 
-    public Owner(){}
 
-    public UUID getId() {
-        return id;
-    }
-
-    public void setId(UUID id) {
-        this.id = id;
-    }
 
     public Company getCompany() {
         return company;
@@ -70,16 +63,11 @@ public class Owner  implements Parcelable {
     public void setEventTypes(List<EventType> eventTypes) {
         this.eventTypes = eventTypes;
     }
-    protected Owner(Parcel in) {
-        id = UUID.fromString(in.readString());
-        company = in.readParcelable(Company.class.getClassLoader());
 
-    }
     @Override
     public String toString() {
         return "Owner{" +
-                "id='" + id + '\'' +
-                ", company='" + company + '\'' +
+                "company='" + company + '\'' +
                 ", userDetails='" + userDetails + '\'' +
                 '}';
     }
@@ -89,11 +77,19 @@ public class Owner  implements Parcelable {
         return 0;
     }
 
+    protected Owner(Parcel in) {
+        company = in.readParcelable(Company.class.getClassLoader());
+        userDetails = in.readParcelable(UserDetails.class.getClassLoader());
+        categories = in.createTypedArrayList(Category.CREATOR);
+        eventTypes = in.createTypedArrayList(EventType.CREATOR);
+    }
+
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeString(id.toString());
         dest.writeParcelable(company, flags);
-
+        dest.writeParcelable((Parcelable) userDetails, flags);
+        dest.writeTypedList(categories);
+        dest.writeTypedList(eventTypes);
     }
 
     public static final Creator<Owner> CREATOR = new Creator<Owner>() {

@@ -5,31 +5,40 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.projekatmobilneaplikacije.model.enumerations.Owner;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
+import com.google.firebase.firestore.auth.User;
+
+import java.util.Date;
 
 import javax.annotation.Nullable;
 
 public class Reservation implements Parcelable {
     private String id;
-    private String owner;
-    private String employee;
-    private String eventOrganizer;
+    private Employee employee;
+    private UserDetails eventOrganizer;
     private ReservationStatus status;
     private Service service;
     @Nullable
     private CustomBundle bundle;
 
+    private Date from;
+    private Date to;
+    private Event event;
+
     public Reservation() {
     }
 
-    public Reservation(String id, String owner, String employee, String eventOrganizer, ReservationStatus status, Service service, @Nullable CustomBundle bundle) {
+    public Reservation(String id, Employee employee, UserDetails eventOrganizer, ReservationStatus status, Service service, @Nullable CustomBundle bundle, Date from, Date to, Event event) {
         this.id = id;
-        this.owner = owner;
         this.employee = employee;
         this.eventOrganizer = eventOrganizer;
         this.status = status;
         this.service = service;
         this.bundle = bundle;
+        this.from = from;
+        this.to = to;
+        this.event = event;
     }
 
     public String getId() {
@@ -40,27 +49,20 @@ public class Reservation implements Parcelable {
         this.id = id;
     }
 
-    public String getOwner() {
-        return owner;
-    }
 
-    public void setOwner(String owner) {
-        this.owner = owner;
-    }
-
-    public String getEmployee() {
+    public Employee getEmployee() {
         return employee;
     }
 
-    public void setEmployee(String employee) {
+    public void setEmployee(Employee employee) {
         this.employee = employee;
     }
 
-    public String getEventOrganizer() {
+    public UserDetails getEventOrganizer() {
         return eventOrganizer;
     }
 
-    public void setEventOrganizer(String eventOrganizer) {
+    public void setEventOrganizer(UserDetails eventOrganizer) {
         this.eventOrganizer = eventOrganizer;
     }
 
@@ -80,6 +82,30 @@ public class Reservation implements Parcelable {
         this.service = service;
     }
 
+    public Date getFrom() {
+        return from;
+    }
+
+    public void setFrom(Date from) {
+        this.from = from;
+    }
+
+    public Date getTo() {
+        return to;
+    }
+
+    public void setTo(Date to) {
+        this.to = to;
+    }
+
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
     @Nullable
     public CustomBundle getBundle() {
         return bundle;
@@ -92,12 +118,16 @@ public class Reservation implements Parcelable {
     // Konstruktor za čitanje iz Parcel objekta
     protected Reservation(Parcel in) {
         id = in.readString();
-        owner = in.readString();
-        employee = in.readString();
-        eventOrganizer = in.readString();
+        employee = in.readParcelable(Employee.class.getClassLoader());
+        eventOrganizer =  in.readParcelable(UserDetails.class.getClassLoader());
         status = ReservationStatus.valueOf(in.readString());
         service = in.readParcelable(Service.class.getClassLoader());
         bundle = in.readParcelable(CustomBundle.class.getClassLoader());
+        long startTimeMillis = in.readLong();
+        long endTimeMillis = in.readLong();
+        from = startTimeMillis != -1 ? new Date(startTimeMillis) : null;
+        to = endTimeMillis != -1 ? new Date(endTimeMillis) : null;
+        event = in.readParcelable(Event.class.getClassLoader());
     }
 
     /*
@@ -117,12 +147,14 @@ public class Reservation implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(owner);
-        dest.writeString(employee);
-        dest.writeString(eventOrganizer);
+        dest.writeParcelable(employee, flags);
+        dest.writeParcelable(eventOrganizer, flags);
         dest.writeString(status.name());
         dest.writeParcelable(service, flags);
         dest.writeParcelable(bundle, flags);
+        dest.writeLong(from != null ? from.getTime() : -1);
+        dest.writeLong(to != null ? to.getTime() : -1);
+        dest.writeParcelable(event, flags);
     }
 
     /*
