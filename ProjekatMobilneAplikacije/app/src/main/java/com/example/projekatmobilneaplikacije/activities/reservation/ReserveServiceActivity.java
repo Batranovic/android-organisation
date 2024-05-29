@@ -177,7 +177,7 @@ private void findEvent(Employee selectedEmployee, String selectedEvent, Service 
                             UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
 
                             // Kreiranje objekta Reservation
-                            Reservation reservation = new Reservation("1",  employee, userDetails, ReservationStatus.New, service, null, from, to);
+                            Reservation reservation = new Reservation("1",  employee, userDetails, ReservationStatus.New, service, null, from, to, event);
 
                             // Dodavanje reservation objekta u Firestore
                             db.collection("reservations")

@@ -24,11 +24,12 @@ public class Reservation implements Parcelable {
 
     private Date from;
     private Date to;
+    private Event event;
 
     public Reservation() {
     }
 
-    public Reservation(String id, Employee employee, UserDetails eventOrganizer, ReservationStatus status, Service service, @Nullable CustomBundle bundle, Date from, Date to) {
+    public Reservation(String id, Employee employee, UserDetails eventOrganizer, ReservationStatus status, Service service, @Nullable CustomBundle bundle, Date from, Date to, Event event) {
         this.id = id;
         this.employee = employee;
         this.eventOrganizer = eventOrganizer;
@@ -37,6 +38,7 @@ public class Reservation implements Parcelable {
         this.bundle = bundle;
         this.from = from;
         this.to = to;
+        this.event = event;
     }
 
     public String getId() {
@@ -96,6 +98,14 @@ public class Reservation implements Parcelable {
         this.to = to;
     }
 
+    public Event getEvent() {
+        return event;
+    }
+
+    public void setEvent(Event event) {
+        this.event = event;
+    }
+
     @Nullable
     public CustomBundle getBundle() {
         return bundle;
@@ -117,6 +127,7 @@ public class Reservation implements Parcelable {
         long endTimeMillis = in.readLong();
         from = startTimeMillis != -1 ? new Date(startTimeMillis) : null;
         to = endTimeMillis != -1 ? new Date(endTimeMillis) : null;
+        event = in.readParcelable(Event.class.getClassLoader());
     }
 
     /*
@@ -143,6 +154,7 @@ public class Reservation implements Parcelable {
         dest.writeParcelable(bundle, flags);
         dest.writeLong(from != null ? from.getTime() : -1);
         dest.writeLong(to != null ? to.getTime() : -1);
+        dest.writeParcelable(event, flags);
     }
 
     /*
