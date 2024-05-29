@@ -22,7 +22,9 @@ public class Event implements Parcelable {
         endTime = in.readString();
         type = in.readString();
     }
+    public Event(){
 
+    }
     public Event(Long id,String name, String date, String startTime, String endTime, String type) {
         this.id = id;
         this.name = name;

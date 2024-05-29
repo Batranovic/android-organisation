@@ -30,9 +30,14 @@ import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
 import com.example.projekatmobilneaplikacije.fragments.LoginFragment;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment;
 import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,10 +56,13 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth auth;
 
     FirebaseUser user;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("ShopApp", "HomeActivity onCreate()");
+        db = FirebaseFirestore.getInstance();
 
         /* Umesto referenci na resurse unutar nekog layout-a moguće je
          * koristiti ViewBinding. Na osnovu konfiguracije u build.gradle fajlu
@@ -154,6 +162,40 @@ public class HomeActivity extends AppCompatActivity {
             navMenu.findItem(R.id.nav_login).setVisible(false);
 
         }
+if(user!= null) {
+
+    db.collection("userDetails")
+            .whereEqualTo("username", user.getEmail())
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                        // Preuzmite UserDetails iz dokumenta
+                        UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                        if (userDetails != null) {
+                            Log.d("UserDetails", "Username: " + userDetails.getUsername());
+                            Log.d("UserDetails", "Name: " + userDetails.getName());
+                            Log.d("UserDetails", "Surname: " + userDetails.getSurname());
+                            Log.d("UserDetails", "Role: " + userDetails.getRole());
+                            if (userDetails.getRole().equals(UserRole.Admin)) {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
+                            }else {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
+                            }
+                        }
+                    } else {
+                        Log.d("Firestore", "No documents found for email: " + user.getEmail());
+                    }
+                } else {
+                    Log.w("Firestore", "Error getting documents.", task.getException());
+                }
+            });
+}
         // AppBarConfiguration odnosi se na konfiguraciju ActionBar-a (ili Toolbar-a) u Android aplikaciji
         // kako bi se omogućila navigacija koristeći Android Navigation komponentu.
         // Takođe, postavlja se bočni meni (navigation drawer) u skladu sa
