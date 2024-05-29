@@ -34,6 +34,7 @@
             />
 
         <RadioGroup
+            android:id="@+id/reservations_radio_group"
             android:layout_width="match_parent"
             android:layout_height="686dp" >
 

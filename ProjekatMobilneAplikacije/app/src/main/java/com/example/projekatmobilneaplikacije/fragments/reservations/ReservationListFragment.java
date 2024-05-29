@@ -37,6 +37,7 @@ import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatu
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.radiobutton.MaterialRadioButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -60,7 +61,6 @@ public class ReservationListFragment extends ListFragment {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference reservationsRef = db.collection("reservations");
 
-    private ArrayList<Reservation> originalReservations = new ArrayList<>();
 
     public ReservationListFragment() {
     }
@@ -77,18 +77,24 @@ public class ReservationListFragment extends ListFragment {
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("App", "onCreate Reservations List Fragment");
-        if (getArguments() != null) {
-            reservations = getArguments().getParcelableArrayList(ARG_PARAM);
-            adapter = new ReservationListAdapter(getActivity(), reservations);
-            setListAdapter(adapter);
+        if (reservations == null) {
+            reservations = new ArrayList<>();
         }
+        if (getArguments() != null) {
+            ArrayList<Reservation> passedReservations = getArguments().getParcelableArrayList(ARG_PARAM);
+            if (passedReservations != null) {
+                reservations.addAll(passedReservations);
+            }
+        }
+        adapter = new ReservationListAdapter(getActivity(), reservations);
+        setListAdapter(adapter);
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-
+        Log.i("App", "onCreateView  Reservations List Fragment");
         return inflater.inflate(R.layout.fragment_reservation_list, container, false);
     }
 
@@ -109,7 +115,7 @@ public class ReservationListFragment extends ListFragment {
             bottomSheetDialog.show();
 
 
-            RadioGroup statusRadioGroup = dialogView.findViewById(R.id.reservations_radio_button);
+            RadioGroup statusRadioGroup = dialogView.findViewById(R.id.reservations_radio_group);
             statusRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
                 RadioButton radioButton = dialogView.findViewById(checkedId);
                 String selectedStatus = radioButton.getText().toString();

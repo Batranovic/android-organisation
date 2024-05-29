@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfileActivity;
@@ -75,7 +76,7 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.reservation_card,
                     parent, false);
         }
-        LinearLayout reservationCard = convertView.findViewById(R.id.reservation_card_item);
+        ConstraintLayout reservationCard = convertView.findViewById(R.id.reservation_card_item);
         TextView serviceTitle = convertView.findViewById(R.id.service_title);
         TextView status = convertView.findViewById(R.id.reservation_status);
 
