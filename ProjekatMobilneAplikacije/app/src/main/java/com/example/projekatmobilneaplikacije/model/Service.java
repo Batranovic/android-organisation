@@ -12,7 +12,7 @@ public class Service implements Parcelable {
     private String title;
     private String description;
     private String specificity;
-    private String discount;
+    private int discount;
     private String category;
     private String subcategory;
     private String duration;
@@ -31,7 +31,7 @@ public class Service implements Parcelable {
     public Service(){
     }
 
-    public Service(String id, String title, String description, String specificity, String discount, String category, String subcategory, String duration, String location, int price, String eventType, String availability, String visibility, String engagement, String reservationDeadline, String cancellationDeadline, String confirmationMode, String image, boolean isDeleted) {
+    public Service(String id, String title, String description, String specificity, int discount, String category, String subcategory, String duration, String location, int price, String eventType, String availability, String visibility, String engagement, String reservationDeadline, String cancellationDeadline, String confirmationMode, String image, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -58,7 +58,7 @@ public class Service implements Parcelable {
         title = in.readString();
         description = in.readString();
         specificity = in.readString();
-        discount = in.readString();
+        discount = in.readInt();
         category = in.readString();
         duration = in.readString();
         location = in.readString();
@@ -74,6 +74,9 @@ public class Service implements Parcelable {
         isDeleted = in.readBoolean();
     }
 
+    public int getPriceWithDiscount() {
+        return price - (price * discount / 100);
+    }
 
     public String getId() {
         return id;
@@ -107,11 +110,11 @@ public class Service implements Parcelable {
         this.specificity = specificity;
     }
 
-    public String getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -224,6 +227,10 @@ public class Service implements Parcelable {
         return isDeleted;
     }
 
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -235,7 +242,7 @@ public class Service implements Parcelable {
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(specificity);
-        dest.writeString(discount);
+        dest.writeInt(discount);
         dest.writeString(category);
         dest.writeString(duration);
         dest.writeString(location);

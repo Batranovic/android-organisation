@@ -11,29 +11,28 @@ import androidx.annotation.NonNull;
 public class Product implements Parcelable {
     private String id;
     private String title;
-
     private String description;
     private String category;
     private String subcategory;
     private int price;
+    private int discount;
     private String eventType;
     private String availability;
-
     private String visibility;
-
     private String image;
     private boolean isDeleted;
 
-    public Product(String id, String title, String description, String category, String subcategory, int price, String eventType, String availability, String visibility, String image, boolean isDeleted) {
+    public Product(String id, String title, String description, String category, String subcategory, int price, int discount, String eventType, String availability, String visibility, String image, boolean isDeleted) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.category = category;
         this.subcategory = subcategory;
         this.price = price;
+        this.discount = discount;
         this.eventType = eventType;
         this.availability = availability;
-        this.visibility =visibility;
+        this.visibility = visibility;
         this.image = image;
         this.isDeleted = isDeleted;
     }
@@ -53,6 +52,12 @@ public class Product implements Parcelable {
         visibility = in.readString();
         image = in.readString();
         isDeleted = in.readBoolean();
+        discount = in.readInt();
+    }
+
+
+    public int getPriceWithDiscount() {
+        return price - (price * discount / 100);
     }
 
     public boolean isDeleted() {
@@ -139,6 +144,14 @@ public class Product implements Parcelable {
         return eventType;
     }
 
+    public int getDiscount() {
+        return discount;
+    }
+
+    public void setDiscount(int discount) {
+        this.discount = discount;
+    }
+
     public void setEventType(String eventType) {
         this.eventType = eventType;
     }
@@ -170,6 +183,7 @@ public class Product implements Parcelable {
         dest.writeString(visibility);
         dest.writeString(image);
         dest.writeBoolean(isDeleted);
+        dest.writeInt(discount);
     }
 
     @Override

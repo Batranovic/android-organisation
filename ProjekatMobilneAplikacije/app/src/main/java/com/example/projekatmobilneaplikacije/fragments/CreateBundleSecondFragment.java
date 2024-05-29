@@ -48,7 +48,9 @@ public class CreateBundleSecondFragment extends Fragment{
 
     private FragmentCreateBundleSecondBinding binding;
 
-    String title, description, category, available, visible, discount;
+    String title, description, category, available, visible;
+
+    int discount;
 
     Uri selectedImageUri;
 
@@ -64,13 +66,13 @@ public class CreateBundleSecondFragment extends Fragment{
     private Service selectedService;
 
 
-    public static CreateBundleSecondFragment newInstance(String title, String description, String category, String discount, String available, String visible, Uri selectedImageUri) {
+    public static CreateBundleSecondFragment newInstance(String title, String description, String category, int discount, String available, String visible, Uri selectedImageUri) {
         CreateBundleSecondFragment fragment = new CreateBundleSecondFragment();
         Bundle args = new Bundle();
         args.putString("title", title);
         args.putString("description", description);
         args.putString("category", category);
-        args.putString("discount", discount);
+        args.putInt("discount", discount);
         args.putString("available", available);
         args.putString("visible", visible);
         args.putParcelable("selectedImageUri", selectedImageUri);
@@ -131,7 +133,7 @@ public class CreateBundleSecondFragment extends Fragment{
             description = args.getString("description", "");
             selectedImageUri = args.getParcelable("selectedImageUri");
             category = args.getString("category", "");
-            discount = args.getString("discount", "");
+            discount = args.getInt("discount", 0);
             available = args.getString("available", "");
             visible = args.getString("visible", "");
         }
