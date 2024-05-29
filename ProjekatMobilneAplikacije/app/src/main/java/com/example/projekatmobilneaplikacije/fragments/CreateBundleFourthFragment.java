@@ -244,6 +244,19 @@ public class CreateBundleFourthFragment extends Fragment {
                 bundle.put("eventType", EventType);
                 bundle.put("isDeleted", false);
 
+                List<String> productIds = new ArrayList<>();
+                List<String> serviceIds = new ArrayList<>();
+                if (selectedProduct != null) {
+                    productIds.add(selectedProduct.getId());
+                }
+                if (selectedService != null) {
+                    serviceIds.add(selectedService.getId());
+                }
+                bundle.put("productIds", productIds);
+                bundle.put("serviceIds", serviceIds);
+
+
+
                 //service.put("image", base64Image);
 
                 db.collection("bundles")

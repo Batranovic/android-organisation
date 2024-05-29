@@ -25,6 +25,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PriceListItemActivity extends AppCompatActivity {
@@ -97,30 +98,46 @@ public class PriceListItemActivity extends AppCompatActivity {
                                 String documentId = document.getId();
                                 Log.d("", "Document id: " + documentId);
 
-                                // Mapa koja sadrži nove vrijednosti polja
-                                Map<String, Object> updates = new HashMap<>();
-                                updates.put("price", newPrice);
-                                updates.put("discount", newDiscount);
+                                Long oldPriceLong = document.getLong("price");
+                                if (oldPriceLong != null) {
+                                    int oldPrice = oldPriceLong.intValue();
+                                    Log.d("", "Old price: " + oldPrice);
 
-                                // Ažuriranje dokumenta s novim vrijednostima polja
-                                db.collection(collectionName)
-                                        .document(documentId)
-                                        .update(updates)
-                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
-                                            @Override
-                                            public void onSuccess(Void aVoid) {
-                                                Toast.makeText(PriceListItemActivity.this, "Item  updated", Toast.LENGTH_SHORT).show();
-                                                setResult(RESULT_OK);  // Indicate success
-                                                finish();
-                                            }
-                                        })
-                                        .addOnFailureListener(new OnFailureListener() {
-                                            @Override
-                                            public void onFailure(@NonNull Exception e) {
-                                                Toast.makeText(PriceListItemActivity.this, "Failed to update tem", Toast.LENGTH_SHORT).show();
-                                                Log.d("PriceListItemActivity", "Error updating item", e);
-                                            }
-                                        });
+                                    // Mapa koja sadrži nove vrijednosti polja
+                                    Map<String, Object> updates = new HashMap<>();
+                                    updates.put("price", newPrice);
+                                    updates.put("discount", newDiscount);
+
+                                    // Ažuriranje dokumenta s novim vrijednostima polja
+                                    db.collection(collectionName)
+                                            .document(documentId)
+                                            .update(updates)
+                                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                @Override
+                                                public void onSuccess(Void aVoid) {
+                                                    Toast.makeText(PriceListItemActivity.this, "Item  updated", Toast.LENGTH_SHORT).show();
+                                                    String dbField;
+                                                    if(collectionName.equals("products")){
+                                                        dbField = "productIds";
+                                                    }else{
+                                                        dbField = "serviceIds";
+                                                    }
+                                                    updateBundles(id, newPrice, oldPrice, dbField);
+                                                    setResult(RESULT_OK);  // Indicate success
+
+
+                                                    finish();
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                                    Toast.makeText(PriceListItemActivity.this, "Failed to update tem", Toast.LENGTH_SHORT).show();
+                                                    Log.d("PriceListItemActivity", "Error updating item", e);
+                                                }
+                                            });
+
+                                }
                             } else {
                                 Log.d("PriceListItemActivity", "No document found with id: " + id);
                             }
@@ -131,4 +148,58 @@ public class PriceListItemActivity extends AppCompatActivity {
                 });
 
     }
+
+
+    private void updateBundles(String itemId, int newPrice, int oldPrice, String dbField){
+        // Pronalaženje dokumenta sa odgovarajućim bundleId
+        db.collection("bundles")
+                .whereArrayContains(dbField, itemId)
+                .get()
+                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Uzmemo prvi dokument (ako ima više, uzmemo prvi)
+                                String documentId = document.getId();
+                                Log.d("","Document id: " + documentId);
+
+                                int newBundlePrice = document.getLong("price").intValue();
+
+                                newBundlePrice +=  newPrice - oldPrice;
+
+
+                                Map<String, Object> updates = new HashMap<>();
+                                updates.put("price", newBundlePrice);
+
+                                // Ažuriranje polja isDeleted na true
+                                db.collection("bundles")
+                                        .document(documentId)
+                                        .update("price", newBundlePrice)
+                                        .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                            @Override
+                                            public void onSuccess(Void aVoid) {
+                                                Toast.makeText(PriceListItemActivity.this, "Bundle updated", Toast.LENGTH_SHORT).show();
+                                            }
+                                        })
+                                        .addOnFailureListener(new OnFailureListener() {
+                                            @Override
+                                            public void onFailure(@NonNull Exception e) {
+                                                Toast.makeText(PriceListItemActivity.this, "Failed to update bundle", Toast.LENGTH_SHORT).show();
+                                                Log.d("PriceListItemActivity", "Error updating bundle", e);
+                                            }
+                                        });
+                            } else {
+                                Log.d("PriceListItemActivity", "No document found with field itemId: " + itemId);
+                            }
+                        } else {
+                            Log.d("PriceListItemActivity", "Error getting documents: ", task.getException());
+                        }
+                    }
+                });
+    }
+
+
+
 }

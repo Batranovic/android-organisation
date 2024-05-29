@@ -1,6 +1,8 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -17,6 +19,8 @@ import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
+import com.example.projekatmobilneaplikacije.activities.PriceListBundleActivity;
+import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
 import com.example.projekatmobilneaplikacije.model.CustomBundle;
 import com.example.projekatmobilneaplikacije.model.Service;
 
@@ -25,6 +29,7 @@ import java.util.ArrayList;
 public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
     private ArrayList<CustomBundle> aBundles;
     private Context mContext;
+    private static final int REQUEST_CODE_EDIT_ITEM = 1;
 
     public BundleListAdapter(Context context, ArrayList<CustomBundle> bundles){
         super(context, R.layout.bundle_card, bundles);
@@ -78,6 +83,7 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
             }
 
+            LinearLayout priceListCard = convertView.findViewById(R.id.price_list_card);
             TextView title = convertView.findViewById(R.id.title);
             TextView price = convertView.findViewById(R.id.price);
             TextView discount = convertView.findViewById(R.id.discount);
@@ -88,6 +94,21 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
                 price.setText(String.valueOf(bundle.getPrice()));
                 discount.setText(String.valueOf(bundle.getDiscount()));
                 discountPrice.setText(String.valueOf(bundle.getPriceWithDiscount()));
+
+                priceListCard.setOnClickListener(v -> {
+                    // Handle click on the item at 'position'
+                    Log.i("MobileApp", "Clicked: " + bundle.getTitle());
+
+                    Intent intent = new Intent(getContext(), PriceListBundleActivity.class);
+                    intent.putExtra("bundleId", bundle.getId()); // Pass the product ID or any other identifier
+                    intent.putExtra("title", bundle.getTitle());
+                    intent.putExtra("discount", bundle.getDiscount());
+                    //getContext().startActivity(intent);
+                    ((Activity) getContext()).startActivityForResult(intent, REQUEST_CODE_EDIT_ITEM);
+
+                    Toast.makeText(getContext(), "Clicked: " + bundle.getTitle(), Toast.LENGTH_SHORT).show();
+                });
+
             }
         } else {
             if(convertView == null){
@@ -114,6 +135,8 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
                     // Handle click on the item at 'position'
                     Log.i("ShopApp", "Clicked: " + bundle.getTitle() + ", id: " +
                             bundle.getId().toString());
+
+
                     Toast.makeText(getContext(), "Clicked: " + bundle.getTitle()  +
                             ", id: " + bundle.getId().toString(), Toast.LENGTH_SHORT).show();
                 });

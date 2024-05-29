@@ -23,10 +23,12 @@ public class CustomBundle implements Parcelable  {
     private String cancellationDeadline;
     private String confirmationMode;
     private boolean isDeleted;
+    private List<String> productIds;
+    private List<String> serviceIds;
 
     public CustomBundle() { }
 
-    public CustomBundle(String id, String title, String description, int price, int discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted) {
+    public CustomBundle(String id, String title, String description, int price, int discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted, List<String> productIds, List<String> serviceIds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -42,6 +44,24 @@ public class CustomBundle implements Parcelable  {
         this.cancellationDeadline = cancellationDeadline;
         this.confirmationMode = confirmationMode;
         this.isDeleted = isDeleted;
+        this.productIds = productIds;
+        this.serviceIds = serviceIds;
+    }
+
+    public List<String> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
+    }
+
+    public List<String> getServiceIds() {
+        return serviceIds;
+    }
+
+    public void setServiceIds(List<String> serviceIds) {
+        this.serviceIds = serviceIds;
     }
 
     public String getId() {
@@ -211,6 +231,8 @@ public class CustomBundle implements Parcelable  {
         cancellationDeadline = in.readString();
         confirmationMode = in.readString();
         isDeleted = in.readBoolean();
+        productIds = in.createStringArrayList();
+        serviceIds = in.createStringArrayList();
     }
 
 
@@ -237,6 +259,8 @@ public class CustomBundle implements Parcelable  {
         dest.writeString(cancellationDeadline);
         dest.writeString(confirmationMode);
         dest.writeByte((byte) (isDeleted ? 1 : 0));
+        dest.writeStringList(productIds);
+        dest.writeStringList(serviceIds);
     }
 
     public static final Creator<CustomBundle> CREATOR = new Creator<CustomBundle>() {
