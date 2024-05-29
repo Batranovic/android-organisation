@@ -21,7 +21,6 @@
         android:layout_weight="0.5"
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
-        android:entries="@array/subcategory_val"
         android:text="@string/subcategory"
         android:tooltipText="@string/subcategory"
         android:contentDescription="@string/subcategory"

@@ -5,20 +5,17 @@ import android.os.Bundle;
 import android.util.Log;
 import android.widget.TextView;
 
-import androidx.activity.EdgeToEdge;
+
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.graphics.Insets;
-import androidx.core.view.ViewCompat;
-import androidx.core.view.WindowInsetsCompat;
+
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.model.EventType;
-import com.example.projekatmobilneaplikacije.model.UserDetails;
+
 import com.example.projekatmobilneaplikacije.model.enumerations.Owner;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
-import com.google.firebase.firestore.auth.User;
+
 
 public class RegistrationRequestDetailActivity extends AppCompatActivity {
     String companyName, companyMail, ownerName, ownerMail;
@@ -61,8 +58,6 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
                                 ownerMailTextView.setText(ownerMail);
                             }
                         }
-                    } else {
-                        // Handle errors here
                     }
                 });
     }

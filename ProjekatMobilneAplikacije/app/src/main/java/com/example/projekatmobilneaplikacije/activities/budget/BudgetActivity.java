@@ -1,6 +1,5 @@
 package com.example.projekatmobilneaplikacije.activities.budget;
 
-import static android.app.PendingIntent.getActivity;
 import static android.service.controls.ControlsProviderService.TAG;
 
 import android.content.Intent;
@@ -10,19 +9,12 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.FragmentActivity;
-
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfileActivity;
-import com.example.projekatmobilneaplikacije.activities.events.NewEventActivity;
 import com.example.projekatmobilneaplikacije.databinding.ActivityEventBudgetBinding;
-import com.example.projekatmobilneaplikacije.fragments.EventListFragment;
 import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
 import com.example.projekatmobilneaplikacije.fragments.ListSubCatForEventFragment;
-import com.example.projekatmobilneaplikacije.model.CreateEvent;
 import com.example.projekatmobilneaplikacije.model.Subcategory;
-import com.example.projekatmobilneaplikacije.model.SubcategorySuggestion;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 

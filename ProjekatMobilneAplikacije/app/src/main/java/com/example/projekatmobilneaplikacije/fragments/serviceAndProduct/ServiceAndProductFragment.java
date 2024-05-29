@@ -43,6 +43,7 @@ public class ServiceAndProductFragment extends Fragment {
 
     private RadioGroup radioGroupCategory;
     private RadioButton radioButtonSubcategory;
+    private EditText editTextCatName2;
     private Spinner categorySpinner;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static ServiceAndProductFragment newInstance() {

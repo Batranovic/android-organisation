@@ -2,7 +2,7 @@
 <LinearLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="310dp"
+    android:layout_height="333dp"
     android:orientation="horizontal"
     android:background="@drawable/border_background"
     android:padding="10dp"
@@ -77,6 +77,31 @@
             android:text="@string/privacy"
             android:textSize="14sp"
             android:textStyle="italic" />
+
+        <!-- Dodajemo novi horizontalni LinearLayout za dugmadi -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp">
+
+            <!-- Dugme za dodavanje agende -->
+            <Button
+                android:id="@+id/btn_add_agenda"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/agenda" />
+
+            <!-- Dugme za dodavanje liste gostiju -->
+            <Button
+                android:id="@+id/btn_add_guests_list"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@string/guests" />
+
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>
