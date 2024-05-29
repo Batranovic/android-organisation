@@ -1,18 +1,35 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
+import com.example.projekatmobilneaplikacije.adapters.ServiceListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleSecondBinding;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateBundleThirdBinding;
+import com.example.projekatmobilneaplikacije.model.Product;
+import com.example.projekatmobilneaplikacije.model.Service;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.QuerySnapshot;
+
+import java.util.ArrayList;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -23,6 +40,7 @@ public class CreateBundleThirdFragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private static final String ARG_PARAM = "param";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
@@ -31,6 +49,22 @@ public class CreateBundleThirdFragment extends Fragment {
     private String mParam2;
 
     private FragmentCreateBundleThirdBinding binding;
+
+    String title, description, category, available, visible;
+    int discount;
+
+    Uri selectedImageUri;
+
+    Service selectedService;
+    Product selectedProduct;
+
+    private ListView listView;
+    private ProductListAdapter adapter;
+
+    private ArrayList<Product> products = new ArrayList<>();
+
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
+    private CollectionReference productsRef = db.collection("products");
 
     public CreateBundleThirdFragment() {
         // Required empty public constructor
@@ -45,11 +79,18 @@ public class CreateBundleThirdFragment extends Fragment {
      * @return A new instance of fragment CreateBundleThirdFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateBundleThirdFragment newInstance(String param1, String param2) {
+    public static CreateBundleThirdFragment newInstance(Service selectedService, String title, String description, String category, String available, String visible, int discount, Uri selectedImageUri) {
         CreateBundleThirdFragment fragment = new CreateBundleThirdFragment();
         Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
+        args.putParcelable("selectedService", selectedService);
+        Log.d("Create bundle third fragment","selectedService "+ selectedService.getTitle());
+        args.putString("title", title);
+        args.putString("description", description);
+        args.putString("category", category);
+        args.putInt("discount", discount);
+        args.putString("available", available);
+        args.putString("visible", visible);
+        args.putParcelable("selectedImageUri", selectedImageUri);
         fragment.setArguments(args);
         return fragment;
     }
@@ -58,9 +99,14 @@ public class CreateBundleThirdFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
+            products = getArguments().getParcelableArrayList(ARG_PARAM);
         }
+        // Initialize the services ArrayList if it's null
+        if (products == null) {
+            products = new ArrayList<>();
+        }
+        // Initialize the adapter with the services ArrayList
+        adapter = new ProductListAdapter(getActivity(), products, this);
     }
 
     @Override
@@ -69,10 +115,42 @@ public class CreateBundleThirdFragment extends Fragment {
         binding = FragmentCreateBundleThirdBinding.inflate(inflater, container, false);
 
         View root = binding.getRoot();
+
+        listView = root.findViewById(android.R.id.list);
+        adapter = new ProductListAdapter(getActivity(), products, this);
+        listView.setAdapter(adapter);
+
+        // Učitavanje servisa iz baze podataka
+        loadProducts();
+
+        Bundle args = getArguments();
+        if (args != null) {
+            selectedService = args.getParcelable("selectedService");
+            title = args.getString("title", "");
+            description = args.getString("description", "");
+            selectedImageUri = args.getParcelable("selectedImageUri");
+            category = args.getString("category", "");
+            discount = args.getInt("discount", 0);
+            available = args.getString("available", "");
+            visible = args.getString("visible", "");
+        }
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                selectedProduct = products.get(position);
+                // Postavljanje odabrane pozadine za kliknuti element
+                Log.d("CreateBundleThirdFragment", "selected item: " + selectedProduct.getTitle());
+                view.setBackgroundColor(ContextCompat.getColor(getContext(), androidx.cardview.R.color.cardview_dark_background));
+            }
+        });
+
+
+
         binding.nextFragmentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Fragment fourthFragment = new CreateBundleFourthFragment();
+                Fragment fourthFragment = CreateBundleFourthFragment.newInstance(selectedService, selectedProduct, title, description, category, available, visible, discount, selectedImageUri);
 
                 getParentFragmentManager().beginTransaction()
                         .replace(R.id.create_bundle_container, fourthFragment)
@@ -83,5 +161,25 @@ public class CreateBundleThirdFragment extends Fragment {
 
 
         return root;
+    }
+
+
+    private void loadProducts() {
+        productsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                products.clear();
+
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Product product = documentSnapshot.toObject(Product.class);
+                        products.add(product);
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.d("CreateBundleThirdFragment", "No products found");
+                }
+            }
+        });
     }
 }

@@ -30,8 +30,13 @@
             android:icon="@drawable/bundle_listing"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_login"
+            android:title="Login"
+            android:icon="@drawable/ic_logout"
+            android:orderInCategory="300" />
+
         <item android:id="@+id/nav_logout"
-            android:title="@string/logout"
+            android:title="Logout"
             android:icon="@drawable/ic_logout"
             android:orderInCategory="300" />
 
@@ -53,5 +58,21 @@
             android:title="All created events"
             android:icon="@drawable/ic_hamburger"
             android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_registration_requests"
+            android:title="Registration requests"
+            android:icon="@drawable/ic_hamburger"
+            android:orderInCategory="300" />
+            
+        <item android:id="@+id/nav_reports"
+            android:title="Reports"
+            android:icon="@drawable/reports"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_price_list"
+            android:title="Price list"
+            android:icon="@drawable/price_list"
+            android:orderInCategory="300" />
+
     </group>
 </menu>

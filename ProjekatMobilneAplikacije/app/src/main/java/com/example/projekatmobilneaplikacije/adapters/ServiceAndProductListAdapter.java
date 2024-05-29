@@ -2,7 +2,7 @@ package com.example.projekatmobilneaplikacije.adapters;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.EditServiceAndProductActivity;
-
+import com.example.projekatmobilneaplikacije.activities.EditSubcategoryActivity;
 import com.example.projekatmobilneaplikacije.model.Category;
 import com.example.projekatmobilneaplikacije.model.Subcategory;
 
@@ -73,6 +73,14 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Object> {
 
 
 
+                    Intent intent = new Intent(mContext, EditSubcategoryActivity.class);
+                    intent.putExtra("subcategory_name", subcategoryName);
+                    intent.putExtra("subcategory_description", subcategoryDescription);
+                    intent.putExtra("subcategory_type", subcategoryType);
+                    intent.putExtra("subcategory_category_name", subcategoryCategoryName);
+                    intent.putExtra("old_subname", subcategoryName);
+
+                    mContext.startActivity(intent);
                 }
             });
         }

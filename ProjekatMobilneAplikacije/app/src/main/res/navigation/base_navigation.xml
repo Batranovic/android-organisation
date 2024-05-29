@@ -113,7 +113,7 @@
         />
 
     <fragment
-        android:id="@+id/nav_logout"
+        android:id="@+id/nav_login"
         android:name="com.example.projekatmobilneaplikacije.fragments.LoginFragment"
         android:label="Login"
         tools:layout="@layout/fragment_login"
@@ -125,6 +125,15 @@
 
     </fragment>
 
+    <fragment
+        android:id="@+id/nav_logout"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.LogoutFragment"
+        android:label="Logout"
+        tools:layout="@layout/fragment_logout"
+        app:popUpToInclusive="true">
+
+
+    </fragment>
     <!-- sledeci deo je vezan za navigaciju unutar RegistrationActivity-->
     <!--@+id/nav_register ovo sam sama definisala, prelazim sa activity_registration putem action na register_as_pup-->
     <fragment
@@ -185,6 +194,30 @@
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_registration_requests"
+        android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegistrationRequestsFragment"
+        android:label="Requests"
+        tools:layout="@layout/fragment_registration_requests"
+        app:popUpToInclusive="true"
+        />
 
+    <fragment
+        android:id="@+id/nav_reports"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ReportsFragment"
+        android:label="Reports"
+        tools:layout="@layout/fragment_reports"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
+    <activity
+        android:id="@+id/nav_price_list"
+        android:name="com.example.projekatmobilneaplikacije.activities.PriceListActivity"
+        android:label="Price list"
+        tools:layout="@layout/activity_price_list"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
 
 </navigation>
