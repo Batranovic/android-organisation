@@ -105,9 +105,9 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         super.onViewCreated(view, savedInstanceState);
         //prepareProductList(products);
 
-        adapter = new ProductListAdapter(getActivity(), products, null);
+       adapter = new ProductListAdapter(getActivity(), products, null);
         // Set adapter for the ListFragment
-        setListAdapter(adapter);
+        setListAdapter(adapter );
 
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
