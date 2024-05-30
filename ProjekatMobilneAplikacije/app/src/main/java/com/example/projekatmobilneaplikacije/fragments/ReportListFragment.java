@@ -1,7 +1,12 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
 
@@ -76,6 +81,12 @@ public class ReportListFragment extends ListFragment {
             reports = getArguments().getParcelableArrayList(ARG_PARAM);
             adapter = new ReportListAdapter(getActivity(), reports);
             setListAdapter(adapter);
+        }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
+            if (ContextCompat.checkSelfPermission(getContext(), Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED){
+                ActivityCompat.requestPermissions(getActivity(), new String[]{Manifest.permission.POST_NOTIFICATIONS}, 101);
+            }
         }
     }
 
