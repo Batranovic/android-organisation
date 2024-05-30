@@ -5,25 +5,28 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.type.DateTime;
+
 import java.sql.Time;
+import java.util.Date;
 
 
 public class Event implements Parcelable {
     private Long id;
-    private Time startTime;
-    private Time endTime;
+    private Date startTime;
+    private Date endTime;
     private String type;
 
     protected Event(Parcel in) {
         id = in.readLong();
-        startTime = new Time(in.readLong());
-        endTime = new Time(in.readLong());
+        startTime = new Date(in.readLong());
+        endTime = new Date(in.readLong());
         type = in.readString();
     }
     public Event(){
 
     }
-    public Event(Long id, Time startTime, Time endTime, String type) {
+    public Event(Long id, Date startTime, Date endTime, String type) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -40,19 +43,19 @@ public class Event implements Parcelable {
 
 
 
-    public Time getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(Time startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public Time getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(Time endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 

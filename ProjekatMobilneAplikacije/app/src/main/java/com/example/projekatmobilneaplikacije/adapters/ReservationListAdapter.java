@@ -40,7 +40,9 @@ import com.google.type.DateTime;
 import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
+import java.util.Iterator;
 
 public class ReservationListAdapter extends ArrayAdapter<Reservation> implements Filterable{
     private ArrayList<Reservation> aReservations;
@@ -109,7 +111,7 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
 
         Button acceptButton = convertView.findViewById(R.id.accept_reservation_button);
 
-        Button cancellButton = convertView.findViewById(R.id.cancel_reservation_button);
+        Button cancelButton = convertView.findViewById(R.id.cancel_reservation_button);
 
         if (user != null) {
             username = user.getEmail();
@@ -188,6 +190,34 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
             }
         });
 
+        cancelButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("EventOrganizer".equals(userRole)) {
+                    ReservationStatus status = reservation.getStatus();
+                    Date startDate = reservation.getFrom();
+                    int cancellationDeadline = reservation.getService().getCancellationDeadline();
+
+                    Calendar deadlineCalendar = Calendar.getInstance();
+                    deadlineCalendar.setTime(startDate);
+                    deadlineCalendar.add(Calendar.DAY_OF_YEAR, -cancellationDeadline);
+
+                    Date cancellationDeadlineDate = deadlineCalendar.getTime();
+                    Date currentDate = new Date();
+
+                    if ((status == ReservationStatus.New || status == ReservationStatus.Accepted) && currentDate.before(cancellationDeadlineDate)) {
+                        updateReservationStatus(reservation, ReservationStatus.CancelledByEO);
+                    } else {
+                        Toast.makeText(getContext(), "Not allowed. Cancellation deadline has passed.", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                if (("Employee".equals(userRole) || "Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New))) {
+                    updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
+                } else {
+                    Toast.makeText(getContext(), "Not allowed.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 
@@ -285,7 +315,11 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(getContext(), "Reservation status updated successfully.", Toast.LENGTH_SHORT).show();
-                                            addEventToEmployeeWorkCalendar(reservation);
+                                            if (newStatus == ReservationStatus.CancelledByEO) {
+                                                removeEventFromEmployeeWorkCalendar(reservation);
+                                            } else {
+                                                addEventToEmployeeWorkCalendar(reservation);
+                                            }
                                         }
                                     })
                                     .addOnFailureListener(new OnFailureListener() {
@@ -324,8 +358,8 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                                     if (workCalendar != null) {
                                         Event newEvent = new Event(
                                                 System.currentTimeMillis(), // Unique ID for the event
-                                                new Time(reservation.getFrom().getTime()),
-                                                new Time(reservation.getTo().getTime()),
+                                                new Date(reservation.getFrom().getTime()),
+                                                new Date(reservation.getTo().getTime()),
                                                 "reserved"
                                         );
                                         workCalendar.getEvents().add(newEvent);
@@ -336,6 +370,60 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                                                     @Override
                                                     public void onSuccess(Void aVoid) {
                                                         Log.d("ReservationListAdapter", "Event added to work calendar.");
+                                                        notifyDataSetChanged();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.e("ReservationListAdapter", "Error updating work calendar", e);
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d("ReservationListAdapter", "Work calendar not found for employee: " + employeeEmail);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("ReservationListAdapter", "Error fetching work calendar", e);
+                    }
+                });
+    }
+
+    private void removeEventFromEmployeeWorkCalendar(Reservation reservation) {
+        String employeeEmail = reservation.getEmployee().getEmail();
+        db.collection("workCalendars")
+                .whereEqualTo("employee", employeeEmail)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                if (documentSnapshot.exists()) {
+                                    WorkCalendar workCalendar = documentSnapshot.toObject(WorkCalendar.class);
+                                    if (workCalendar != null) {
+                                        Iterator<Event> iterator = workCalendar.getEvents().iterator();
+                                        while (iterator.hasNext()) {
+                                            Event event = iterator.next();
+                                            if (event.getStartTime().equals(new Date(reservation.getFrom().getTime())) &&
+                                                    event.getEndTime().equals(new Date(reservation.getTo().getTime()))) {
+                                                iterator.remove();
+                                                break;
+                                            }
+                                        }
+
+                                        db.collection("workCalendars").document(documentSnapshot.getId())
+                                                .set(workCalendar)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d("ReservationListAdapter", "Event removed from work calendar.");
                                                         notifyDataSetChanged();
                                                     }
                                                 })
