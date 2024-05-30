@@ -204,9 +204,9 @@
 
     <fragment
         android:id="@+id/nav_reports"
-        android:name="com.example.projekatmobilneaplikacije.fragments.ReportsFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ReportListFragment"
         android:label="Reports"
-        tools:layout="@layout/fragment_reports"
+        tools:layout="@layout/fragment_report_list"
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
