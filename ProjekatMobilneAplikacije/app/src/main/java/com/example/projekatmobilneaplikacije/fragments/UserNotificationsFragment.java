@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ListView;
 
 import com.example.projekatmobilneaplikacije.R;
@@ -93,15 +94,68 @@ public class UserNotificationsFragment extends ListFragment {
 
         String username = loggedInUser.getEmail();
 
+        notifications = fetchNotificationsFromFirestore(username);
+
+        Button btnRead = view.findViewById(R.id.btnRead);
+        btnRead.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Notification> readNotifications = new ArrayList<>();
+                // Filter notifications where isRead is true
+                for (Notification notification : notifications) {
+                    if (notification.isRead()) {
+                        readNotifications.add(notification);
+                    }
+                }
+                // Update adapter with filtered list
+                adapter = new UserNotificationsAdapter(getActivity(), readNotifications);
+                setListAdapter(adapter);
+            }
+        });
+
+        Button btnUnread = view.findViewById(R.id.btnUnread);
+        btnUnread.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                ArrayList<Notification> unreadNotifications = new ArrayList<>();
+                for (Notification notification : notifications) {
+                    if (!notification.isRead()) {
+                        unreadNotifications.add(notification);
+                    }
+                }
+                // Update adapter with filtered list
+                adapter = new UserNotificationsAdapter(getActivity(), unreadNotifications);
+                setListAdapter(adapter);
+            }
+        });
+
+        Button btnAll = view.findViewById(R.id.btnAll);
+        btnAll.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notifications = fetchNotificationsFromFirestore(username);
+                // Update adapter with fetched notifications
+                adapter = new UserNotificationsAdapter(getActivity(), notifications);
+                setListAdapter(adapter);
+            }
+        });
+
+        listView.setAdapter(adapter);
+
+    }
+
+    private ArrayList<Notification> fetchNotificationsFromFirestore(String username) {
+        final ArrayList<Notification> fetchedNotifications = new ArrayList<>();
+
         notificationsRef.whereEqualTo("username", username).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                notifications.clear();
+                fetchedNotifications.clear();
 
                 if (!queryDocumentSnapshots.isEmpty()) {
                     for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                         Notification notification = documentSnapshot.toObject(Notification.class);
-                        notifications.add(notification);
+                        fetchedNotifications.add(notification);
                     }
                     adapter.notifyDataSetChanged();
                 } else {
@@ -110,8 +164,8 @@ public class UserNotificationsFragment extends ListFragment {
             }
         });
 
-
-        listView.setAdapter(adapter);
-
+        return fetchedNotifications;
     }
+
+
 }

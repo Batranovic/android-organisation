@@ -24,7 +24,7 @@ public class Notification implements Parcelable {
         this.id = id;
         this.title = title;
         this.message = message;
-        this.isRead = false;
+        this.isRead = isRead;
         this.date = date;
         this.username = username;
     }
@@ -77,6 +77,7 @@ public class Notification implements Parcelable {
         this.username = username;
     }
 
+
     @Override
     public int describeContents() {
         return 0;
@@ -87,7 +88,7 @@ public class Notification implements Parcelable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(message);
-        dest.writeByte((byte) (isRead ? 1 : 0));
+        dest.writeBoolean(isRead);
         dest.writeString(date.toString());
         dest.writeString(username);
     }
@@ -97,7 +98,7 @@ public class Notification implements Parcelable {
         id = in.readString();
         title = in.readString();
         message = in.readString();
-        isRead = in.readByte() != 0;
+        isRead = in.readBoolean();
         long dateMillis = in.readLong();
         date = dateMillis != -1 ? new Date(dateMillis) : null;  //date = new Date(in.readLong());
         username = in.readString();
