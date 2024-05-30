@@ -24,6 +24,7 @@ import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfil
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
 import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Event;
+import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Reservation;
 import com.example.projekatmobilneaplikacije.model.WorkCalendar;
@@ -193,26 +194,59 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if ("EventOrganizer".equals(userRole)) {
-                    ReservationStatus status = reservation.getStatus();
-                    Date startDate = reservation.getFrom();
-                    int cancellationDeadline = reservation.getService().getCancellationDeadline();
+                ReservationStatus status = reservation.getStatus();
+                Date startDate = reservation.getFrom();
+                int cancellationDeadline = reservation.getService().getCancellationDeadline();
 
-                    Calendar deadlineCalendar = Calendar.getInstance();
-                    deadlineCalendar.setTime(startDate);
-                    deadlineCalendar.add(Calendar.DAY_OF_YEAR, -cancellationDeadline);
+                Calendar deadlineCalendar = Calendar.getInstance();
+                deadlineCalendar.setTime(startDate);
+                deadlineCalendar.add(Calendar.DAY_OF_YEAR, -cancellationDeadline);
 
-                    Date cancellationDeadlineDate = deadlineCalendar.getTime();
-                    Date currentDate = new Date();
+                Date cancellationDeadlineDate = deadlineCalendar.getTime();
+                Date currentDate = new Date();
+                if ("EventOrganizer".equals(userRole) && (status == ReservationStatus.New || status == ReservationStatus.Accepted) && currentDate.before(cancellationDeadlineDate)) {
 
-                    if ((status == ReservationStatus.New || status == ReservationStatus.Accepted) && currentDate.before(cancellationDeadlineDate)) {
+
                         updateReservationStatus(reservation, ReservationStatus.CancelledByEO);
-                    } else {
-                        Toast.makeText(getContext(), "Not allowed. Cancellation deadline has passed.", Toast.LENGTH_SHORT).show();
-                    }
+                        String notificationId = db.collection("notifications").document().getId();
+                        Date currentTimestamp = new Date();
+                        Notification notification = new Notification(
+                                notificationId,
+                                "Reservation Cancellation",
+                                "Event Organizer " + username + " cancelled reservation: " + reservation.getId(),
+                                false,
+                                currentTimestamp,
+                                reservation.getEmployee().getEmail()
+                        );
+
+                        // Save the notification to Firestore
+                        db.collection("notifications").document(notificationId)
+                                .set(notification)
+                                .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+
+
+
                 }
-                if (("Employee".equals(userRole) || "Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New))) {
+
+                else if (("Employee".equals(userRole) || "Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New))) {
                     updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
+                    String notificationId = db.collection("notifications").document().getId();
+                    Date currentTimestamp = new Date();
+                    Notification notification = new Notification(
+                            notificationId,
+                            "Reservation Cancellation",
+                            "PUP " + username + " cancelled reservation: " + reservation.getId(),
+                            false,
+                            currentTimestamp,
+                            reservation.getEventOrganizer().getUsername()
+                    );
+
+                    // Save the notification to Firestore
+                    db.collection("notifications").document(notificationId)
+                            .set(notification)
+                            .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
                 } else {
                     Toast.makeText(getContext(), "Not allowed.", Toast.LENGTH_SHORT).show();
                 }
@@ -315,7 +349,7 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                                         @Override
                                         public void onSuccess(Void aVoid) {
                                             Toast.makeText(getContext(), "Reservation status updated successfully.", Toast.LENGTH_SHORT).show();
-                                            if (newStatus == ReservationStatus.CancelledByEO) {
+                                            if (newStatus == ReservationStatus.CancelledByEO || newStatus == ReservationStatus.CancelledByPUP) {
                                                 removeEventFromEmployeeWorkCalendar(reservation);
                                             } else {
                                                 addEventToEmployeeWorkCalendar(reservation);
