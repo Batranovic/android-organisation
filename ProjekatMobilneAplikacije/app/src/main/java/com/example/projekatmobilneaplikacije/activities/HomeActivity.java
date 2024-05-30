@@ -154,13 +154,14 @@ public class HomeActivity extends AppCompatActivity {
             Menu navMenu = navigationView.getMenu();
             navMenu.findItem(R.id.nav_logout).setVisible(false);
             navMenu.findItem(R.id.nav_login).setVisible(true);
+            navMenu.findItem(R.id.nav_reservations).setVisible(false);
 
         } else {
             // Standardna navigacija na fragment za odjavu
             Menu navMenu = navigationView.getMenu();
             navMenu.findItem(R.id.nav_logout).setVisible(true);
             navMenu.findItem(R.id.nav_login).setVisible(false);
-
+            navMenu.findItem(R.id.nav_reservations).setVisible(true);
         }
 if(user!= null) {
 

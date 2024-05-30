@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/border_background"
-    android:id="@+id/reservation_card_item">
+    android:id="@+id/reservation_card_item"
+    android:background="?android:attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="410dp"
@@ -24,12 +24,25 @@
                 android:id="@+id/service_title"
                 android:layout_width="match_parent"
                 android:layout_height="61dp"
-                android:textStyle="bold"/>
+                android:fontFamily="@font/montserrat_medium"
+                android:textStyle="bold"
+                android:textSize="25dp"
+                android:layout_margin="8dp"/>
 
             <TextView
                 android:id="@+id/reservation_status"
                 android:layout_width="match_parent"
-                android:layout_height="40dp" />
+                android:layout_height="40dp"
+                android:layout_margin="8dp"/>
+
+            <TextView
+                android:id="@+id/reservation_start"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_margin="8dp"/>
+
+
+
         </LinearLayout>
 
         <LinearLayout
@@ -46,7 +59,8 @@
                 android:id="@+id/accept_reservation_button"
                 android:layout_width="wrap_content"
                 android:layout_height="88dp"
-                android:text="@string/accept" />
+                android:text="@string/accept"
+                android:visibility="visible"/>
 
             <Button
                 android:id="@+id/cancel_reservation_button"

@@ -7,17 +7,48 @@
     android:layout_height="match_parent"
     tools:context=".fragments.reservations.ReservationListFragment">
 
+    <LinearLayout
+        android:id="@+id/linear1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/linear2"
+        app:layout_constraintVertical_bias="0.001"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp">
 
-
-        <LinearLayout
-            android:id="@+id/linear2"
+        <android.widget.SearchView
+            android:id="@+id/reservation_search"
+            app:queryHint="Search..."
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_marginTop="10dp"
-            >
+            android:layout_height="match_parent"
+            android:background="@drawable/border_background"
+            android:theme="@style/Theme.ProjekatMobilneAplikacije"
+
+            />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linear2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/linear1"
+        app:layout_constraintBottom_toBottomOf="@id/linear1"
+        app:layout_constraintVertical_bias="0.001"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dp"
+        >
+
+
 
             <Button
                 android:id="@+id/btnFilters"
@@ -41,15 +72,19 @@
 
         </LinearLayout>
 
-        <ListView
-            android:id="@android:id/list"
-            android:layout_marginTop="100dp"
-            android:layout_marginLeft="10dp"
-            android:layout_marginRight="10dp"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            tools:listitem="@layout/reservation_card"
-            />
+
+
+
+    <ListView
+        android:id="@android:id/list"
+        android:layout_marginTop="120dp"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:listitem="@layout/reservation_card" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,7 +9,6 @@ import androidx.annotation.NonNull;
 public class Event implements Parcelable {
     private Long id;
     private String name;
-    private String date;
     private String startTime;
     private String endTime;
     private String type;
@@ -17,7 +16,6 @@ public class Event implements Parcelable {
     protected Event(Parcel in) {
         id = in.readLong();
         name = in.readString();
-        date = in.readString();
         startTime = in.readString();
         endTime = in.readString();
         type = in.readString();
@@ -28,7 +26,6 @@ public class Event implements Parcelable {
     public Event(Long id,String name, String date, String startTime, String endTime, String type) {
         this.id = id;
         this.name = name;
-        this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.type = type;
@@ -50,13 +47,6 @@ public class Event implements Parcelable {
         this.name = name;
     }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String  date) {
-        this.date = date;
-    }
 
     public String getStartTime() {
         return startTime;
@@ -92,7 +82,6 @@ public class Event implements Parcelable {
         dest.writeLong(id);
         dest.writeString(name);
         dest.writeString(name);
-        dest.writeString(date);
         dest.writeString(startTime);
         dest.writeString(endTime);
         dest.writeString(type);

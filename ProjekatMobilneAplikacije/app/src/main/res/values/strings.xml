@@ -244,7 +244,11 @@
     <string name="new_reservation">New</string>
     <string name="cancelled_by_employee">Cancelled by employee</string>
     <string name="cancelled_by_event_org">Cancelled by user</string>
-    <string name="cancelled_by_admin">Cancelled by admin\n</string>
+    <string name="cancelled_by_admin">CancelledByAdmin\n</string>
     <string name="accepted">Accepted</string>
     <string name="realized">Realized</string>
+    <string name="cancelled_by_pup">CancelledByPUP</string>
+    <string name="cancelled_by_event_eo">CancelledByEO</string>
+    <string name="start">"Start: "</string>
+    <string name="end">"End: "</string>
 </resources>

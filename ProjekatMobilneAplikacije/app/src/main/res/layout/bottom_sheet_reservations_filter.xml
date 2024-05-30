@@ -48,13 +48,13 @@
                 android:id="@+id/reservations_radio_button"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelled_by_employee" />
+                android:text="@string/cancelled_by_pup" />
 
             <RadioButton
                 android:id="@+id/radioButton3"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="@string/cancelled_by_event_org" />
+                android:text="@string/cancelled_by_event_eo" />
 
             <RadioButton
                 android:id="@+id/radioButton4"

@@ -17,6 +17,7 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
+import android.widget.SearchView;
 import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
@@ -34,11 +35,15 @@ import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Reservation;
 import com.example.projekatmobilneaplikacije.model.Service;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.radiobutton.MaterialRadioButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -50,18 +55,31 @@ import java.util.ArrayList;
  * Use the {@link ReservationListFragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class ReservationListFragment extends ListFragment {
+public class ReservationListFragment extends ListFragment implements SearchView.OnQueryTextListener {
 
     private static final String ARG_PARAM = "param";
     private ReservationListAdapter adapter;
     public static ArrayList<Reservation> reservations;
     private FragmentReservationListBinding binding;
 
+    private ArrayList<Reservation> originalReservations = new ArrayList<>();
+
+
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference reservationsRef = db.collection("reservations");
 
+    private String userRole;
+    private String username;
 
+    FirebaseAuth auth;
+    FirebaseUser user;
+
+    SearchView searchView;
+
+    ListView listView;
+
+    Button acceptButton;
     public ReservationListFragment() {
     }
 
@@ -86,6 +104,19 @@ public class ReservationListFragment extends ListFragment {
                 reservations.addAll(passedReservations);
             }
         }
+
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+
+        if (user != null) {
+            username = user.getEmail();
+            Log.d("ReservationListFragment", "Retrieved username: " + username);
+            fetchUserRole(); // Fetch the user role
+        } else {
+            Log.e("ReservationListFragment", "User not logged in");
+        }
+
+
         adapter = new ReservationListAdapter(getActivity(), reservations);
         setListAdapter(adapter);
     }
@@ -104,6 +135,11 @@ public class ReservationListFragment extends ListFragment {
 
         adapter = new ReservationListAdapter(getActivity(), reservations);
         setListAdapter(adapter);
+
+        listView = view.findViewById(android.R.id.list);
+        searchView = view.findViewById(R.id.reservation_search);
+        acceptButton = view.findViewById(R.id.accept_reservation_button);
+
 
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
@@ -125,26 +161,27 @@ public class ReservationListFragment extends ListFragment {
             });
 
         });
-        reservationsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                reservations.clear();
 
-                // Check if there are any documents in the collection
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    // Iterate through each document in the collection
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        // Convert each document to a Product object
-                        Reservation reservation = documentSnapshot.toObject(Reservation.class);
-
-                        reservations.add(reservation);
-                    }
-                    adapter.notifyDataSetChanged();
-                } else {
-                    Log.d("ReservationListFragment", "No reservations found");
-                }
-            }
-        });
+//        reservationsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//            @Override
+//            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                reservations.clear();
+//
+//                // Check if there are any documents in the collection
+//                if (!queryDocumentSnapshots.isEmpty()) {
+//                    // Iterate through each document in the collection
+//                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+//                        // Convert each document to a Product object
+//                        Reservation reservation = documentSnapshot.toObject(Reservation.class);
+//
+//                        reservations.add(reservation);
+//                    }
+//                    adapter.notifyDataSetChanged();
+//                } else {
+//                    Log.d("ReservationListFragment", "No reservations found");
+//                }
+//            }
+//        });
 
         Button removeFiltersButton = view.findViewById(R.id.removeFiltersButton);
         removeFiltersButton.setOnClickListener(new View.OnClickListener() {
@@ -154,27 +191,140 @@ public class ReservationListFragment extends ListFragment {
             }
         });
 
-
+        listView.setAdapter(adapter);
+        searchView.setOnQueryTextListener(this);
     }
 
-    public void refreshReservationList() {
-            reservationsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-                @Override
-                public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                    reservations.clear();
+    @Override
+    public boolean onQueryTextSubmit(String query) {
+        return false;
+    }
 
-                    if (!queryDocumentSnapshots.isEmpty()) {
-                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            Reservation reservation = documentSnapshot.toObject(Reservation.class);
-                            reservations.add(reservation);
-                        }
-                        adapter.notifyDataSetChanged();
-                    } else {
-                        Log.d("ProductListingFragment", "No products found");
+    @Override
+    public boolean onQueryTextChange(String newText) {
+        Log.d("ReservationsListFragment", "New text: " + newText);
+        ArrayList<Reservation> filteredReservations = new ArrayList<>();
+
+        if (newText.isEmpty()) {
+            filteredReservations.addAll(originalReservations); // Return original list if search text is empty
+        } else {
+            String query = newText.toLowerCase();
+
+            for (Reservation reservation : reservations) {
+                boolean match = false;
+
+                //  "Owner" i "Employee"
+                if (userRole.equals("Owner") || userRole.equals("Employee")) {
+                    if ((reservation.getEventOrganizer().getName().toLowerCase() + " " + reservation.getEventOrganizer().getSurname().toLowerCase()).contains(query) ||
+                            reservation.getService().getTitle().toLowerCase().contains(query)) {
+                        match = true;
                     }
                 }
-            });
+
+                // "Owner"
+                if (userRole.equals("Owner")) {
+                    if (reservation.getEmployee().getCommonName().contains(query)){
+                        match = true;
+                    }
+                }
+
+                // Ako je pronađen meč, dodajte rezervaciju u filtriranu listu
+                if (match) {
+                    filteredReservations.add(reservation);
+                }
+            }
         }
 
+        adapter.updateReservations(filteredReservations);
+        return false;
+    }
+
+
+
+    public void refreshReservationList() {
+            loadReservations();
+        }
+
+    private void fetchUserRole() {
+        if (username == null) {
+            Log.e("ReservationListFragment", "Username is null");
+            return;
+        }
+
+        // Use a query to find the document with the specified username field
+        db.collection("userDetails")
+                .whereEqualTo("username", username)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                if (documentSnapshot.exists()) {
+                                    userRole = documentSnapshot.getString("role");
+                                    Log.d("ReservationListFragment", "User role: " + userRole);
+                                    if ("EventOrganizer".equals(userRole)) {
+                                        if (searchView != null) {
+                                            searchView.setVisibility(View.INVISIBLE);
+                                        }
+                                    }
+                                    loadReservations(); // Load reservations after fetching the role
+                                    return;
+                                }
+                            }
+                        } else {
+                            Log.d("ReservationListFragment", "User document not found for username: " + username);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("ReservationListFragment", "Error fetching user role", e);
+                    }
+                });
+    }
+
+    private boolean shouldIncludeReservation(Reservation reservation) {
+        switch (userRole) {
+            case "Owner":
+                return true;
+            case "Employee":
+                return reservation.getEmployee() != null && reservation.getEmployee().getEmail().equals(username);
+            case "EventOrganizer":
+                return reservation.getEventOrganizer() != null && reservation.getEventOrganizer().getUsername().equals(username);
+            default:
+                return false;
+        }
+    }
+
+    private void loadReservations() {
+        if (userRole == null) {
+            Log.e("ReservationListFragment", "User role is null");
+            return;
+        }
+
+        reservationsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                reservations.clear();
+                originalReservations.clear();
+
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Reservation reservation = documentSnapshot.toObject(Reservation.class);
+
+                        if (shouldIncludeReservation(reservation)) {
+                            reservations.add(reservation);
+                            originalReservations.add(reservation);
+                        }
+                    }
+                    adapter.notifyDataSetChanged();
+                } else {
+                    Log.d("ReservationListFragment", "No reservations found");
+                }
+            }
+        });
+    }
 
 }
