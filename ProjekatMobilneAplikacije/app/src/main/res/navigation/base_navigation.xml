@@ -220,4 +220,13 @@
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="com.example.projekatmobilneaplikacije.fragments.UserNotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_user_notifications"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
 </navigation>
