@@ -12,14 +12,16 @@ public class UserDetails implements Parcelable {
     private String home_address;
     private String phone;
     private UserRole role;
+    private Boolean isBlocked;
 
-    public UserDetails(String username, String name, String surname, String home_address, String phone, UserRole role) {
+    public UserDetails(String username, String name, String surname, String home_address, String phone, UserRole role, Boolean isBlocked) {
         this.username = username;
         this.name = name;
         this.surname = surname;
         this.home_address = home_address;
         this.phone = phone;
         this.role = role;
+        this.isBlocked = isBlocked;
     }
 
     public UserDetails() {}
@@ -31,6 +33,7 @@ public class UserDetails implements Parcelable {
         home_address = in.readString();
         phone = in.readString();
         role = UserRole.valueOf(in.readString());
+        isBlocked = in.readBoolean();
     }
 
     @Override
@@ -41,6 +44,7 @@ public class UserDetails implements Parcelable {
         dest.writeString(home_address);
         dest.writeString(phone);
         dest.writeString(role.name());
+        dest.writeBoolean(isBlocked);
     }
 
     @Override
@@ -106,5 +110,13 @@ public class UserDetails implements Parcelable {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Boolean getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(Boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 }

@@ -135,7 +135,7 @@ public class RegistrationFragment extends Fragment {
                             @Override
                             public void onSuccess(AuthResult authResult) {
                                 // Registracija je uspješna, sada dodajemo UserDetails u Firestore
-                                UserDetails userDetails = new UserDetails(email, namet, surnamet, addresst, phonet, UserRole.EventOrganizer);
+                                UserDetails userDetails = new UserDetails(email, namet, surnamet, addresst, phonet, UserRole.EventOrganizer, false);
                                 addUserDetailsToFirestore(userDetails);
 
                                 //mozda je suvisno-izbaci ako ne bude bilo potrebe

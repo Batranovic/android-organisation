@@ -246,7 +246,7 @@ public class RegisterFragment extends Fragment  {
                 startActivity(intent);
 
                 Company company = new Company(company_email, company_name, company_address, company_phoneNumber, company_description, "123", workingHours);
-                UserDetails userDetails = new UserDetails(email, name, surname, address, phone, UserRole.Owner);
+                UserDetails userDetails = new UserDetails(email, name, surname, address, phone, UserRole.Owner, false);
                 Owner owner = new Owner(company, userDetails, selectedCategories, selectedEventTypes);
                 RegistrationRequest registrationRequest = new RegistrationRequest(false, owner,new Date(), null);
                 addCompanyToFirestore(company, userDetails, owner,registrationRequest);

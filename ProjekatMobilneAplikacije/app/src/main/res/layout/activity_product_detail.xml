@@ -201,9 +201,18 @@
         android:orientation="horizontal"
         android:layout_gravity="center"
         android:layout_marginRight="20dp"
-        android:layout_marginLeft="90dp"
+        android:layout_marginLeft="20dp"
         android:layout_marginTop="50dp">
-
+        <ImageButton
+            android:id="@+id/reserveProductButton"
+            android:background="@drawable/border_background"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:src="@drawable/ic_new"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            />
         <ImageButton
             android:id="@+id/editProductButton"
             android:background="@drawable/border_background"

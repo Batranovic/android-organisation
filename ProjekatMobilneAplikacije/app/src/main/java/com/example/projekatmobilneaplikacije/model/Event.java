@@ -21,6 +21,7 @@ public class Event implements Parcelable {
         startTime = in.readString();
         endTime = in.readString();
         type = in.readString();
+
     }
     public Event(){
 
@@ -81,6 +82,8 @@ public class Event implements Parcelable {
     public void setType(String type) {
         this.type = type;
     }
+
+
 
     @Override
     public int describeContents() {

@@ -13,6 +13,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
+import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -128,13 +129,23 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
     }
 
     private void sendActivationEmail(String recipientEmail) {
-        FirebaseAuth.getInstance().sendPasswordResetEmail(recipientEmail)
+        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
+                .setUrl("https://projekat-mobilne-aplikacije.web.app/signIn")  // Replace with your app's URL
+                .setHandleCodeInApp(true)
+                .setIOSBundleId("com.example.ios")
+                .setAndroidPackageName(
+                        "com.example.projekatmobilneaplikacije",
+                        true,  // install if not available
+                        "12"   // minimum version
+                )
+                .build();
+        FirebaseAuth.getInstance().sendSignInLinkToEmail(recipientEmail,actionCodeSettings)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d("Email", "Password reset email sent successfully to: " + recipientEmail);
+                        Log.d("Email", "Sign-in email sent successfully to: " + recipientEmail);
                         // Dodajte kod za obaveštenje korisnika da je mejl poslat
                     } else {
-                        Log.e("Email", "Error sending password reset email", task.getException());
+                        Log.e("Email", "Error sending sign-in email", task.getException());
                         // Dodajte kod za obaveštenje korisnika o grešci
                     }
                 });
