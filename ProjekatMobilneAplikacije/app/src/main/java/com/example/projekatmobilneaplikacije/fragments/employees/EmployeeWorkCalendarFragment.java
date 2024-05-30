@@ -64,7 +64,6 @@ public class EmployeeWorkCalendarFragment extends Fragment {
         binding = FragmentEmployeeWorkCalendarBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        prepareEventList(events);
 
         FragmentTransition.to(EmpoyeeEventsListFragment.newInstance(events), getActivity(),
                 false, R.id.events);
@@ -82,13 +81,7 @@ public class EmployeeWorkCalendarFragment extends Fragment {
         return root;
     }
 
-    private void prepareEventList(ArrayList<Event> events){
-        events.add(new Event(1L, "Vencanje", "21.04.2024.", "14:30","23:30", "reserved"));
-        events.add(new Event(1L, "Rodjendan", "22.04.2024.", "14:30","23:30", "occupied"));
-        events.add(new Event(1L, "Koncert", "23.04.2024.", "14:30","23:30", "reserved"));
-        events.add(new Event(1L, "Baby shower", "23.04.2024.", "14:30","23:30", "occupied"));
-
-    }
+//
 
     @Override
     public void onDestroyView() {

@@ -11,19 +11,19 @@ import java.util.Date;
 
 public class Report implements Parcelable {
     private String id;
-    private String reportedEntityId; // ID of the company or user being reported
-    private String reportedById;
+    private String reportedEntityUsername; // ID of the company or user being reported
+    private String reportedByUsername;
     private String reason;
     private Status status;
-    private LocalDate date;
+    private Date date;
 
     public Report() {
     }
 
-    public Report(String id, String reportedEntityId, String reportedById, String reason, Status status, LocalDate date) {
+    public Report(String id, String reportedEntityUsername, String reportedByUsername, String reason, Status status, Date date) {
         this.id = id;
-        this.reportedEntityId = reportedEntityId;
-        this.reportedById = reportedById;
+        this.reportedEntityUsername = reportedEntityUsername;
+        this.reportedByUsername = reportedByUsername;
         this.reason = reason;
         this.status = status;
         this.date = date;
@@ -32,11 +32,12 @@ public class Report implements Parcelable {
     // Konstruktor za čitanje iz Parcel objekta
     protected Report(Parcel in) {
         id = in.readString();
-        reportedEntityId = in.readString();
-        reportedById = in.readString();
+        reportedEntityUsername = in.readString();
+        reportedByUsername = in.readString();
         reason = in.readString();
         status = Status.values()[in.readInt()];
-        date = LocalDate.parse(in.readString());
+        long dateMillis = in.readLong();
+        date = dateMillis != -1 ? new Date(dateMillis) : null;
     }
 
     @Override
@@ -47,11 +48,11 @@ public class Report implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int flags) {
         dest.writeString(id);
-        dest.writeString(reportedEntityId);
-        dest.writeString(reportedById);
+        dest.writeString(reportedEntityUsername);
+        dest.writeString(reportedByUsername);
         dest.writeString(reason);
         dest.writeInt(status.ordinal());
-        dest.writeString(date.toString());
+        dest.writeLong(date != null ? date.getTime() : -1);
     }
 
 
@@ -63,20 +64,20 @@ public class Report implements Parcelable {
         this.id = id;
     }
 
-    public String getReportedEntityId() {
-        return reportedEntityId;
+    public String getReportedEntityUsername() {
+        return reportedEntityUsername;
     }
 
-    public void setReportedEntityId(String reportedEntityId) {
-        this.reportedEntityId = reportedEntityId;
+    public void setReportedEntityUsername(String reportedEntityUsername) {
+        this.reportedEntityUsername = reportedEntityUsername;
     }
 
-    public String getReportedById() {
-        return reportedById;
+    public String getReportedByUsername() {
+        return reportedByUsername;
     }
 
-    public void setReportedById(String reportedById) {
-        this.reportedById = reportedById;
+    public void setReportedByUsername(String reportedByUsername) {
+        this.reportedByUsername = reportedByUsername;
     }
 
     public String getReason() {
@@ -95,11 +96,11 @@ public class Report implements Parcelable {
         this.status = status;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 
@@ -107,8 +108,8 @@ public class Report implements Parcelable {
     public String toString() {
         return "Report{" +
                 "id='" + id + '\'' +
-                ", reportedEntityId='" + reportedEntityId + '\'' +
-                ", reportedById='" + reportedById + '\'' +
+                ", reportedEntityUsername='" + reportedEntityUsername + '\'' +
+                ", reportedByUsername='" + reportedByUsername + '\'' +
                 ", reason='" + reason + '\'' +
                 ", status=" + status +
                 ", date=" + date +
