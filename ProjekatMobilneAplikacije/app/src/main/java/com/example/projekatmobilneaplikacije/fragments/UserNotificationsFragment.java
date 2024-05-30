@@ -72,6 +72,7 @@ public class UserNotificationsFragment extends ListFragment {
             adapter = new UserNotificationsAdapter(getActivity(), notifications);
             setListAdapter(adapter);
         }
+
     }
 
     @Override
@@ -95,6 +96,10 @@ public class UserNotificationsFragment extends ListFragment {
         String username = loggedInUser.getEmail();
 
         notifications = fetchNotificationsFromFirestore(username);
+        adapter = new UserNotificationsAdapter(getActivity(), notifications);
+        setListAdapter(adapter);
+
+
 
         Button btnRead = view.findViewById(R.id.btnRead);
         btnRead.setOnClickListener(new View.OnClickListener() {
