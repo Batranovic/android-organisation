@@ -79,7 +79,6 @@ public class ReservationListFragment extends ListFragment implements SearchView.
 
     ListView listView;
 
-    Button acceptButton;
     public ReservationListFragment() {
     }
 
@@ -138,7 +137,7 @@ public class ReservationListFragment extends ListFragment implements SearchView.
 
         listView = view.findViewById(android.R.id.list);
         searchView = view.findViewById(R.id.reservation_search);
-        acceptButton = view.findViewById(R.id.accept_reservation_button);
+
 
 
 
@@ -326,5 +325,8 @@ public class ReservationListFragment extends ListFragment implements SearchView.
             }
         });
     }
+
+
+
 
 }

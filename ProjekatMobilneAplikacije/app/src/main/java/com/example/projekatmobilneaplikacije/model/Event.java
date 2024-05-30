@@ -5,27 +5,26 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import java.sql.Time;
+
 
 public class Event implements Parcelable {
     private Long id;
-    private String name;
-    private String startTime;
-    private String endTime;
+    private Time startTime;
+    private Time endTime;
     private String type;
 
     protected Event(Parcel in) {
         id = in.readLong();
-        name = in.readString();
-        startTime = in.readString();
-        endTime = in.readString();
+        startTime = new Time(in.readLong());
+        endTime = new Time(in.readLong());
         type = in.readString();
     }
     public Event(){
 
     }
-    public Event(Long id,String name, String date, String startTime, String endTime, String type) {
+    public Event(Long id, Time startTime, Time endTime, String type) {
         this.id = id;
-        this.name = name;
         this.startTime = startTime;
         this.endTime = endTime;
         this.type = type;
@@ -39,28 +38,21 @@ public class Event implements Parcelable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
 
 
-    public String getStartTime() {
+    public Time getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Time startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Time getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Time endTime) {
         this.endTime = endTime;
     }
 
@@ -80,10 +72,8 @@ public class Event implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(name);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
+        dest.writeLong(startTime != null ? startTime.getTime() : -1L);
+        dest.writeLong(endTime != null ? endTime.getTime() : -1L);
         dest.writeString(type);
     }
 

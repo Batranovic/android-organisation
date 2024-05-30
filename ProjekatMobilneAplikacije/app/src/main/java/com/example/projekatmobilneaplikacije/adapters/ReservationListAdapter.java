@@ -23,8 +23,10 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfileActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
 import com.example.projekatmobilneaplikacije.model.Employee;
+import com.example.projekatmobilneaplikacije.model.Event;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Reservation;
+import com.example.projekatmobilneaplikacije.model.WorkCalendar;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -35,6 +37,7 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.type.DateTime;
 
+import java.sql.Time;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
@@ -106,6 +109,8 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
 
         Button acceptButton = convertView.findViewById(R.id.accept_reservation_button);
 
+        Button cancellButton = convertView.findViewById(R.id.cancel_reservation_button);
+
         if (user != null) {
             username = user.getEmail();
             if (username == null) {
@@ -167,6 +172,21 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                 acceptButton.setVisibility(View.VISIBLE);
             }
         }
+
+        acceptButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if ("Owner".equals(userRole) || "Employee".equals(userRole)) {
+                    if (reservation.getStatus() == ReservationStatus.New) {
+                        updateReservationStatus(reservation, ReservationStatus.Accepted);
+                    } else {
+                        Toast.makeText(getContext(), "This reservation has already been accepted.", Toast.LENGTH_SHORT).show();
+                    }
+                } else {
+                    Toast.makeText(getContext(), "You are not authorized to accept reservations.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
 
 
@@ -246,6 +266,99 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
         this.aReservations.clear();
         this.aReservations.addAll(newReservations);
         notifyDataSetChanged();
+    }
+
+
+    private void updateReservationStatus(Reservation reservation, ReservationStatus newStatus) {
+        reservation.setStatus(newStatus);
+        db.collection("reservations")
+                .whereEqualTo("id", reservation.getId())
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            // Pronađen je dokument rezervacije, ažurirajte status
+                            db.collection("reservations").document(documentSnapshot.getId())
+                                    .update("status", newStatus)
+                                    .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                        @Override
+                                        public void onSuccess(Void aVoid) {
+                                            Toast.makeText(getContext(), "Reservation status updated successfully.", Toast.LENGTH_SHORT).show();
+                                            addEventToEmployeeWorkCalendar(reservation);
+                                        }
+                                    })
+                                    .addOnFailureListener(new OnFailureListener() {
+                                        @Override
+                                        public void onFailure(@NonNull Exception e) {
+                                            Log.e("ReservationListAdapter", "Error updating reservation status", e);
+                                            Toast.makeText(getContext(), "Failed to update reservation status.", Toast.LENGTH_SHORT).show();
+                                        }
+                                    });
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("ReservationListAdapter", "Error fetching reservation document", e);
+                        Toast.makeText(getContext(), "Failed to fetch reservation document.", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+
+
+
+    private void addEventToEmployeeWorkCalendar(Reservation reservation) {
+        String employeeEmail = reservation.getEmployee().getEmail();
+        db.collection("workCalendars")
+                .whereEqualTo("employee", employeeEmail)
+                .get()
+                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                    @Override
+                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                        if (!queryDocumentSnapshots.isEmpty()) {
+                            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                if (documentSnapshot.exists()) {
+                                    WorkCalendar workCalendar = documentSnapshot.toObject(WorkCalendar.class);
+                                    if (workCalendar != null) {
+                                        Event newEvent = new Event(
+                                                System.currentTimeMillis(), // Unique ID for the event
+                                                new Time(reservation.getFrom().getTime()),
+                                                new Time(reservation.getTo().getTime()),
+                                                "reserved"
+                                        );
+                                        workCalendar.getEvents().add(newEvent);
+
+                                        db.collection("workCalendars").document(documentSnapshot.getId())
+                                                .set(workCalendar)
+                                                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                                    @Override
+                                                    public void onSuccess(Void aVoid) {
+                                                        Log.d("ReservationListAdapter", "Event added to work calendar.");
+                                                        notifyDataSetChanged();
+                                                    }
+                                                })
+                                                .addOnFailureListener(new OnFailureListener() {
+                                                    @Override
+                                                    public void onFailure(@NonNull Exception e) {
+                                                        Log.e("ReservationListAdapter", "Error updating work calendar", e);
+                                                    }
+                                                });
+                                    }
+                                }
+                            }
+                        } else {
+                            Log.d("ReservationListAdapter", "Work calendar not found for employee: " + employeeEmail);
+                        }
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.e("ReservationListAdapter", "Error fetching work calendar", e);
+                    }
+                });
     }
 
 
