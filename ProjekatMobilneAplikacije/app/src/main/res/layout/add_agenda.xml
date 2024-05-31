@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context=".activities.agenda.AddAgendaActivity"
+
+    >
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="39dp"
+        android:layout_marginBottom="16dp"
+        android:text="Adding new activity"
+        android:textSize="21sp"
+        android:textStyle="bold" />
+
+    <!-- Unos naziva aktivnosti -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_name"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <EditText
+        android:id="@+id/edit_text_activity_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_txt"
+        android:inputType="text"/>
+
+    <!-- Unos opisa aktivnosti -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_desc"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_activity_description"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_txt"
+        android:inputType="textMultiLine"
+        android:minLines="3"/>
+
+    <!-- Unos vremena trajanja -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clocks"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <!-- TimePicker for selecting start time -->
+    <TimePicker
+        android:id="@+id/time_picker_activity_start"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_marginTop="16dp"
+        android:timePickerMode="spinner" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/clocke"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <!-- TimePicker for selecting end time -->
+    <TimePicker
+        android:id="@+id/time_picker_activity_end"
+        android:layout_width="match_parent"
+        android:layout_height="128dp"
+        android:layout_marginTop="16dp"
+        android:timePickerMode="spinner" />
+
+    <!-- Unos lokacije održavanja -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/activity_loc"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <EditText
+        android:id="@+id/edit_text_activity_location"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/enter_txt"
+        android:inputType="text"/>
+
+    <!-- Dugme za dodavanje aktivnosti -->
+    <Button
+        android:id="@+id/button_add_activity"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/agenda"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

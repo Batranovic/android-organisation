@@ -8,7 +8,7 @@ import android.os.Parcelable;
 import java.util.List;
 
 public class CreateEvent implements Parcelable {
-    private Long id;
+    private String id;
     private String eventType;
     private String name;
     private String description;
@@ -18,7 +18,7 @@ public class CreateEvent implements Parcelable {
     private boolean isPrivate;
     private List<Subcategory> subcategories;
 
-    public CreateEvent(Long id, String eventType, String name, String description, int participants, String location, String date, boolean isPrivate,List<Subcategory> subcategories) {
+    public CreateEvent(String id, String eventType, String name, String description, int participants, String location, String date, boolean isPrivate,List<Subcategory> subcategories) {
         this.id = id;
         this.eventType = eventType;
         this.name = name;
@@ -33,7 +33,7 @@ public class CreateEvent implements Parcelable {
     public CreateEvent() {}
 
     protected CreateEvent(Parcel in) {
-        id = in.readLong();
+        id = in.readString();
         eventType = in.readString();
         name = in.readString();
         description = in.readString();
@@ -43,11 +43,11 @@ public class CreateEvent implements Parcelable {
         isPrivate = in.readByte() != 0;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getEventType() {
@@ -136,7 +136,7 @@ public class CreateEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(eventType);
         dest.writeString(name);
         dest.writeString(description);

@@ -150,6 +150,35 @@
     <string name="add_sub">"Add"</string>
     <string name="agenda">"Add agenda"</string>
     <string name="guests">"Add guest list"</string>
+    <string name="activity_name">"Name"</string>
+    <string name="activity_desc">"Description"</string>
+    <string name="activity_loc">"Location"</string>
+   <string name="enter_txt">"Enter field"</string>
+    <string name="clocks">"Start time"</string>
+    <string name="clocke">"End time"</string>
+    <string name="guest_name_label">Name and surname</string>
+    <string name="guest_name_hint">Unesite ime i prezime</string>
+    <string name="guest_age_label">Age</string>
+
+    <string name="guest_invited_label">"Is he/she invited?"</string>
+
+    <string name="guest_accepted_label">Did he/she accepted invitation?</string>
+    <string name="guest_special_requests_label">Special requests</string>
+    <string name="vegan">Vegan</string>
+    <string name="noreq">No requests</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string-array name="age_ranges">
+        <item>0-3</item>
+        <item>3-10</item>
+        <item>10-18</item>
+        <item>18-30</item>
+        <item>30-50</item>
+        <item>50-70</item>
+        <item>70+</item>
+    </string-array>
+
+
+
     <string-array name="spinner_items_event">
         <item>Privatni događaji</item>
         <item>Korporativni događaji</item>

@@ -87,6 +87,16 @@
             android:name=".activities.CreateProductActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.agenda.AddAgendaActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.agenda.AgendaAndGuestsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.agenda.AddGuestListActivity"
+            android:exported="false"/>
+
+        <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
             android:label="Home">

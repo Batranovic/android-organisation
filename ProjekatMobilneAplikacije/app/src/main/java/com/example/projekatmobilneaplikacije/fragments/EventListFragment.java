@@ -1,16 +1,21 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import androidx.fragment.app.ListFragment;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
+import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.agenda.AddAgendaActivity;
 import com.example.projekatmobilneaplikacije.adapters.EventListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.ListCreatedEventsBinding;
 import com.example.projekatmobilneaplikacije.model.CreateEvent;
@@ -41,9 +46,25 @@ public class EventListFragment extends ListFragment {
                              @Nullable Bundle savedInstanceState) {
         binding = ListCreatedEventsBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+     /*   Button addAgendaButton = root.findViewById(R.id.btn_add_agenda);
+        if (addAgendaButton != null) {
+            addAgendaButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(requireActivity(), AddAgendaActivity.class);
+                    startActivity(intent);
+                }
+            });
+        } else {
+            // Handle the case where the button is null
+            Log.e("EventPageFragment", "Button is null");
+        } */
 
         return root;
     }
+
+
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
