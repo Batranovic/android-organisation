@@ -195,6 +195,14 @@
         />
 
     <fragment
+        android:id="@+id/nav_reservations"
+        android:name="com.example.projekatmobilneaplikacije.fragments.reservations.ReservationListFragment"
+        android:label="Reservations"
+        tools:layout="@layout/fragment_reservation_list"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
         android:id="@+id/nav_registration_requests"
         android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegistrationRequestsFragment"
         android:label="Requests"
@@ -204,9 +212,9 @@
 
     <fragment
         android:id="@+id/nav_reports"
-        android:name="com.example.projekatmobilneaplikacije.fragments.ReportsFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ReportListFragment"
         android:label="Reports"
-        tools:layout="@layout/fragment_reports"
+        tools:layout="@layout/fragment_report_list"
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
@@ -216,6 +224,15 @@
         android:name="com.example.projekatmobilneaplikacije.activities.PriceListActivity"
         android:label="Price list"
         tools:layout="@layout/activity_price_list"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
+    <fragment
+        android:id="@+id/nav_notifications"
+        android:name="com.example.projekatmobilneaplikacije.fragments.UserNotificationsFragment"
+        android:label="Notifications"
+        tools:layout="@layout/fragment_user_notifications"
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />

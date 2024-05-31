@@ -21,7 +21,7 @@ public class UserDetails implements Parcelable {
         this.home_address = home_address;
         this.phone = phone;
         this.role = role;
-        this.isBlocked = isBlocked;
+        this.isBlocked = false;
     }
 
     public UserDetails() {}

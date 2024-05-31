@@ -42,19 +42,21 @@
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="10dp"/>
 
             <TextView
                 android:id="@+id/reportedBy"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:textSize="16sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
             <Button
                 android:id="@+id/viewProfile"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:textSize="9sp"
@@ -75,19 +77,21 @@
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="10dp"/>
 
             <TextView
                 android:id="@+id/reported"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:textSize="16sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
             <Button
                 android:id="@+id/viewReportedProfile"
-                android:layout_width="wrap_content"
+                android:layout_width="80dp"
                 android:layout_height="30dp"
                 android:layout_gravity="center"
                 android:textSize="9sp"
@@ -108,15 +112,17 @@
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="10dp"/>
 
             <TextView
                 android:id="@+id/reason"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:textSize="16sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
         </LinearLayout>
 
@@ -133,15 +139,17 @@
                 android:layout_height="30dp"
                 android:textSize="16sp"
                 android:textStyle="bold"
-                android:layout_marginStart="10dp"
-                android:layout_marginEnd="20dp"/>
+                android:layout_marginEnd="10dp"/>
 
             <TextView
                 android:id="@+id/date"
                 android:layout_width="0dp"
                 android:layout_height="30dp"
-                android:textSize="16sp"
-                android:layout_weight="1"/>
+                android:textSize="14sp"
+                android:layout_weight="1"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:singleLine="true"/>
 
         </LinearLayout>
 
@@ -157,7 +165,7 @@
                 android:layout_width="100dp"
                 android:layout_height="40dp"
                 android:layout_gravity="center"
-                android:layout_marginLeft="170dp"
+                android:layout_marginLeft="130dp"
                 android:textSize="12dp"
                 android:text="Accept"
                 />
