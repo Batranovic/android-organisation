@@ -11,8 +11,8 @@ public class Agenda implements Parcelable {
     private Long id;
     private String name;
     private String description;
-    private LocalTime timeFrom;
-    private LocalTime timeTo;
+    private String timeFrom; // Changed to String
+    private String timeTo; // Changed to String
     private String location;
 
     public Agenda() {
@@ -40,6 +40,15 @@ public class Agenda implements Parcelable {
             return new Agenda[size];
         }
     };
+    public Agenda(Long id, String name, String description, String location, String timeFrom, String timeTo) {
+        this.id = id;
+        this.name = name;
+        this.description = description;
+        this.location = location;
+        this.timeFrom = timeFrom;
+        this.timeTo = timeTo;
+    }
+
 
     public Long getId() {
         return id;
@@ -49,13 +58,7 @@ public class Agenda implements Parcelable {
         this.id = id;
     }
 
-    public Agenda(String name, String description, LocalTime timeFrom, LocalTime timeTo, String location) {
-        this.name = name;
-        this.description = description;
-        this.timeFrom = timeFrom;
-        this.timeTo = timeTo;
-        this.location = location;
-    }
+
 
     // Getters and setters
     public String getName() {
@@ -74,19 +77,19 @@ public class Agenda implements Parcelable {
         this.description = description;
     }
 
-    public LocalTime getTimeFrom() {
+    public String getTimeFrom() {
         return timeFrom;
     }
 
-    public void setTimeFrom(LocalTime timeFrom) {
+    public void setTimeFrom(String timeFrom) {
         this.timeFrom = timeFrom;
     }
 
-    public LocalTime getTimeTo() {
+    public String getTimeTo() {
         return timeTo;
     }
 
-    public void setTimeTo(LocalTime timeTo) {
+    public void setTimeTo(String timeTo) {
         this.timeTo = timeTo;
     }
 
@@ -112,6 +115,7 @@ public class Agenda implements Parcelable {
     public int describeContents() {
         return 0;
     }
+
 
     @Override
     public void writeToParcel(@NonNull Parcel parcel, int i) {

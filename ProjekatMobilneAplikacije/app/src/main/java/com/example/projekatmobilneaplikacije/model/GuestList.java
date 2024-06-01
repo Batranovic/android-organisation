@@ -1,23 +1,21 @@
 package com.example.projekatmobilneaplikacije.model;
 
-import android.os.Parcel;
-import android.os.Parcelable;
+import java.util.List;
 
-public class GuestList implements Parcelable {
-    private Long id;
-    private String name_surname;
-    private String ageGroup;
+public class GuestList {
+    private String name;
+    private String age;
     private boolean isInvited;
     private boolean hasAccepted;
-    private String specialRequests;
-
+    private List<String> specialRequests;
 
     public GuestList() {
+        // Default constructor required for calls to DataSnapshot.getValue(Guest.class)
     }
 
-    public GuestList(String name_surname, String ageGroup, boolean isInvited, boolean hasAccepted, String specialRequests) {
-        this.name_surname = name_surname;
-        this.ageGroup = ageGroup;
+    public GuestList(String name, String age, boolean isInvited, boolean hasAccepted, List<String> specialRequests) {
+        this.name = name;
+        this.age = age;
         this.isInvited = isInvited;
         this.hasAccepted = hasAccepted;
         this.specialRequests = specialRequests;
@@ -25,19 +23,19 @@ public class GuestList implements Parcelable {
 
     // Getters and setters
     public String getName() {
-        return name_surname;
+        return name;
     }
 
-    public void setName(String name_surname) {
-        this.name_surname = name_surname;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public String getAgeGroup() {
-        return ageGroup;
+    public String getAge() {
+        return age;
     }
 
-    public void setAgeGroup(String ageGroup) {
-        this.ageGroup = ageGroup;
+    public void setAge(String age) {
+        this.age = age;
     }
 
     public boolean isInvited() {
@@ -56,68 +54,11 @@ public class GuestList implements Parcelable {
         this.hasAccepted = hasAccepted;
     }
 
-    public String getSpecialRequests() {
+    public List<String> getSpecialRequests() {
         return specialRequests;
     }
 
-    public void setSpecialRequests(String specialRequests) {
+    public void setSpecialRequests(List<String> specialRequests) {
         this.specialRequests = specialRequests;
     }
-
-    @Override
-    public String toString() {
-        return "Guest{" +
-                "name_surname='" + name_surname + '\'' +
-                ", ageGroup='" + ageGroup + '\'' +
-                ", isInvited=" + isInvited +
-                ", hasAccepted=" + hasAccepted +
-                ", specialRequests=" + specialRequests +
-                '}';
-    }
-
-
-    protected GuestList(Parcel in) {
-        if (in.readByte() == 0) {
-            id = null;
-        } else {
-            id = in.readLong();
-        }
-        name_surname = in.readString();
-        ageGroup = in.readString();
-        isInvited = in.readByte() != 0;
-        hasAccepted = in.readByte() != 0;
-        specialRequests = in.readString();
-    }
-
-    @Override
-    public void writeToParcel(Parcel dest, int flags) {
-        if (id == null) {
-            dest.writeByte((byte) 0);
-        } else {
-            dest.writeByte((byte) 1);
-            dest.writeLong(id);
-        }
-        dest.writeString(name_surname);
-        dest.writeString(ageGroup);
-        dest.writeByte((byte) (isInvited ? 1 : 0));
-        dest.writeByte((byte) (hasAccepted ? 1 : 0));
-        dest.writeString(specialRequests);
-    }
-
-    @Override
-    public int describeContents() {
-        return 0;
-    }
-
-    public static final Creator<GuestList> CREATOR = new Creator<GuestList>() {
-        @Override
-        public GuestList createFromParcel(Parcel in) {
-            return new GuestList(in);
-        }
-
-        @Override
-        public GuestList[] newArray(int size) {
-            return new GuestList[size];
-        }
-    };
 }

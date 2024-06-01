@@ -57,6 +57,7 @@
     <string name="humanitarianEvent">Humanitarian and charitable</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="generateagenda">Generate PDF file</string>
 
 
     <string name="navigation_drawer_open" translatable="false">Navigation Drawer Open</string>

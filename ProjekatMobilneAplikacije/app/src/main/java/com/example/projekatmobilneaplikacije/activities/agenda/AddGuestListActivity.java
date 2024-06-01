@@ -1,77 +1,122 @@
 package com.example.projekatmobilneaplikacije.activities.agenda;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.databinding.AddAgendaBinding;
 import com.example.projekatmobilneaplikacije.databinding.AddGuestsListBinding;
+
+import com.example.projekatmobilneaplikacije.model.GuestList;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AddGuestListActivity extends AppCompatActivity {
 
     AddGuestsListBinding binding;
-    EditText name_surname;
+    EditText guestName;
     Spinner spinner;
-    boolean isInvitedChecked = false;
-    boolean isConfirmedChecked = false;
-    boolean isVeganChecked= false;
-    boolean isVegeterianChecked= false;
-    boolean isNoReqChecked = false;
+    RadioGroup invitedGroup;
+    RadioGroup acceptedGroup;
+    CheckBox noReqCheckBox;
+    CheckBox veganCheckBox;
+    CheckBox vegetarianCheckBox;
 
-    public static AddGuestListActivity newInstance(){return new AddGuestListActivity();}
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+
+    public static AddGuestListActivity newInstance() {
+        return new AddGuestListActivity();
+    }
+
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         binding = AddGuestsListBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
         View root = binding.getRoot();
-        EditText guestName = root.findViewById(R.id.edit_text_guest_name);
+        guestName = root.findViewById(R.id.edit_text_guest_name);
         spinner = root.findViewById(R.id.spinner_guest_age);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                // Uhvatimo odabranu vrijednost Spinnera
-                String selectedValue = parent.getItemAtPosition(position).toString();
-                // Sada možemo raditi što god želimo s ovom vrijednošću, poput spremanja u CreateEvent objekt
-            }
+        invitedGroup = root.findViewById(R.id.radio_group_invited);
+        acceptedGroup = root.findViewById(R.id.radio_group_accepted);
+        noReqCheckBox = root.findViewById(R.id.checkbox_noreq);
+        veganCheckBox = root.findViewById(R.id.checkbox_vegan);
+        vegetarianCheckBox = root.findViewById(R.id.checkbox_vegetarian);
 
-            @Override
-            public void onNothingSelected(AdapterView<?> parent) {
-                // Implementacija nije potrebna ako nije potrebno rukovati s događajem kada nije ništa odabrano
-            }
-        });
         Button createButton = root.findViewById(R.id.button_add_guest);
         createButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //saveAgendaToFirestore(agendaName, agendaDescription, agendaLocation);
-                String message = "Created Succesfully";
-                //Toast.makeText(requireContext(), message, Toast.LENGTH_SHORT).show();
-
-
+                saveGuestToFirestore();
             }
         });
     }
+    private void clearInputFields() {
+        guestName.setText("");
+        spinner.setSelection(0);
+        invitedGroup.clearCheck();
+        acceptedGroup.clearCheck();
+        noReqCheckBox.setChecked(false);
+        veganCheckBox.setChecked(false);
+        vegetarianCheckBox.setChecked(false);
     }
 
 
+    private void saveGuestToFirestore() {
+        String name = guestName.getText().toString();
+        String age = spinner.getSelectedItem().toString();
 
+        int selectedInvitedId = invitedGroup.getCheckedRadioButtonId();
+        boolean isInvited = selectedInvitedId == R.id.radio_invited_yes;
 
+        int selectedAcceptedId = acceptedGroup.getCheckedRadioButtonId();
+        boolean hasAccepted = selectedAcceptedId == R.id.radio_accepted_yes;
 
+        List<String> specialRequests = new ArrayList<>();
+        if (noReqCheckBox.isChecked()) {
+            specialRequests.add(getString(R.string.noreq));
+        }
+        if (veganCheckBox.isChecked()) {
+            specialRequests.add(getString(R.string.vegan));
+        }
+        if (vegetarianCheckBox.isChecked()) {
+            specialRequests.add(getString(R.string.vegetarian));
+        }
 
+        GuestList guest = new GuestList(name, age, isInvited, hasAccepted, specialRequests);
 
-
-
-
-
+        db.collection("guestList")
+                .add(guest)
+                .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
+                    @Override
+                    public void onSuccess(DocumentReference documentReference) {
+                        Log.d("AddGuestListActivity", "Guest added with ID: " + documentReference.getId());
+                        Toast.makeText(AddGuestListActivity.this, "Guest created successfully", Toast.LENGTH_SHORT).show();
+                        clearInputFields();
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.w("AddGuestListActivity", "Error adding guest document", e);
+                        Toast.makeText(AddGuestListActivity.this, "Error creating guest", Toast.LENGTH_SHORT).show();
+                    }
+                });
+    }
+}
