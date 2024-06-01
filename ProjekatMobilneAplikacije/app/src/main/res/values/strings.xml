@@ -251,4 +251,6 @@
     <string name="cancelled_by_event_eo">CancelledByEO</string>
     <string name="start">"Start: "</string>
     <string name="end">"End: "</string>
+    <string name="bundles">Reservations by bundle</string>
+    <string name="bundless">Bundle reservations</string>
 </resources>

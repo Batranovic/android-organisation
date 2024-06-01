@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
+import com.example.projekatmobilneaplikacije.adapters.BundleReservationListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.EmployeeListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.ReservationListAdapter;
@@ -49,6 +53,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -78,6 +85,8 @@ public class ReservationListFragment extends ListFragment implements SearchView.
     SearchView searchView;
 
     ListView listView;
+
+    ExpandableListView expandableListView;
 
     public ReservationListFragment() {
     }
@@ -135,6 +144,7 @@ public class ReservationListFragment extends ListFragment implements SearchView.
         adapter = new ReservationListAdapter(getActivity(), reservations);
         setListAdapter(adapter);
 
+        expandableListView = view.findViewById(R.id.bundle_reservations);
         listView = view.findViewById(android.R.id.list);
         searchView = view.findViewById(R.id.reservation_search);
 
@@ -303,7 +313,7 @@ public class ReservationListFragment extends ListFragment implements SearchView.
             return;
         }
 
-        reservationsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        reservationsRef.whereEqualTo("bundle", null).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 reservations.clear();
@@ -324,7 +334,47 @@ public class ReservationListFragment extends ListFragment implements SearchView.
                 }
             }
         });
+
+        reservationsRef.whereNotEqualTo("bundle", null).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+            @Override
+            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                ArrayList<Reservation> bundleReservations = new ArrayList<>();
+
+                if (!queryDocumentSnapshots.isEmpty()) {
+                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                        Reservation reservation = documentSnapshot.toObject(Reservation.class);
+
+                        if (shouldIncludeReservation(reservation)) {
+                            bundleReservations.add(reservation);
+                        }
+                    }
+
+                    HashMap<String, List<Reservation>> reservationsByPackage = new HashMap<>();
+
+
+                    for (Reservation reservation : bundleReservations) {
+                        String packageName = reservation.getBundle().getTitle();
+                        List<Reservation> packageReservations = reservationsByPackage.get(packageName);
+                        if (packageReservations == null) {
+                            packageReservations = new ArrayList<>();
+                            reservationsByPackage.put(packageName, packageReservations);
+                        }
+                        packageReservations.add(reservation);
+
+
+
+
+                    }
+
+                    BundleReservationListAdapter packageAdapter = new BundleReservationListAdapter(getActivity(), new ArrayList<>(reservationsByPackage.keySet()), reservationsByPackage);
+                    expandableListView.setAdapter(packageAdapter);
+                } else {
+                    Log.d("ReservationListFragment", "No reservations found for bundles");
+                }
+            }
+        });
     }
+
 
 
 
