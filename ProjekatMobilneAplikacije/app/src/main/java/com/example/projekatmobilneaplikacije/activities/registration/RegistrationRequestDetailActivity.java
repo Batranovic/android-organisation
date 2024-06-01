@@ -3,12 +3,14 @@ package com.example.projekatmobilneaplikacije.activities.registration;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.text.InputType;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projekatmobilneaplikacije.R;
@@ -37,7 +39,13 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
         TextView companyMailTextView = findViewById(R.id.request_company_mail);
         TextView ownerNameTextView = findViewById(R.id.request_company_owner_name);
         TextView ownerMailTextView = findViewById(R.id.request_company_owner_mail);
-        denialReasonEditText = findViewById(R.id.denial_reason);
+        TextView ownerPhoneTextView = findViewById(R.id.request_company_owner_phone);
+        TextView companyPhoneTextView = findViewById(R.id.request_company__phone);
+        TextView companyAddressTextView = findViewById(R.id.request_company__adress);
+
+
+
+        //denialReasonEditText = findViewById(R.id.denial_reason);
         mAuth = FirebaseAuth.getInstance();
         Intent intent = getIntent();
         if (intent != null) {
@@ -60,10 +68,14 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
                                 Log.d("Firestore", "Company Name: " + registrationRequest.getOwner().getCompany().getName());
                                 Log.d("Firestore", "Owner Name: " + registrationRequest.getOwner().getUserDetails().getName());
 
+
                                 companyNameTextView.setText(companyName);
                                 companyMailTextView.setText(companyMail);
                                 ownerNameTextView.setText(ownerName);
                                 ownerMailTextView.setText(ownerMail);
+                                ownerPhoneTextView.setText(registrationRequest.getOwner().getUserDetails().getPhone());
+                                companyPhoneTextView.setText(registrationRequest.getOwner().getCompany().getPhoneNumber());
+                                companyAddressTextView.setText(registrationRequest.getOwner().getCompany().getAddress());
                             }
                         }
                     } else {
@@ -79,13 +91,33 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
         approveRequest.setOnClickListener(v -> {
             sendActivationEmail(ownerMail);
         });
-
+/*
         rejectRequest.setOnClickListener(v -> {
             String denialReason = denialReasonEditText.getText().toString();
             updateDenialReason(denialReason, true);
+        });*/
+
+        rejectRequest.setOnClickListener(v -> {
+            showDenialReasonDialog();
         });
     }
+    private void showDenialReasonDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Denial Reason");
 
+        final EditText input = new EditText(this);
+        input.setInputType(InputType.TYPE_CLASS_TEXT);
+        builder.setView(input);
+
+        builder.setPositiveButton("OK", (dialog, which) -> {
+            String denialReason = input.getText().toString();
+            updateDenialReason(denialReason, true);
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        builder.show();
+    }
     private void updateDenialReason(String denialReason, boolean isRejected) {
         db.collection("registrationRequests")
                 .whereEqualTo("owner.userDetails.username", ownerMail)
@@ -130,23 +162,23 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
 
     private void sendActivationEmail(String recipientEmail) {
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                .setUrl("https://projekat-mobilne-aplikacije.web.app/verify?email" + recipientEmail)  // Dodajte email kao parametar u URL-u
+                .setUrl("https://projekat-mobilne-aplikacije.web.app/verify?email=" + recipientEmail)
                 .setHandleCodeInApp(true)
                 .setIOSBundleId("com.example.ios")
                 .setAndroidPackageName(
                         "com.example.projekatmobilneaplikacije",
-                        true,  // install if not available
-                        "12"   // minimum version
+                        true,
+                        "12"
                 )
                 .build();
         FirebaseAuth.getInstance().sendSignInLinkToEmail(recipientEmail,actionCodeSettings)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Email", "Sign-in email sent successfully to: " + recipientEmail);
-                        // Dodajte kod za obaveštenje korisnika da je mejl poslat
+
                     } else {
                         Log.e("Email", "Error sending sign-in email", task.getException());
-                        // Dodajte kod za obaveštenje korisnika o grešci
+
                     }
                 });
     }

@@ -52,6 +52,11 @@ public class ReserveProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reserve_product);
+
+        TextView productPriceTextVIew = findViewById(R.id.product_price);
+        TextView productSubcateogryTextVIew = findViewById(R.id.subcategory);
+        TextView categoryTextVIew = findViewById(R.id.category);
+        TextView avTextVIew = findViewById(R.id.availability);
         db = FirebaseFirestore.getInstance();
         Intent intent = getIntent();
         if (intent != null) {
@@ -75,6 +80,10 @@ public class ReserveProductActivity extends AppCompatActivity {
                                     DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Get the first document
                                     Product product = document.toObject(Product.class);
                                     productPrice = String.valueOf(product.getPrice());
+                                    productPriceTextVIew.setText(String.valueOf(product.getPrice()));
+                                    productSubcateogryTextVIew.setText(product.getSubcategory());
+                                    categoryTextVIew.setText(product.getCategory());
+                                    avTextVIew.setText(product.getAvailability());
 
                                 } else {
                                     Log.d("ProductDetailActivity", "No such document found for productId: " + productId);
