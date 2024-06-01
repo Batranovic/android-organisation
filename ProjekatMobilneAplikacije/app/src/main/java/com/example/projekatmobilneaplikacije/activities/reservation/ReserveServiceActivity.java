@@ -23,6 +23,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.adapters.WorkCalendarAdapter;
+import com.example.projekatmobilneaplikacije.model.CustomBundle;
 import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Event;
 import com.example.projekatmobilneaplikacije.model.EventOrganization;
@@ -52,7 +53,7 @@ public class ReserveServiceActivity extends AppCompatActivity {
     private FirebaseFirestore db;
     private String from, to;
     private FirebaseAuth auth;
-    private String serviceId;
+    private String serviceId, bundleId;
     private FirebaseUser eventOrganizer;
 
     private List<WorkCalendar> workCalendarList;
@@ -65,6 +66,9 @@ public class ReserveServiceActivity extends AppCompatActivity {
         Intent intent = getIntent();
         if (intent != null) {
             serviceId = intent.getStringExtra("serviceId");
+            bundleId = getIntent().getStringExtra("bundleId");
+            Log.d("ReserveProductActivity", "Bundle ID: " + bundleId);
+            Log.d("ReserveProductActivity", "Service ID: " + serviceId);
         }
 
 
@@ -523,26 +527,67 @@ public class ReserveServiceActivity extends AppCompatActivity {
                                                 DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
                                                 UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
                                                 String reservationId = UUID.randomUUID().toString();
-                                                if (service.getConfirmationMode().equals("Automatic")) {
-                                                    Reservation reservation = new Reservation(reservationId, selectedEmployee, userDetails, ReservationStatus.Accepted, service, null, finalFromDate, finalToDate, event);
-                                                    db.collection("reservations")
-                                                            .add(reservation)
-                                                            .addOnSuccessListener(documentReference -> {
-                                                                Toast.makeText(ReserveServiceActivity.this, "Reservation created successfully", Toast.LENGTH_SHORT).show();
+                                                if(bundleId == null){
+                                                    if (service.getConfirmationMode().equals("Automatic")) {
+                                                        Reservation reservation = new Reservation(reservationId, selectedEmployee, userDetails, ReservationStatus.Accepted, service, null, finalFromDate, finalToDate, event);
+                                                        db.collection("reservations")
+                                                                .add(reservation)
+                                                                .addOnSuccessListener(documentReference -> {
+                                                                    Toast.makeText(ReserveServiceActivity.this, "Reservation created successfully", Toast.LENGTH_SHORT).show();
+                                                                })
+                                                                .addOnFailureListener(e -> {
+                                                                    Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();
+                                                                });
+                                                    } else {
+                                                        Reservation reservation = new Reservation("1", selectedEmployee, userDetails, ReservationStatus.New, service, null, finalFromDate, finalToDate, event);
+                                                        db.collection("reservations")
+                                                                .add(reservation)
+                                                                .addOnSuccessListener(documentReference -> {
+                                                                    Toast.makeText(ReserveServiceActivity.this, "Reservation created successfully", Toast.LENGTH_SHORT).show();
+                                                                })
+                                                                .addOnFailureListener(e -> {
+                                                                    Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();
+                                                                });
+                                                    }
+                                                }else {
+                                                    db.collection("bundles")
+                                                            .whereEqualTo("id", bundleId)
+                                                            .get()
+                                                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                                                if (!queryDocumentSnapshots.isEmpty()) {
+                                                                    for (DocumentSnapshot eventSnapshot : queryDocumentSnapshots.getDocuments()) {
+                                                                        CustomBundle bundle = eventSnapshot.toObject(CustomBundle.class);
+                                                                        if (service.getConfirmationMode().equals("Automatic")) {
+                                                                            Reservation reservation = new Reservation(reservationId, selectedEmployee, userDetails, ReservationStatus.InProgress, service, bundle, finalFromDate, finalToDate, event);
+                                                                            db.collection("reservations")
+                                                                                    .add(reservation)
+                                                                                    .addOnSuccessListener(documentReference -> {
+                                                                                        Toast.makeText(ReserveServiceActivity.this, "Reservation for bundle created successfully", Toast.LENGTH_SHORT).show();
+                                                                                    })
+                                                                                    .addOnFailureListener(e -> {
+                                                                                        Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();
+                                                                                    });
+                                                                        } else {
+                                                                            Reservation reservation = new Reservation(reservationId, selectedEmployee, userDetails, ReservationStatus.InProgress, service, bundle, finalFromDate, finalToDate, event);
+                                                                            db.collection("reservations")
+                                                                                    .add(reservation)
+                                                                                    .addOnSuccessListener(documentReference -> {
+                                                                                        Toast.makeText(ReserveServiceActivity.this, "Reservation for bundle created successfully", Toast.LENGTH_SHORT).show();
+                                                                                    })
+                                                                                    .addOnFailureListener(e -> {
+                                                                                        Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();
+                                                                                    });
+                                                                        }
+                                                                        return;
+                                                                    }
+                                                                } else {
+                                                                    Toast.makeText(ReserveServiceActivity.this, "Event not found", Toast.LENGTH_SHORT).show();
+                                                                }
                                                             })
                                                             .addOnFailureListener(e -> {
-                                                                Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();
+                                                                Toast.makeText(ReserveServiceActivity.this, "Failed to search for event", Toast.LENGTH_SHORT).show();
                                                             });
-                                                } else {
-                                                    Reservation reservation = new Reservation("1", selectedEmployee, userDetails, ReservationStatus.New, service, null, finalFromDate, finalToDate, event);
-                                                    db.collection("reservations")
-                                                            .add(reservation)
-                                                            .addOnSuccessListener(documentReference -> {
-                                                                Toast.makeText(ReserveServiceActivity.this, "Reservation created successfully", Toast.LENGTH_SHORT).show();
-                                                            })
-                                                            .addOnFailureListener(e -> {
-                                                                Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();
-                                                            });
+
                                                 }
                                             }
                                         } else {

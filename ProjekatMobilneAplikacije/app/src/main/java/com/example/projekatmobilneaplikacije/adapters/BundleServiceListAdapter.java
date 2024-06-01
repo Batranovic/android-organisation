@@ -29,6 +29,7 @@ import com.example.projekatmobilneaplikacije.activities.reservation.ReserveServi
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Service;
+import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
 
@@ -37,6 +38,7 @@ public class BundleServiceListAdapter extends ArrayAdapter<Service> {
 
     private Context mContext;
 
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
 
     public BundleServiceListAdapter(Context context, ArrayList<Service> services){
@@ -86,79 +88,29 @@ public class BundleServiceListAdapter extends ArrayAdapter<Service> {
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         Service service = getItem(position);
 
-        if (mContext instanceof PriceListActivity) {
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.price_list_card, parent, false);
-            }
+        if (convertView == null) {
+            convertView = LayoutInflater.from(getContext()).inflate(R.layout.service_card, parent, false);
+        }
 
-            LinearLayout priceListCard = convertView.findViewById(R.id.price_list_card);
-            TextView title = convertView.findViewById(R.id.title);
-            TextView price = convertView.findViewById(R.id.price);
-            TextView discount = convertView.findViewById(R.id.discount);
-            TextView discountPrice = convertView.findViewById(R.id.discountPrice);
+        LinearLayout serviceCard = convertView.findViewById(R.id.service_card_item);
+        ImageView imageView = convertView.findViewById(R.id.service_image);
+        TextView serviceTitle = convertView.findViewById(R.id.service_title);
+        TextView serviceDuration = convertView.findViewById(R.id.service_duration);
+        TextView servicePrice = convertView.findViewById(R.id.service_price);
+        TextView serviceSpecificity = convertView.findViewById(R.id.specificity);
 
-            if (service != null) {
-                title.setText(service.getTitle());
-                price.setText(String.valueOf(service.getPrice()));
-                discount.setText(String.valueOf(service.getDiscount()));
-                discountPrice.setText(String.valueOf(service.getPriceWithDiscount()));
+        if (service != null) {
+            serviceTitle.setText(service.getTitle());
+            serviceDuration.setText(String.valueOf(service.getDuration()));
+            servicePrice.setText(String.valueOf(service.getPrice()));
+            serviceSpecificity.setText(service.getSpecificity());
 
-                priceListCard.setOnClickListener(v -> {
-                    // Handle click on the item at 'position'
-                    Log.i("MobileApp", "Clicked: " + service.getTitle());
-
-                    Intent intent = new Intent(getContext(), PriceListItemActivity.class);
-                    intent.putExtra("itemType", "service");
-                    intent.putExtra("serviceId", service.getId()); // Pass the product ID or any other identifier
-                    intent.putExtra("title", service.getTitle());
-                    intent.putExtra("price", service.getPrice());
-                    intent.putExtra("discount", service.getDiscount());
-                    getContext().startActivity(intent);
-
-                    Toast.makeText(getContext(), "Clicked: " + service.getTitle(), Toast.LENGTH_SHORT).show();
-                });
-            }
-        } else {
-            if(convertView == null){
-                convertView = LayoutInflater.from(getContext()).inflate(R.layout.service_card,
-                        parent, false);
-            }
-            LinearLayout serviceCard = convertView.findViewById(R.id.service_card_item);
-            ImageView imageView = convertView.findViewById(R.id.service_image);
-            TextView serviceTitle = convertView.findViewById(R.id.service_title);
-            TextView serviceDuration = convertView.findViewById(R.id.service_duration);
-            TextView servicePrice = convertView.findViewById(R.id.service_price);
-            TextView serviceSpecificity = convertView.findViewById(R.id.specificity);
-
-
-
-            if(service != null) {
-                serviceTitle.setText(service.getTitle());
-                serviceDuration.setText(String.valueOf(service.getDuration()));
-                servicePrice.setText(String.valueOf(service.getPrice()));
-                serviceSpecificity.setText(service.getSpecificity());
-
-                    serviceCard.setOnClickListener(v -> {
-                        // Handle click on the item at 'position'
-                        Log.i("MobileApp", "Clicked: " + service.getTitle() + ", id: " +
-                                service.getId().toString());
-
-
-                        // Handle click event
-                        Intent intent = new Intent(mContext, ReserveServiceActivity.class);
-                        intent.putExtra("serviceId", service.getId());
-                        mContext.startActivity(intent);
-
-                        Toast.makeText(getContext(), "Clicked: " + service.getTitle() +
-                                ", id: " + service.getId().toString(), Toast.LENGTH_SHORT).show();
-                    });
-
-
-            }
         }
 
         return convertView;
     }
+
+
 
 
 

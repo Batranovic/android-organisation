@@ -31,6 +31,7 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
 import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
 import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveProductActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragment;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
 import com.example.projekatmobilneaplikacije.model.Product;
@@ -158,27 +159,7 @@ public class BundleProductListAdapter extends ArrayAdapter<Product> implements F
                 productCategory.setText(product.getSubcategory());
                 productPrice.setText(String.valueOf(product.getPrice()));
 
-                    productCard.setOnClickListener(v -> {
-                        // Handle click on the item at 'position'
-                        Log.i("MobileApp", "Clicked: " + product.getTitle());
 
-                        // Handle click event
-                        // Start ProductDetailActivity with detailed information about the clicked product
-
-                        Intent intent = new Intent(getContext(), ProductDetailActivity.class);
-                        intent.putExtra("productId", product.getId()); // Pass the product ID or any other identifier
-                        intent.putExtra("title", product.getTitle());
-                        intent.putExtra("description", product.getDescription());
-                        intent.putExtra("subcategory", product.getSubcategory());
-                        intent.putExtra("eventType", product.getEventType());
-                        intent.putExtra("price", product.getPrice());
-                        intent.putExtra("availability", product.getAvailability());
-                        intent.putExtra("visibility", product.getVisibility());
-                        intent.putExtra("image", product.getImage());
-                        getContext().startActivity(intent);
-
-                        Toast.makeText(getContext(), "Clicked: " + product.getTitle(), Toast.LENGTH_SHORT).show();
-                    });
 
 
             }

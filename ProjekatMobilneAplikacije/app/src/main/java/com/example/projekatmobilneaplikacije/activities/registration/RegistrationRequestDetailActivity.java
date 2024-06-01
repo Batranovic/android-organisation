@@ -130,7 +130,7 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
 
     private void sendActivationEmail(String recipientEmail) {
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                .setUrl("https://projekatmobilneaplikacije.web.app/4gJH?email=" + recipientEmail)  // Dodajte email kao parametar u URL-u
+                .setUrl("https://projekat-mobilne-aplikacije.web.app/verify?email" + recipientEmail)  // Dodajte email kao parametar u URL-u
                 .setHandleCodeInApp(true)
                 .setIOSBundleId("com.example.ios")
                 .setAndroidPackageName(

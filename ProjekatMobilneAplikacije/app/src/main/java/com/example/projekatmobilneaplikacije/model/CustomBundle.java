@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class CustomBundle implements Parcelable  {
     private String id;
     private String title;
@@ -22,9 +24,9 @@ public class CustomBundle implements Parcelable  {
     private int reservationDeadline;
     private int cancellationDeadline;
     private String confirmationMode;
-
     private boolean isDeleted;
     private List<String> productIds;
+    @Nullable
     private List<String> serviceIds;
 
     public CustomBundle() { }
