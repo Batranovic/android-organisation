@@ -8,13 +8,17 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.SearchView;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.adapters.BundleReservationListAdapter;
 import com.example.projekatmobilneaplikacije.model.Reservation;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
@@ -92,6 +96,34 @@ public class BundleReservationsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         expandableListView = view.findViewById(R.id.bundle_reservations);
         searchView = view.findViewById(R.id.reservation_search);
+
+        Button btnFilters = view.findViewById(R.id.btnFilters);
+        btnFilters.setOnClickListener(v -> {
+            Log.i("ProjekatMobilneAplikacije", "Bottom Sheet Dialog");
+            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(requireContext(), R.style.FullScreenBottomSheetDialog);
+            View dialogView = getLayoutInflater().inflate(R.layout.bottom_sheet_reservations_filter, null);
+            bottomSheetDialog.setContentView(dialogView);
+            bottomSheetDialog.show();
+
+
+            RadioGroup statusRadioGroup = dialogView.findViewById(R.id.reservations_radio_group);
+            statusRadioGroup.setOnCheckedChangeListener((group, checkedId) -> {
+                RadioButton radioButton = dialogView.findViewById(checkedId);
+                String selectedStatus = radioButton.getText().toString();
+
+                // Primena izabrane kategorije na listu proizvoda
+                adapter.filterByStatus(selectedStatus);
+            });
+
+        });
+
+        Button removeFiltersButton = view.findViewById(R.id.removeFiltersButton);
+        removeFiltersButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                refreshReservationList();
+            }
+        });
     }
 
     private void fetchUserRole() {
@@ -186,4 +218,9 @@ public class BundleReservationsFragment extends Fragment {
             }
         });
     }
+
+    private void refreshReservationList() {
+        loadReservations();
+    }
+
 }
