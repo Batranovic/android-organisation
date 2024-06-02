@@ -12,7 +12,7 @@ import com.example.projekatmobilneaplikacije.fragments.EventInfoFragment;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeeInformationFragment;
 
 public class AgendaAndGuestsActivity  extends AppCompatActivity {
-ActivityAgGuestBinding binding;
+    ActivityAgGuestBinding binding;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,7 +28,7 @@ ActivityAgGuestBinding binding;
                 .commit();
 
 
-        if(eventId != 1) {
+        if (eventId != 1) {
             Log.i("App", "Event ID: " + eventId);
             Log.i("App", "Event ");
 
@@ -36,3 +36,4 @@ ActivityAgGuestBinding binding;
         }
     }
 }
+

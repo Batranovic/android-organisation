@@ -40,6 +40,7 @@ import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.HomeActivity;
+import com.example.projekatmobilneaplikacije.activities.agenda.AddGuestListActivity;
 import com.example.projekatmobilneaplikacije.activities.budget.BudgetActivity;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCreateEventBinding;
 import com.example.projekatmobilneaplikacije.fragments.budget.BudgetFragment;
@@ -225,6 +226,28 @@ private void saveCreateEventDataToFirestore(EditText createName, EditText create
             .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
                 @Override
                 public void onSuccess(DocumentReference documentReference) {
+                    String id = documentReference.getId();
+                    createEvent.setId(id); // Set the ID in the guest object
+
+                    // Update the document with the ID
+                    documentReference.update("id", id)
+                            .addOnSuccessListener(new OnSuccessListener<Void>() {
+                                @Override
+                                public void onSuccess(Void aVoid) {
+                                    Log.d("EventOrganizationFragment", "Create event added with ID: " + id);
+
+                                    // Send the guest ID to the next activity
+
+                                }
+                            })
+                            .addOnFailureListener(new OnFailureListener() {
+                                @Override
+                                public void onFailure(@NonNull Exception e) {
+                                    Log.w("AddGuestListActivity", "Error updating guest ID", e);
+
+                                }
+                            });
+
                     Log.d("EventOrganizationFragment", "CreateEvent added with ID: " + documentReference.getId());
                 }
             })
