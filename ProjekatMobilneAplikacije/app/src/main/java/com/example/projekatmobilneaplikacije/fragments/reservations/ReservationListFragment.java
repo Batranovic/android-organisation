@@ -67,7 +67,6 @@ public class ReservationListFragment extends ListFragment implements SearchView.
     private static final String ARG_PARAM = "param";
     private ReservationListAdapter adapter;
     public static ArrayList<Reservation> reservations;
-    private FragmentReservationListBinding binding;
 
     private ArrayList<Reservation> originalReservations = new ArrayList<>();
 
@@ -86,7 +85,6 @@ public class ReservationListFragment extends ListFragment implements SearchView.
 
     ListView listView;
 
-    ExpandableListView expandableListView;
 
     public ReservationListFragment() {
     }
@@ -144,7 +142,6 @@ public class ReservationListFragment extends ListFragment implements SearchView.
         adapter = new ReservationListAdapter(getActivity(), reservations);
         setListAdapter(adapter);
 
-        expandableListView = view.findViewById(R.id.bundle_reservations);
         listView = view.findViewById(android.R.id.list);
         searchView = view.findViewById(R.id.reservation_search);
 
@@ -335,44 +332,7 @@ public class ReservationListFragment extends ListFragment implements SearchView.
             }
         });
 
-        reservationsRef.whereNotEqualTo("bundle", null).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
-            @Override
-            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                ArrayList<Reservation> bundleReservations = new ArrayList<>();
 
-                if (!queryDocumentSnapshots.isEmpty()) {
-                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                        Reservation reservation = documentSnapshot.toObject(Reservation.class);
-
-                        if (shouldIncludeReservation(reservation)) {
-                            bundleReservations.add(reservation);
-                        }
-                    }
-
-                    HashMap<String, List<Reservation>> reservationsByPackage = new HashMap<>();
-
-
-                    for (Reservation reservation : bundleReservations) {
-                        String packageName = reservation.getBundle().getTitle();
-                        List<Reservation> packageReservations = reservationsByPackage.get(packageName);
-                        if (packageReservations == null) {
-                            packageReservations = new ArrayList<>();
-                            reservationsByPackage.put(packageName, packageReservations);
-                        }
-                        packageReservations.add(reservation);
-
-
-
-
-                    }
-
-                    BundleReservationListAdapter packageAdapter = new BundleReservationListAdapter(getActivity(), new ArrayList<>(reservationsByPackage.keySet()), reservationsByPackage);
-                    expandableListView.setAdapter(packageAdapter);
-                } else {
-                    Log.d("ReservationListFragment", "No reservations found for bundles");
-                }
-            }
-        });
     }
 
 

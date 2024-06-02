@@ -63,6 +63,12 @@
             android:title="Reservations"
             android:icon="@drawable/event_icon"
             android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_bundle_reservations"
+            android:title="Bundle Reservations"
+            android:icon="@drawable/event_icon"
+            android:orderInCategory="300" />
+
         <item android:id="@+id/nav_registration_requests"
             android:title="Registration requests"
             android:icon="@drawable/ic_hamburger"

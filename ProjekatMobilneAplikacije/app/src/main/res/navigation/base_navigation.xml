@@ -203,6 +203,15 @@
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_bundle_reservations"
+        android:name="com.example.projekatmobilneaplikacije.fragments.reservations.BundleReservationsFragment"
+        android:label="Bundle Reservations"
+        tools:layout="@layout/fragment_bundle_reservations"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+    <fragment
         android:id="@+id/nav_registration_requests"
         android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegistrationRequestsFragment"
         android:label="Requests"
@@ -236,5 +245,7 @@
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
+
+
 
 </navigation>
