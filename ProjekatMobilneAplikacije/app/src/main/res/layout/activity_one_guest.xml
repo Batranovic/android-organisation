@@ -15,11 +15,12 @@
         android:textSize="16sp"
         android:textStyle="bold"/>
 
-    <TextView
+    <EditText
         android:id="@+id/text_view_guest_name"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:enabled="false"/>
 
     <!-- Starost gosta -->
     <TextView
@@ -30,11 +31,12 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/text_view_guest_age"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:enabled="false"/>
 
     <!-- Da li je pozvan? -->
     <TextView
@@ -45,11 +47,12 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/text_view_guest_invited"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:enabled="false"/>
 
     <!-- Da li je prihvatio poziv? -->
     <TextView
@@ -60,11 +63,12 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/text_view_guest_accepted"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:enabled="false"/>
 
     <!-- Posebni zahtevi za gosta -->
     <TextView
@@ -75,11 +79,12 @@
         android:textStyle="bold"
         android:layout_marginTop="16dp"/>
 
-    <TextView
+    <EditText
         android:id="@+id/text_view_guest_special_requests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textSize="16sp"/>
+        android:textSize="16sp"
+        android:enabled="false"/>
 
     <!-- Dugme za izmenu podataka -->
     <LinearLayout
@@ -109,5 +114,14 @@
             android:drawableLeft="@drawable/delete_product"
             android:padding="10dp"/>
     </LinearLayout>
+
+    <!-- Dugme za čuvanje podataka -->
+    <Button
+        android:id="@+id/button_save_guest"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Save"
+        android:visibility="gone"
+        android:layout_marginTop="16dp"/>
 
 </LinearLayout>

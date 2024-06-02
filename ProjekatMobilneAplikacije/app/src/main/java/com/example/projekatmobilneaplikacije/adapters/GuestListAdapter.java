@@ -80,11 +80,12 @@ public class GuestListAdapter extends ArrayAdapter<GuestList> {
                 // Handle click event
                 Intent intent = new Intent(v.getContext(), OneGuestActivity.class);
 
-                intent.putExtra("name", guest.getName());
-                intent.putExtra("age", guest.getAge());
-                intent.putExtra("invited", guest.isInvited());
-                intent.putExtra("accepted", guest.isHasAccepted());
-                intent.putExtra("requests", convertListToString(guest.getSpecialRequests()));
+                intent.putExtra("Id", guest.getId());
+                intent.putExtra("Name", guest.getName());
+                intent.putExtra("Age", guest.getAge());
+                intent.putExtra("Invited", guest.isInvited());
+                intent.putExtra("Accepted", guest.isHasAccepted());
+                intent.putExtra("Requests", convertListToString(guest.getSpecialRequests()));
 
                 v.getContext().startActivity(intent);
             }

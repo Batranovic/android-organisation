@@ -6,23 +6,42 @@
     android:id="@+id/guest_container"
     android:padding="16dp">
 
-    <!-- Naslov -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Add your guest"
-        android:textSize="20sp"
-        android:textStyle="bold"
-        android:gravity="center"
-        android:layout_marginBottom="16dp"/>
-
     <!-- Ime i prezime gosta -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Naslov -->
+        <TextView
+            android:layout_width="223dp"
+            android:layout_height="53dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Add your guest"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Dugme za PDF -->
+        <Button
+            android:id="@+id/button_generate_pdf_g"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:drawableLeft="@drawable/add_event"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="1dp"
+
+            android:text="PDF" />
+    </LinearLayout>
+
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="37dp"
         android:text="@string/guest_name_label"
         android:textSize="16sp"
-        android:textStyle="bold"/>
+        android:textStyle="bold" />
 
     <EditText
         android:id="@+id/edit_text_guest_name"
@@ -54,7 +73,7 @@
         android:text="@string/guest_invited_label"
         android:textSize="16sp"
         android:textStyle="bold"
-        android:layout_marginTop="16dp"/>
+        android:layout_marginTop="18dp"/>
 
     <RadioGroup
         android:id="@+id/radio_group_invited"
@@ -145,4 +164,5 @@
         android:layout_height="wrap_content"
         android:text="@string/all_guests"
         android:layout_marginTop="16dp"/>
+
 </LinearLayout>
