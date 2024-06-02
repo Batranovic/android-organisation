@@ -1,5 +1,6 @@
 package com.example.projekatmobilneaplikacije.activities.agenda;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,14 +16,18 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.AddGuestsListBinding;
 
+import com.example.projekatmobilneaplikacije.fragments.GuestListFragment;
 import com.example.projekatmobilneaplikacije.model.GuestList;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -64,6 +69,13 @@ public class AddGuestListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 saveGuestToFirestore();
+            }
+        });
+        Button allGuestsButton = root.findViewById(R.id.button_all_guests);
+        allGuestsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showAllGuestsFragment();
             }
         });
     }
@@ -119,4 +131,26 @@ public class AddGuestListActivity extends AppCompatActivity {
                     }
                 });
     }
-}
+    private void showAllGuestsFragment() {
+        db.collection("guestList").get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        ArrayList<GuestList> guestList = new ArrayList<>();
+                        for (DocumentSnapshot document : task.getResult()) {
+                            GuestList guest = document.toObject(GuestList.class);
+                            guestList.add(guest);
+                        }
+
+                        GuestListFragment guestListFragment = GuestListFragment.newInstance(guestList);
+                        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                        transaction.replace(R.id.guest_container, guestListFragment);
+                        transaction.addToBackStack(null);
+                        transaction.commit();
+                    } else {
+                        Log.w("AddGuestListActivity", "Error getting documents.", task.getException());
+                    }
+                });
+    }
+
+    }
+

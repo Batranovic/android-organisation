@@ -95,6 +95,9 @@
         <activity
             android:name=".activities.agenda.AddGuestListActivity"
             android:exported="false"/>
+        <activity
+            android:name=".activities.OneGuestActivity"
+            android:exported="false"/>
 
         <activity
             android:name=".activities.HomeActivity"

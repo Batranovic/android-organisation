@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
+    android:id="@+id/guest_container"
     android:padding="16dp">
 
     <!-- Naslov -->
@@ -133,9 +134,15 @@
 
     <!-- Dugme za dodavanje gosta -->
     <Button
-        android:id="@+id/button_add_guest"
+    android:id="@+id/button_add_guest"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/guests"
+    android:layout_marginTop="16dp"/>
+    <Button
+        android:id="@+id/button_all_guests"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="@string/guests"
+        android:text="@string/all_guests"
         android:layout_marginTop="16dp"/>
 </LinearLayout>

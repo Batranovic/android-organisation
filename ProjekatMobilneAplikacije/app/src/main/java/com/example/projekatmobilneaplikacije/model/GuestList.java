@@ -1,8 +1,13 @@
 package com.example.projekatmobilneaplikacije.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
+import androidx.annotation.NonNull;
+
 import java.util.List;
 
-public class GuestList {
+public class GuestList implements Parcelable {
     private String name;
     private String age;
     private boolean isInvited;
@@ -60,5 +65,15 @@ public class GuestList {
 
     public void setSpecialRequests(List<String> specialRequests) {
         this.specialRequests = specialRequests;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(@NonNull Parcel parcel, int i) {
+
     }
 }
