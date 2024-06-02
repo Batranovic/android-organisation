@@ -246,6 +246,15 @@
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_company_profile"
+        android:name="com.example.projekatmobilneaplikacije.fragments.company.CompanyProfileFragment"
+        android:label="Company Profile"
+        tools:layout="@layout/fragment_company_profile"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
 
 
 </navigation>

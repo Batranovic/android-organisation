@@ -253,4 +253,5 @@
     <string name="end">"End: "</string>
     <string name="bundles">Reservations by bundle</string>
     <string name="bundless">Bundle reservations</string>
+    <string name="company_profile">Company Profile</string>
 </resources>

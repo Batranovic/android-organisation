@@ -10,6 +10,11 @@
             android:icon="@drawable/ic_face"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_company_profile"
+            android:title="@string/company_profile"
+            android:icon="@drawable/company"
+            android:orderInCategory="300" />
+
         <item android:id="@+id/nav_employees"
             android:title="@string/employees"
             android:icon="@drawable/employee"
