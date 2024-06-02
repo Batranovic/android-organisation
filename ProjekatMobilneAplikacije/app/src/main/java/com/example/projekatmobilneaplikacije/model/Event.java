@@ -5,28 +5,30 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.google.type.DateTime;
+
+import java.sql.Time;
+import java.util.Date;
+
 
 public class Event implements Parcelable {
     private Long id;
-    private String name;
-    private String date;
-    private String startTime;
-    private String endTime;
+    private Date startTime;
+    private Date endTime;
     private String type;
 
     protected Event(Parcel in) {
         id = in.readLong();
-        name = in.readString();
-        date = in.readString();
-        startTime = in.readString();
-        endTime = in.readString();
+        startTime = new Date(in.readLong());
+        endTime = new Date(in.readLong());
         type = in.readString();
-    }
 
-    public Event(Long id,String name, String date, String startTime, String endTime, String type) {
+    }
+    public Event(){
+
+    }
+    public Event(Long id, Date startTime, Date endTime, String type) {
         this.id = id;
-        this.name = name;
-        this.date = date;
         this.startTime = startTime;
         this.endTime = endTime;
         this.type = type;
@@ -40,35 +42,21 @@ public class Event implements Parcelable {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
 
-    public void setName(String name) {
-        this.name = name;
-    }
 
-    public String getDate() {
-        return date;
-    }
-
-    public void setDate(String  date) {
-        this.date = date;
-    }
-
-    public String getStartTime() {
+    public Date getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(String startTime) {
+    public void setStartTime(Date startTime) {
         this.startTime = startTime;
     }
 
-    public String getEndTime() {
+    public Date getEndTime() {
         return endTime;
     }
 
-    public void setEndTime(String endTime) {
+    public void setEndTime(Date endTime) {
         this.endTime = endTime;
     }
 
@@ -80,6 +68,8 @@ public class Event implements Parcelable {
         this.type = type;
     }
 
+
+
     @Override
     public int describeContents() {
         return 0;
@@ -88,11 +78,8 @@ public class Event implements Parcelable {
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeLong(id);
-        dest.writeString(name);
-        dest.writeString(name);
-        dest.writeString(date);
-        dest.writeString(startTime);
-        dest.writeString(endTime);
+        dest.writeLong(startTime != null ? startTime.getTime() : -1L);
+        dest.writeLong(endTime != null ? endTime.getTime() : -1L);
         dest.writeString(type);
     }
 

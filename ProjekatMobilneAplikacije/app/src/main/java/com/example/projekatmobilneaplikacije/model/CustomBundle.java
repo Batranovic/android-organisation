@@ -19,16 +19,17 @@ public class CustomBundle implements Parcelable  {
     private String category;
     private List<String> subcategories;
     private List<String> eventTypes;
-    private String reservationDeadline;
-    private String cancellationDeadline;
+    private int reservationDeadline;
+    private int cancellationDeadline;
     private String confirmationMode;
+
     private boolean isDeleted;
     private List<String> productIds;
     private List<String> serviceIds;
 
     public CustomBundle() { }
 
-    public CustomBundle(String id, String title, String description, int price, int discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted, List<String> productIds, List<String> serviceIds) {
+    public CustomBundle(String id, String title, String description, int price, int discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, int reservationDeadline, int cancellationDeadline, String confirmationMode, boolean isDeleted, List<String> productIds, List<String> serviceIds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -164,19 +165,19 @@ public class CustomBundle implements Parcelable  {
         this.availability = availability;
     }
 
-    public String getReservationDeadline() {
+    public int getReservationDeadline() {
         return reservationDeadline;
     }
 
-    public void setReservationDeadline(String reservationDeadline) {
+    public void setReservationDeadline(int reservationDeadline) {
         this.reservationDeadline = reservationDeadline;
     }
 
-    public String getCancellationDeadline() {
+    public int getCancellationDeadline() {
         return cancellationDeadline;
     }
 
-    public void setCancellationDeadline(String cancellationDeadline) {
+    public void setCancellationDeadline(int cancellationDeadline) {
         this.cancellationDeadline = cancellationDeadline;
     }
 
@@ -227,8 +228,8 @@ public class CustomBundle implements Parcelable  {
         category = in.readString();
         subcategories = in.createStringArrayList();
         eventTypes = in.createStringArrayList();
-        reservationDeadline = in.readString();
-        cancellationDeadline = in.readString();
+        reservationDeadline = in.readInt();
+        cancellationDeadline = in.readInt();
         confirmationMode = in.readString();
         isDeleted = in.readBoolean();
         productIds = in.createStringArrayList();
@@ -255,8 +256,8 @@ public class CustomBundle implements Parcelable  {
         dest.writeString(category);
         dest.writeStringList(subcategories);
         dest.writeStringList(eventTypes);
-        dest.writeString(reservationDeadline);
-        dest.writeString(cancellationDeadline);
+        dest.writeInt(reservationDeadline);
+        dest.writeInt(cancellationDeadline);
         dest.writeString(confirmationMode);
         dest.writeByte((byte) (isDeleted ? 1 : 0));
         dest.writeStringList(productIds);

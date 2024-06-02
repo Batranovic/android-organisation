@@ -188,14 +188,14 @@ public class CreateBundleFourthFragment extends Fragment {
         TextView cancellationDeadlineTextView = root.findViewById(R.id.cancellationDeadline);
         TextView methodTextView = root.findViewById(R.id.methodOfCOnfirmation);
        if (selectedService != null){
-           String serviceReservationDeadline = selectedService.getReservationDeadline();
-           reservationDeadlineTextView.setText(serviceReservationDeadline != null ? serviceReservationDeadline : "");
+           int serviceReservationDeadline = selectedService.getReservationDeadline();
+           reservationDeadlineTextView.setText(String.valueOf(serviceReservationDeadline));
 
-           String serviceCancellationDeadline = selectedService.getCancellationDeadline();
-           cancellationDeadlineTextView.setText(serviceCancellationDeadline != null ? serviceCancellationDeadline : "");
+           int serviceCancellationDeadline = selectedService.getCancellationDeadline();
+           cancellationDeadlineTextView.setText(String.valueOf(serviceCancellationDeadline));
 
-           String method = selectedService.getReservationDeadline();
-           methodTextView.setText(method != null ? method : "");
+           int method = selectedService.getReservationDeadline();
+           methodTextView.setText(String.valueOf(method));
 
        }
 
@@ -221,8 +221,26 @@ public class CreateBundleFourthFragment extends Fragment {
                 String Subcategory = spinner.getSelectedItem() != null ? spinner.getSelectedItem().toString() : "";
                 String priceText = priceTextView.getText().toString();
                 int Price = Integer.parseInt(priceText);
-                String ReservationDeadline = reservationDeadlineTextView != null ? reservationDeadlineTextView.getText().toString() : "";
-                String CancellationDeadline = cancellationDeadlineTextView != null ? cancellationDeadlineTextView.getText().toString() : "";
+
+                String reservationDeadlineText = reservationDeadlineTextView.getText().toString();
+                int ReservationDeadline;
+                try {
+                    ReservationDeadline = Integer.parseInt(reservationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for reservation deadline", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String cancellationDeadlineText = cancellationDeadlineTextView.getText().toString();
+                int CancellationDeadline;
+                try {
+                    CancellationDeadline = Integer.parseInt(cancellationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for cancellation deadline", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 String ConfirmationMode = methodTextView != null ? methodTextView.getText().toString() : "";
                 String EventType = eventTypeTextView != null ? eventTypeTextView.getText().toString() : "";
                 String UniqueServiceId = UUID.randomUUID().toString();

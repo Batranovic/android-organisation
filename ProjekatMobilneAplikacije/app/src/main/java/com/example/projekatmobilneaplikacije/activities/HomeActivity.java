@@ -15,6 +15,8 @@ import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
 
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,9 +32,14 @@ import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
 import com.example.projekatmobilneaplikacije.fragments.LoginFragment;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeesPageFragment;
 import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -51,10 +58,13 @@ public class HomeActivity extends AppCompatActivity {
     FirebaseAuth auth;
 
     FirebaseUser user;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Log.i("ShopApp", "HomeActivity onCreate()");
+        db = FirebaseFirestore.getInstance();
 
         /* Umesto referenci na resurse unutar nekog layout-a moguće je
          * koristiti ViewBinding. Na osnovu konfiguracije u build.gradle fajlu
@@ -146,14 +156,50 @@ public class HomeActivity extends AppCompatActivity {
             Menu navMenu = navigationView.getMenu();
             navMenu.findItem(R.id.nav_logout).setVisible(false);
             navMenu.findItem(R.id.nav_login).setVisible(true);
-
+            navMenu.findItem(R.id.nav_reservations).setVisible(false);
+            navMenu.findItem(R.id.nav_bundle_reservations).setVisible(false);
         } else {
             // Standardna navigacija na fragment za odjavu
             Menu navMenu = navigationView.getMenu();
             navMenu.findItem(R.id.nav_logout).setVisible(true);
             navMenu.findItem(R.id.nav_login).setVisible(false);
-
+            navMenu.findItem(R.id.nav_reservations).setVisible(true);
+            navMenu.findItem(R.id.nav_bundle_reservations).setVisible(true);
         }
+if(user!= null) {
+
+    db.collection("userDetails")
+            .whereEqualTo("username", user.getEmail())
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                        // Preuzmite UserDetails iz dokumenta
+                        UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                        if (userDetails != null) {
+                            Log.d("UserDetails", "Username: " + userDetails.getUsername());
+                            Log.d("UserDetails", "Name: " + userDetails.getName());
+                            Log.d("UserDetails", "Surname: " + userDetails.getSurname());
+                            Log.d("UserDetails", "Role: " + userDetails.getRole());
+                            if (userDetails.getRole().equals(UserRole.Admin)) {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
+                            }else {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
+                            }
+                        }
+                    } else {
+                        Log.d("Firestore", "No documents found for email: " + user.getEmail());
+                    }
+                } else {
+                    Log.w("Firestore", "Error getting documents.", task.getException());
+                }
+            });
+}
         // AppBarConfiguration odnosi se na konfiguraciju ActionBar-a (ili Toolbar-a) u Android aplikaciji
         // kako bi se omogućila navigacija koristeći Android Navigation komponentu.
         // Takođe, postavlja se bočni meni (navigation drawer) u skladu sa
@@ -238,5 +284,16 @@ public class HomeActivity extends AppCompatActivity {
     public boolean onSupportNavigateUp() {
         navController = Navigation.findNavController(this, R.id.fragment_nav_content_main);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration) || super.onSupportNavigateUp();
+    }
+
+    private void createNotificationChannel(CharSequence name, String description, String channel_id, int importance) {
+        // Create the NotificationChannel, but only on API 26+ because
+        // the NotificationChannel class is new and not in the support library
+        NotificationChannel channel = new NotificationChannel(channel_id, name, importance);
+        channel.setDescription(description);
+        // Register the channel with the system; you can't change the importance
+        // or other notification behaviors after this
+        NotificationManager notificationManager = getSystemService(NotificationManager.class);
+        notificationManager.createNotificationChannel(channel);
     }
 }

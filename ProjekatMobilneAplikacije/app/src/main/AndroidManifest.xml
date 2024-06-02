@@ -17,7 +17,12 @@
         android:theme="@style/Theme.ProjekatMobilneAplikacije"
         tools:targetApi="31">
         <activity
-            android:name=".activities.registration.RegistrationRequestDetailActivity" />
+            android:name=".activities.reservation.ReserveProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.reservation.ReserveServiceActivity"
+            android:exported="false" />
+        <activity android:name=".activities.registration.RegistrationRequestDetailActivity" />
         <activity
             android:name=".activities.PriceListBundleActivity"
             android:exported="false" />
@@ -35,9 +40,11 @@
         <activity
             android:name=".activities.registration.RegistrationRequestsActivity"
             android:exported="false" />
-     <!--   <activity
+        <!--
+   <activity
             android:name=".fragments.registration.TimePickerDialogActivity"
-            android:exported="false" /> -->
+            android:exported="false" />
+        -->
         <activity
             android:name=".activities.EditEventTypeActivity"
             android:exported="false" />

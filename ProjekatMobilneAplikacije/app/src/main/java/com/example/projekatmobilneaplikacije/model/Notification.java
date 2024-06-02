@@ -7,23 +7,26 @@ import androidx.annotation.NonNull;
 
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
+import java.util.Date;
 
 public class Notification implements Parcelable {
     private String id;
     private String title;
     private String message;
     private boolean isRead;
-    private LocalDate date;
+    private Date date;
+    private String username;
 
     public Notification() {
     }
 
-    public Notification(String id, String title, String message, boolean isRead, LocalDate date) {
+    public Notification(String id, String title, String message, boolean isRead, Date date, String username) {
         this.id = id;
         this.title = title;
         this.message = message;
         this.isRead = isRead;
         this.date = date;
+        this.username = username;
     }
 
     public String getId() {
@@ -58,13 +61,22 @@ public class Notification implements Parcelable {
         isRead = read;
     }
 
-    public LocalDate getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Date date) {
         this.date = date;
     }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
 
     @Override
     public int describeContents() {
@@ -76,8 +88,9 @@ public class Notification implements Parcelable {
         dest.writeString(id);
         dest.writeString(title);
         dest.writeString(message);
-        dest.writeByte((byte) (isRead ? 1 : 0));
+        dest.writeBoolean(isRead);
         dest.writeString(date.toString());
+        dest.writeString(username);
     }
 
     // Constructor for creating from Parcel
@@ -85,8 +98,10 @@ public class Notification implements Parcelable {
         id = in.readString();
         title = in.readString();
         message = in.readString();
-        isRead = in.readByte() != 0;
-        date = LocalDate.parse(in.readString());
+        isRead = in.readBoolean();
+        long dateMillis = in.readLong();
+        date = dateMillis != -1 ? new Date(dateMillis) : null;  //date = new Date(in.readLong());
+        username = in.readString();
         /*String dateString = in.readString();
         if (dateString != null) {
             date = LocalDate.parse(dateString, DateTimeFormatter.ISO_LOCAL_DATE);

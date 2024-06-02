@@ -194,10 +194,36 @@ public class CreateServiceSecondFragment extends Fragment {
         btnSubmit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String Duration = duration.getText().toString();
-                String Engagement = engagement.getText().toString();
-                String ReservationDeadline = reservationDeadline.getText().toString();
-                String CancellationDeadline = cancellationDeadline.getText().toString();
+                String durationText = duration.getText().toString();
+                int Duration = durationText.isEmpty() ? 0 : Integer.parseInt(durationText);
+
+                String engagementText = engagement.getText().toString();
+                int Engagement;
+                try {
+                    Engagement = Integer.parseInt(engagementText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for engagement", Toast.LENGTH_SHORT).show();
+                    return; // Izađi iz onClick metode ako unos nije validan
+                }
+
+                String reservationDeadlineText = reservationDeadline.getText().toString();
+                int ReservationDeadline;
+                try {
+                    ReservationDeadline = Integer.parseInt(reservationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for reservation deadline", Toast.LENGTH_SHORT).show();
+                    return; // Izađi iz onClick metode ako unos nije validan
+                }
+
+                String cancellationDeadlineText = cancellationDeadline.getText().toString();
+                int CancellationDeadline;
+                try {
+                    CancellationDeadline = Integer.parseInt(cancellationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for cancellation deadline", Toast.LENGTH_SHORT).show();
+                    return; // Izađi iz onClick metode ako unos nije validan
+                }
+
                 String Title = title;
                 String Description = description;
                 String Specificity = specificity;

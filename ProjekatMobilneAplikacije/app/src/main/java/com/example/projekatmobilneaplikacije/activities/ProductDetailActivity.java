@@ -1,6 +1,7 @@
 package com.example.projekatmobilneaplikacije.activities;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -8,6 +9,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveProductActivity;
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveServiceActivity;
+import com.example.projekatmobilneaplikacije.model.Service;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.Query;
@@ -71,6 +75,42 @@ public class ProductDetailActivity extends AppCompatActivity {
         availabilityEditText.setText(getIntent().getStringExtra("availability"));
         visibilityEditText.setText(getIntent().getStringExtra("visibility"));
 
+        ImageButton reserveProductButton = findViewById(R.id.reserveProductButton);
+        reserveProductButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Step 1: Get Service ID
+                String serviceId = getIntent().getStringExtra("productId");
+
+                // Step 2: Retrieve Service from Firestore
+                db.collection("products")
+                        .whereEqualTo("id", productId) // Query for documents where "id" field is equal to serviceId
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                        DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Get the first document
+                                        Product product = document.toObject(Product.class);
+
+                                        Intent intent = new Intent(ProductDetailActivity.this, ReserveProductActivity.class);
+                                        intent.putExtra("productId", productId);
+                                        intent.putExtra("productName", product.getTitle());
+                                        intent.putExtra("productSubcategory", product.getSubcategory());
+                                        startActivity(intent);
+
+                                    } else {
+                                        Log.d("ProductDetailActivity", "No such document found for productId: " + productId);
+                                    }
+                                } else {
+                                    Log.d("ProductDetailActivity", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+            }
+        });
 
         ImageButton deleteButton = findViewById(R.id.deleteProductButton);
 

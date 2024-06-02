@@ -9,7 +9,9 @@ import androidx.navigation.fragment.NavHostFragment;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -20,16 +22,22 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.HomeActivity;
 import com.example.projekatmobilneaplikacije.activities.RegistrationActivity;
 import com.example.projekatmobilneaplikacije.databinding.FragmentLoginBinding;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
     EditText username, password_log;
     FirebaseAuth mAuth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static LoginFragment newInstance() {
         return new LoginFragment();
     }
@@ -37,12 +45,33 @@ public class LoginFragment extends Fragment {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            if (currentUser.isEmailVerified()) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
-            }
+        if(currentUser!= null) {
+
+            db.collection("userDetails")
+                    .whereEqualTo("username", currentUser.getEmail())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                // Preuzmite UserDetails iz dokumenta
+                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+
+                                if (userDetails!=null && currentUser.isEmailVerified() && !userDetails.getIsBlocked()) {
+                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(requireContext(), "Is blocked" + userDetails.getIsBlocked(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        } else {
+                            Log.w("Firestore", "Error logging in.", task.getException());
+                        }
+                    });
         }
+
     }
 
     @Override
@@ -86,9 +115,35 @@ public class LoginFragment extends Fragment {
                                     FirebaseUser currentUser = mAuth.getCurrentUser();
                                     if (currentUser != null) {
                                         if (currentUser.isEmailVerified()) {
-                                            Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
-                                            Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                            startActivity(intent);
+                                            db.collection("userDetails")
+                                                    .whereEqualTo("username", currentUser.getEmail())
+                                                    .get()
+                                                    .addOnCompleteListener(tasks -> {
+                                                        if (tasks.isSuccessful()) {
+                                                            QuerySnapshot querySnapshot = tasks.getResult();
+                                                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                                                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                                                // Preuzmite UserDetails iz dokumenta
+                                                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+
+                                                                if (userDetails!=null && currentUser.isEmailVerified() && !userDetails.getIsBlocked()) {
+                                                                    Toast.makeText(requireContext(), "Is blocked " + userDetails.getIsBlocked(), Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
+                                                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                                                    startActivity(intent);
+                                                                }else {
+                                                                    Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                                                                }
+
+                                                            }
+                                                        } else {
+                                                            Log.w("Firestore", "Error logging in.", tasks.getException());
+                                                        }
+                                                    });
+                                         //   Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
+                                            //Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                          //  startActivity(intent);
                                         } else {
                                             Toast.makeText(requireContext(), "Please verify your email to log in.", Toast.LENGTH_SHORT).show();
                                             mAuth.signOut(); // Odjava korisnika ako nije verifikovao email
