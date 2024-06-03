@@ -57,6 +57,7 @@
     <string name="humanitarianEvent">Humanitarian and charitable</string>
     <string name="edit">Edit</string>
     <string name="remove">Remove</string>
+    <string name="generateagenda">Generate PDF file</string>
 
 
     <string name="navigation_drawer_open" translatable="false">Navigation Drawer Open</string>
@@ -142,7 +143,55 @@
     <string name="budget_planing">"Planing budget"</string>
     <string name="category_suggestion">"Category suggestion"</string>
     <string name="category_suggestion_desc">"Suggestion Description"</string>
-    <string name="budget_items">"Budget Items"</string>
+    <string name="budget_plan">"Budget plan"</string>
+    <string name="suggestion_cat">"All suggested event subcategories"</string>
+    <string name="suggestion_desc">"Suggested categories description"</string>
+    <string name="planned_budget_items">"Planned budget items"</string>
+    <string name="pick_subcat">"Pick subcategory"</string>
+    <string name="add_sub">"Add"</string>
+    <string name="agenda">"Add agenda"</string>
+    <string name="guests">"Add guest list"</string>
+    <string name="activity_name">"Name"</string>
+    <string name="activity_desc">"Description"</string>
+    <string name="activity_loc">"Location"</string>
+   <string name="enter_txt">"Enter field"</string>
+    <string name="clocks">"Start time"</string>
+    <string name="clocke">"End time"</string>
+    <string name="guest_name_label">Name and surname</string>
+    <string name="guest_name_hint">Unesite ime i prezime</string>
+    <string name="guest_age_label">Age</string>
+
+    <string name="guest_invited_label">"Is he/she invited?"</string>
+
+    <string name="guest_accepted_label">Did he/she accepted invitation?</string>
+    <string name="guest_special_requests_label">Special requests</string>
+    <string name="vegan">Vegan</string>
+    <string name="noreq">No requests</string>
+    <string name="vegetarian">Vegetarian</string>
+    <string name="all_guests">See all guest list</string>
+    <string-array name="age_ranges">
+        <item>0-3</item>
+        <item>3-10</item>
+        <item>10-18</item>
+        <item>18-30</item>
+        <item>30-50</item>
+        <item>50-70</item>
+        <item>70+</item>
+    </string-array>
+
+
+
+    <string-array name="spinner_items_event">
+        <item>Privatni događaji</item>
+        <item>Korporativni događaji</item>
+        <item>Događaji u obrazovanju</item>
+        <item>Kulturni i zabavni događaji</item>
+        <item>Sportski događaji</item>
+        <item>Humanitarni i dobrotvorni događaji</item>
+        <item>Vlada i politički događaji</item>
+        <item>Drugo</item>
+        <!-- Dodajte više stavki po potrebi -->
+    </string-array>
 
 
     <!-- Ostali string resursi -->
@@ -251,4 +300,7 @@
     <string name="cancelled_by_event_eo">CancelledByEO</string>
     <string name="start">"Start: "</string>
     <string name="end">"End: "</string>
+    <string name="bundles">Reservations by bundle</string>
+    <string name="bundless">Bundle reservations</string>
+    <string name="company_profile">Company Profile</string>
 </resources>

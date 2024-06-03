@@ -7,6 +7,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.ListFragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +16,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ExpandableListView;
 import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
@@ -22,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
+import com.example.projekatmobilneaplikacije.adapters.BundleReservationListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.EmployeeListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.ReservationListAdapter;
@@ -49,6 +53,9 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -60,7 +67,6 @@ public class ReservationListFragment extends ListFragment implements SearchView.
     private static final String ARG_PARAM = "param";
     private ReservationListAdapter adapter;
     public static ArrayList<Reservation> reservations;
-    private FragmentReservationListBinding binding;
 
     private ArrayList<Reservation> originalReservations = new ArrayList<>();
 
@@ -78,6 +84,7 @@ public class ReservationListFragment extends ListFragment implements SearchView.
     SearchView searchView;
 
     ListView listView;
+
 
     public ReservationListFragment() {
     }
@@ -303,7 +310,7 @@ public class ReservationListFragment extends ListFragment implements SearchView.
             return;
         }
 
-        reservationsRef.get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+        reservationsRef.whereEqualTo("bundle", null).get().addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
             @Override
             public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
                 reservations.clear();
@@ -324,7 +331,10 @@ public class ReservationListFragment extends ListFragment implements SearchView.
                 }
             }
         });
+
+
     }
+
 
 
 

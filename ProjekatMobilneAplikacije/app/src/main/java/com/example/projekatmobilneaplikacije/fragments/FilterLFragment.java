@@ -66,7 +66,7 @@ public class FilterLFragment extends Fragment{
             }
         });
 
-        Button openPopupButton = view.findViewById(R.id.open_event_type);
+        Button openPopupButton = view.findViewById(R.id.open_event_type_popup);
         openPopupButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

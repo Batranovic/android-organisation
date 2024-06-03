@@ -48,51 +48,36 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:textSize="20sp"
-                android:textStyle="bold"
+                android:layout_height="37dp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
                 android:text="@string/creation_type"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="16dp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-
-                <Button
-                    android:id="@+id/open_event_type"
-                    android:layout_width="378dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/set_type" />
-
-            </LinearLayout>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
                 android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <Spinner
+                android:id="@+id/spinner_event_create"
+                android:layout_width="372dp"
+                android:layout_height="47dp"
+                android:entries="@array/spinner_items_event" />
+
+            <Button
+                android:id="@+id/pick_subcat"
+                android:layout_width="match_parent"
+                android:layout_height="35dp"
                 android:textStyle="bold"
-                android:text="@string/category_pick"
-                android:layout_marginTop="15dp"
-                android:layout_marginStart="16dp"/>
+                android:text="@string/pick_subcat" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:orientation="horizontal">
+                android:orientation="horizontal"/>
 
 
-                <Button
-                    android:id="@+id/open_category"
-                    android:layout_width="378dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="14dp"
-                    android:layout_marginTop="10dp"
-                    android:text="@string/set_type" />
-
-            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal"/>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -146,6 +131,7 @@
 
 
             <RadioGroup
+                android:id="@+id/radioevent"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" >
 
@@ -226,6 +212,7 @@
                     android:layout_marginEnd="15dp"
                     android:background="@color/black"/>
 
+
             </LinearLayout>
 
             <Button
@@ -236,6 +223,8 @@
                 android:layout_marginTop="50dp"
                 android:layout_marginBottom="50dp"
                 android:text="@string/enter_event" />
+
+
 
         </LinearLayout>
 

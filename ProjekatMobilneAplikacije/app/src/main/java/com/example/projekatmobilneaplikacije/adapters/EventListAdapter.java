@@ -2,6 +2,7 @@ package com.example.projekatmobilneaplikacije.adapters;
 
 import android.content.Context;
 
+import android.content.Intent;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,8 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.agenda.AgendaAndGuestsActivity;
+import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfileActivity;
 import com.example.projekatmobilneaplikacije.model.CreateEvent;
 
 
@@ -84,7 +87,28 @@ public class EventListAdapter extends ArrayAdapter<CreateEvent> {
                 Toast.makeText(getContext(), "Clicked: ", Toast.LENGTH_SHORT).show();
             });
         }
+        View itemView = convertView;
+        itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Handle click event
+                Intent intent = new Intent(v.getContext(), AgendaAndGuestsActivity.class);
+                intent.putExtra("id", event.getId());
+                intent.putExtra("name", event.getName());
+                intent.putExtra("eventType", event.getEventType());
+                intent.putExtra("description", event.getDescription());
+                intent.putExtra("location", event.getLocation());
+                intent.putExtra("participants", event.getParticipants());
+                intent.putExtra("date", event.getDate());
+                intent.putExtra("isPrivate", event.getParticipants());
+                v.getContext().startActivity(intent);
+            }
+        });
 
         return convertView;
     }
-}
+
+
+
+    }
+

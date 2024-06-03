@@ -43,6 +43,7 @@ public class ServiceAndProductFragment extends Fragment {
 
     private RadioGroup radioGroupCategory;
     private RadioButton radioButtonSubcategory;
+    private EditText editTextCatName2;
     private Spinner categorySpinner;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     public static ServiceAndProductFragment newInstance() {
@@ -57,9 +58,7 @@ public class ServiceAndProductFragment extends Fragment {
 
         radioGroupCategory = rootView.findViewById(R.id.radioGroupCategory);
         radioButtonSubcategory = rootView.findViewById(R.id.sub_category);
-        categorySpinner = rootView.findViewById(R.id.categorySpinner);
-
-
+        editTextCatName2 = rootView.findViewById(R.id.cat_name);
 
         Button buttonCreate = rootView.findViewById(R.id.buttonCreate);
         buttonCreate.setOnClickListener(new View.OnClickListener() {
@@ -140,6 +139,8 @@ public class ServiceAndProductFragment extends Fragment {
                 if (isCategorySelected) {
                     rootView.findViewById(R.id.service).setEnabled(false);
                     rootView.findViewById(R.id.product).setEnabled(false);
+                    editTextCatName2.setEnabled(false);
+                    rootView.findViewById(R.id.cat_name).setEnabled(false);
                     setRadioButtonColor(rootView.findViewById(R.id.service), Color.RED); // Postavi boju radiobuttona na crvenu
                     setRadioButtonColor(rootView.findViewById(R.id.product), Color.RED); // Postavi boju radiobuttona na crvenu
                 } else {

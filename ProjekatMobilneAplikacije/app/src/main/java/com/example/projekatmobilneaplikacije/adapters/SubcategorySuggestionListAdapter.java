@@ -66,3 +66,4 @@ public class SubcategorySuggestionListAdapter extends ArrayAdapter<SubcategorySu
     }
 
 }
+

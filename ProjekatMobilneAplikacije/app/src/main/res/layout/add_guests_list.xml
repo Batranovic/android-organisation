@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:id="@+id/guest_container"
+    android:padding="16dp">
+
+    <!-- Ime i prezime gosta -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="74dp"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <!-- Naslov -->
+        <TextView
+            android:layout_width="223dp"
+            android:layout_height="53dp"
+            android:layout_marginBottom="16dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:text="Add your guest"
+            android:textSize="20sp"
+            android:textStyle="bold" />
+
+        <!-- Dugme za PDF -->
+        <Button
+            android:id="@+id/button_generate_pdf_g"
+            android:layout_width="wrap_content"
+            android:layout_height="61dp"
+            android:drawableLeft="@drawable/add_event"
+            android:layout_marginStart="10dp"
+            android:layout_marginBottom="1dp"
+
+            android:text="PDF" />
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="37dp"
+        android:text="@string/guest_name_label"
+        android:textSize="16sp"
+        android:textStyle="bold" />
+
+    <EditText
+        android:id="@+id/edit_text_guest_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="@string/guest_name_hint"
+        android:inputType="text"/>
+
+    <!-- Starost gosta -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/guest_age_label"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <Spinner
+        android:id="@+id/spinner_guest_age"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:entries="@array/age_ranges"/>
+
+    <!-- Da li je pozvan? -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/guest_invited_label"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="18dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_invited"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/radio_invited_yes"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:text="@string/yes" />
+
+        <RadioButton
+            android:id="@+id/radio_invited_no"
+            android:layout_width="80dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no" />
+    </RadioGroup>
+
+    <!-- Da li je prihvatio poziv? -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/guest_accepted_label"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <RadioGroup
+        android:id="@+id/radio_group_accepted"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_marginTop="8dp">
+
+        <RadioButton
+            android:id="@+id/radio_accepted_yes"
+            android:layout_width="79dp"
+            android:layout_height="wrap_content"
+            android:text="@string/yes" />
+
+        <RadioButton
+            android:id="@+id/radio_accepted_no"
+            android:layout_width="91dp"
+            android:layout_height="wrap_content"
+            android:text="@string/no" />
+    </RadioGroup>
+
+    <!-- Posebni zahtevi za gosta -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/guest_special_requests_label"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:layout_marginTop="16dp"/>
+
+    <CheckBox
+        android:id="@+id/checkbox_noreq"
+        android:layout_width="142dp"
+        android:layout_height="wrap_content"
+        android:text="@string/noreq" />
+
+    <CheckBox
+        android:id="@+id/checkbox_vegan"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vegan"/>
+
+    <CheckBox
+        android:id="@+id/checkbox_vegetarian"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/vegetarian"/>
+
+    <!-- Dugme za dodavanje gosta -->
+    <Button
+    android:id="@+id/button_add_guest"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:text="@string/guests"
+    android:layout_marginTop="16dp"/>
+    <Button
+        android:id="@+id/button_all_guests"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/all_guests"
+        android:layout_marginTop="16dp"/>
+
+</LinearLayout>

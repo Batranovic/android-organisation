@@ -87,6 +87,11 @@
             android:id="@+id/action_nav_event_type_create_to_nav_event_type_page"
             app:destination="@id/nav_event_type_page" />
     </fragment>
+
+
+
+
+
     <fragment
         android:id="@+id/nav_service"
         android:name="com.example.projekatmobilneaplikacije.fragments.serviceAndProduct.ServiceAndProductFragment"
@@ -203,12 +208,44 @@
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_bundle_reservations"
+        android:name="com.example.projekatmobilneaplikacije.fragments.reservations.BundleReservationsFragment"
+        android:label="Bundle Reservations"
+        tools:layout="@layout/fragment_bundle_reservations"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+    <fragment
         android:id="@+id/nav_registration_requests"
         android:name="com.example.projekatmobilneaplikacije.fragments.registration.RegistrationRequestsFragment"
         android:label="Requests"
         tools:layout="@layout/fragment_registration_requests"
         app:popUpToInclusive="true"
         />
+
+    <fragment
+        android:id="@+id/nav_event_page"
+        android:name="com.example.projekatmobilneaplikacije.fragments.EventPageFragment"
+        android:label="Event Page"
+        tools:layout="@layout/one_event_fragment">
+
+        <!-- Akcije za navigaciju na druge fragmente -->
+        <action
+            android:id="@+id/action_nav_event_page_to_nav_add_agenda"
+            app:destination="@id/nav_add_agenda" />
+
+
+    </fragment>
+
+    <!-- Definišite fragment za dodavanje agende -->
+    <fragment
+        android:id="@+id/nav_add_agenda"
+        android:name="com.example.projekatmobilneaplikacije.fragments.AddAgendaFragment"
+        android:label="Add Agenda"
+        tools:layout="@layout/add_agenda" />
+
+    <!-- Definišite fragment za dodavanje liste gostiju -->
 
     <fragment
         android:id="@+id/nav_reports"
@@ -236,5 +273,16 @@
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
+
+    <fragment
+        android:id="@+id/nav_company_profile"
+        android:name="com.example.projekatmobilneaplikacije.fragments.company.CompanyProfileFragment"
+        android:label="Company Profile"
+        tools:layout="@layout/fragment_company_profile"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
+
 
 </navigation>

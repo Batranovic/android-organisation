@@ -12,4 +12,6 @@
         android:layout_margin="10dp"
         android:id="@+id/scroll_events_list" />
 
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

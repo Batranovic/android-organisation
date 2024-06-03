@@ -67,6 +67,12 @@
             android:name=".activities.EditServiceAndProductActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.budget.BudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.budget.PlanBudgetActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.events.NewEventActivity"
             android:exported="false" />
         <activity
@@ -87,6 +93,19 @@
         <activity
             android:name=".activities.CreateProductActivity"
             android:exported="false" />
+        <activity
+            android:name=".activities.agenda.AddAgendaActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.agenda.AgendaAndGuestsActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.agenda.AddGuestListActivity"
+            android:exported="false"/>
+        <activity
+            android:name=".activities.OneGuestActivity"
+            android:exported="false"/>
+
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
