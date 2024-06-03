@@ -21,6 +21,7 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.PriceListActivity;
 import com.example.projekatmobilneaplikacije.activities.PriceListBundleActivity;
 import com.example.projekatmobilneaplikacije.activities.PriceListItemActivity;
+import com.example.projekatmobilneaplikacije.activities.reservation.BundleListDetailActivity;
 import com.example.projekatmobilneaplikacije.model.CustomBundle;
 import com.example.projekatmobilneaplikacije.model.Service;
 
@@ -132,13 +133,11 @@ public class BundleListAdapter extends ArrayAdapter<CustomBundle> {
                     bundleEventType.setText(""); // Postavite na prazan string ako nema eventTypes
                 }
                 bundleCard.setOnClickListener(v -> {
-                    // Handle click on the item at 'position'
-                    Log.i("ShopApp", "Clicked: " + bundle.getTitle() + ", id: " +
-                            bundle.getId().toString());
-
-
-                    Toast.makeText(getContext(), "Clicked: " + bundle.getTitle()  +
-                            ", id: " + bundle.getId().toString(), Toast.LENGTH_SHORT).show();
+                    Intent intent = new Intent(mContext, BundleListDetailActivity.class);
+                    intent.putExtra("bundleId", bundle.getId());
+                    intent.putExtra("title", bundle.getTitle());
+                    intent.putExtra("discount", bundle.getDiscount());
+                    mContext.startActivity(intent);
                 });
             }
         }

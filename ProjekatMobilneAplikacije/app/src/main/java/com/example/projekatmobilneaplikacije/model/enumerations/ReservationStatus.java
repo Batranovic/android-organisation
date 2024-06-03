@@ -1,5 +1,5 @@
 package com.example.projekatmobilneaplikacije.model.enumerations;
 
 public enum ReservationStatus {
-    New, CancelledByPUP, CancelledByEO, CancelledByAdmin, Accepted, Realized, WaitingToBeAccepted
+    New, CancelledByPUP, CancelledByEO, CancelledByAdmin, Accepted, Realized, WaitingToBeAccepted,  InProgress
 }

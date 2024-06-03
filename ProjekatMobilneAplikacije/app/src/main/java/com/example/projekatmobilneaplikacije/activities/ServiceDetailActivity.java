@@ -19,10 +19,14 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.reservation.ReserveServiceActivity;
 import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
 import com.example.projekatmobilneaplikacije.model.Service;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -36,6 +40,9 @@ public class ServiceDetailActivity extends AppCompatActivity {
     EditText specificityEditText, discountEditText, durationEditText, engagementEditText, reservationDeadlineEditText, cancellationDeadlineEditText, confirmationModeEditText;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth auth;
+
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,6 +86,40 @@ public class ServiceDetailActivity extends AppCompatActivity {
         confirmationModeEditText.setText(getIntent().getStringExtra("confirmationMode"));
 
         ImageButton reserveServiceButton = findViewById(R.id.reserveServiceButton);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        if(user!= null) {
+
+            db.collection("userDetails")
+                    .whereEqualTo("username", user.getEmail())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                // Preuzmite UserDetails iz dokumenta
+                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                                if (userDetails != null) {
+                                    Log.d("UserDetails", "Username: " + userDetails.getUsername());
+                                    Log.d("UserDetails", "Name: " + userDetails.getName());
+                                    Log.d("UserDetails", "Surname: " + userDetails.getSurname());
+                                    Log.d("UserDetails", "Role: " + userDetails.getRole());
+                                    if (userDetails.getRole().equals(UserRole.EventOrganizer)) {
+                                        reserveServiceButton.setVisibility(View.VISIBLE);
+                                    }else {
+                                        reserveServiceButton.setVisibility(View.GONE);
+                                    }
+                                }
+                            } else {
+                                Log.d("Firestore", "No documents found for email: " + user.getEmail());
+                            }
+                        } else {
+                            Log.w("Firestore", "Error getting documents.", task.getException());
+                        }
+                    });
+        }
         reserveServiceButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
