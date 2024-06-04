@@ -81,10 +81,14 @@ public class ServiceListingFragment extends ListFragment implements SearchView.O
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         if (getArguments() != null) {
             services = getArguments().getParcelableArrayList(ARG_PARAM);
             adapter = new ServiceListAdapter(getActivity(), services, null);
             setListAdapter(adapter);
+        }else {
+            Log.d("ServiceListingFragment", "No arguments received");
+            services = new ArrayList<>();  // Initialize as an empty list if no arguments are received
         }
     }
 
@@ -102,6 +106,13 @@ public class ServiceListingFragment extends ListFragment implements SearchView.O
         // Set up the adapter with the updated data
         adapter = new ServiceListAdapter(getActivity(), services, null);
         setListAdapter(adapter);
+        if (services != null) {
+            ServiceListAdapter adapter = new ServiceListAdapter(getActivity(), services,null);
+            setListAdapter(adapter);
+        } else {
+            Log.e("ServiceListingFragment", "Services list is null");
+        }
+
 
         Button btnFilters = view.findViewById(R.id.btnFilters);
         btnFilters.setOnClickListener(v -> {

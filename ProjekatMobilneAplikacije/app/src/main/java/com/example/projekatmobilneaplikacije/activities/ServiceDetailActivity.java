@@ -23,6 +23,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -34,7 +35,8 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
     EditText titleEditText, descriptionEditText, subcategoryEditText, eventTypeEditText, priceEditText, availabilityEditText, visibilityEditText;
     EditText specificityEditText, discountEditText, durationEditText, engagementEditText, reservationDeadlineEditText, cancellationDeadlineEditText, confirmationModeEditText;
-
+    private boolean isFavorite = false;
+    private ImageButton favoriteButton2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     @Override
@@ -58,6 +60,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         reservationDeadlineEditText = findViewById(R.id.reservationDeadline);
         cancellationDeadlineEditText = findViewById(R.id.cancellationDeadline);
         confirmationModeEditText = findViewById(R.id.confirmationMode);
+        favoriteButton2 = findViewById(R.id.favoriteButton2);
 
         // Retrieve the product ID from the intent
         String serviceId = getIntent().getStringExtra("serviceId");
@@ -77,6 +80,13 @@ public class ServiceDetailActivity extends AppCompatActivity {
         reservationDeadlineEditText.setText(getIntent().getStringExtra("reservationDeadline"));
         cancellationDeadlineEditText.setText(getIntent().getStringExtra("cancellationDeadline"));
         confirmationModeEditText.setText(getIntent().getStringExtra("confirmationMode"));
+        favoriteButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFavorite = !isFavorite;
+                handleFavorite(serviceId, isFavorite);
+            }
+        });
 
         ImageButton reserveServiceButton = findViewById(R.id.reserveServiceButton);
         reserveServiceButton.setOnClickListener(new View.OnClickListener() {
@@ -147,6 +157,30 @@ public class ServiceDetailActivity extends AppCompatActivity {
             return insets;
         });
     }
+    private void handleFavorite(String serviceId, boolean isFavorite) {
+        DocumentReference favoriteRef = db.collection("favorites").document(serviceId);
+
+        if (isFavorite) {
+            Map<String, Object> favoriteData = new HashMap<>();
+            favoriteData.put("id", serviceId);
+
+
+            favoriteRef.set(favoriteData)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(ServiceDetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                        Log.d("ServiceDetailActivity", "Added to favorites");
+                    })
+                    .addOnFailureListener(e -> Log.w("ProductDetailActivity", "Error adding to favorites", e));
+        } else {
+            favoriteRef.delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(ServiceDetailActivity.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                        Log.d("ServiceDetailActivity", "Removed from favorites");
+                    })
+                    .addOnFailureListener(e -> Log.w("ServiceDetailActivity", "Error removing from favorites", e));
+        }
+    }
+
 
     private void deleteService(String serviceId) {
         // Pronalaženje dokumenta sa odgovarajućim productId

@@ -201,6 +201,7 @@ public class Product implements Parcelable {
                 '}';
     }
 
+
     /*
      * Da biste omogućili Androidu da regeneriše vaš objekat iz Parcel-a,
      * morate da obezbedite statički CREATOR polje koje implementira Parcelable.Creator

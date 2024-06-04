@@ -12,6 +12,12 @@
         android:label="Profile"
         tools:layout="@layout/fragment_profile"
         />
+    <fragment
+        android:id="@+id/productListingFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ProductListingFragment"
+        android:label="Product Listing"
+        tools:layout="@layout/fragment_product_listing" />
+
 
     <fragment
         android:id="@+id/nav_employees"
@@ -115,7 +121,21 @@
         android:name="com.example.projekatmobilneaplikacije.fragments.SearchFragment"
         android:label="Search and filter"
         tools:layout="@layout/search_fragment"
-        />
+        >
+        <action
+            android:id="@+id/action_nav_search_to_servicesList"
+            app:destination="@id/nav_service_listing" />
+        <action
+            android:id="@+id/action_nav_search_to_productListingFragment"
+            app:destination="@id/productListingFragment" />
+    </fragment>
+    <fragment
+
+        android:id="@+id/servicesList"
+        android:name="com.example.projekatmobilneaplikacije.fragments.ServiceListingFragment"
+        android:label="Services List"
+        tools:layout="@layout/fragment_service_listing" />
+
 
     <fragment
         android:id="@+id/nav_login"
@@ -223,27 +243,17 @@
         tools:layout="@layout/fragment_registration_requests"
         app:popUpToInclusive="true"
         />
-
     <fragment
-        android:id="@+id/nav_event_page"
-        android:name="com.example.projekatmobilneaplikacije.fragments.EventPageFragment"
-        android:label="Event Page"
-        tools:layout="@layout/one_event_fragment">
-
-        <!-- Akcije za navigaciju na druge fragmente -->
+        android:id="@+id/nav_searchf"
+        android:name="com.example.projekatmobilneaplikacije.fragments.SearchFragment"
+        android:label="Search and Filter"
+        tools:layout="@layout/search_fragment">
         <action
-            android:id="@+id/action_nav_event_page_to_nav_add_agenda"
-            app:destination="@id/nav_add_agenda" />
-
-
+            android:id="@+id/action_nav_search_to_servicesList"
+            app:destination="@id/servicesList" />
     </fragment>
 
-    <!-- Definišite fragment za dodavanje agende -->
-    <fragment
-        android:id="@+id/nav_add_agenda"
-        android:name="com.example.projekatmobilneaplikacije.fragments.AddAgendaFragment"
-        android:label="Add Agenda"
-        tools:layout="@layout/add_agenda" />
+
 
     <!-- Definišite fragment za dodavanje liste gostiju -->
 

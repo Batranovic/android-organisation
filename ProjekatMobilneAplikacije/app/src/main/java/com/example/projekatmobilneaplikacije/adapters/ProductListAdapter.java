@@ -56,6 +56,7 @@ public class ProductListAdapter extends ArrayAdapter<Product> implements Filtera
     public ProductListAdapter(Context context, ArrayList<Product> products, CreateBundleThirdFragment createBundleThirdFragment){
         super(context, R.layout.product_card, products);
         aProducts = products;
+        this.aProducts = products != null ? products : new ArrayList<>(); // Initialize the list if null
         mContext = context;
         mCreateBundleThirdFragment = createBundleThirdFragment;
     }
