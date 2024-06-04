@@ -89,5 +89,10 @@
             android:icon="@drawable/price_list"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_favourites"
+            android:title="Favourites List"
+            android:icon="@drawable/favorite_24px"
+            android:orderInCategory="300" />
+
     </group>
 </menu>

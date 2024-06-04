@@ -51,6 +51,8 @@ public class ProductDetailActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     FirebaseAuth auth;
+    private boolean isFavorite = false;
+    private ImageButton favoriteButton;
 
     FirebaseUser user;
     @Override
@@ -69,6 +71,7 @@ public class ProductDetailActivity extends AppCompatActivity {
         priceEditText = findViewById(R.id.price);
         availabilityEditText = findViewById(R.id.availability);
         visibilityEditText = findViewById(R.id.visibility);
+        favoriteButton = findViewById(R.id.favoriteButton);
 
         // Retrieve the product ID from the intent
         String productId = getIntent().getStringExtra("productId");
@@ -81,6 +84,15 @@ public class ProductDetailActivity extends AppCompatActivity {
         priceEditText.setText(String.valueOf(getIntent().getIntExtra("price", 0)));
         availabilityEditText.setText(getIntent().getStringExtra("availability"));
         visibilityEditText.setText(getIntent().getStringExtra("visibility"));
+
+        favoriteButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFavorite = !isFavorite;
+                handleFavorite(productId, isFavorite);
+            }
+        });
+
         ImageButton reserveProductButton = findViewById(R.id.reserveProductButton);
 
         auth = FirebaseAuth.getInstance();
@@ -159,7 +171,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String productId = getIntent().getStringExtra("productId");
-                Log.d("ProductDetailActivity","ProductId:" + productId);
+                Log.d("ProductDetailActivity", "ProductId:" + productId);
                 deleteProduct(productId);
             }
         });
@@ -171,7 +183,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String productId = getIntent().getStringExtra("productId");
-                Log.d("ProductDetailActivity","ProductId:" + productId);
+                Log.d("ProductDetailActivity", "ProductId:" + productId);
                 editProduct(productId);
             }
         });
@@ -182,6 +194,29 @@ public class ProductDetailActivity extends AppCompatActivity {
             return insets;
         });
     }
+        private void handleFavorite(String productId, boolean isFavorite) {
+            DocumentReference favoriteRef = db.collection("favorites").document(productId);
+
+            if (isFavorite) {
+                Map<String, Object> favoriteData = new HashMap<>();
+                favoriteData.put("id", productId);
+                favoriteData.put("title", "Našminkaj se sama");
+
+                favoriteRef.set(favoriteData)
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(ProductDetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                            Log.d("ProductDetailActivity", "Added to favorites");
+                        })
+                        .addOnFailureListener(e -> Log.w("ProductDetailActivity", "Error adding to favorites", e));
+            } else {
+                favoriteRef.delete()
+                        .addOnSuccessListener(aVoid -> {
+                            Toast.makeText(ProductDetailActivity.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                            Log.d("ProductDetailActivity", "Removed from favorites");
+                        })
+                        .addOnFailureListener(e -> Log.w("ProductDetailActivity", "Error removing from favorites", e));
+            }
+        }
 
 
     private void deleteProduct(String productId) {

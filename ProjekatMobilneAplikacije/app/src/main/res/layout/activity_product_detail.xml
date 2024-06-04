@@ -8,26 +8,27 @@
     tools:context=".activities.ProductDetailActivity">
 
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
+        android:layout_width="402dp"
+        android:layout_height="701dp"
         android:layout_gravity="center"
-        android:layout_marginTop="100px">
+        android:orientation="vertical"
+        tools:layout_editor_absoluteX="9dp"
+        tools:layout_editor_absoluteY="30dp">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:text="Title"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Title"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/title"
@@ -43,17 +44,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:text="Description"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Description"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/description"
@@ -69,16 +70,16 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="110dp"
                 android:layout_height="30dp"
+                android:text="Subcategory"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Subcategory"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/subcategory"
@@ -94,17 +95,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:text="Event type"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Event type"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/eventType"
@@ -120,17 +121,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:text="Price"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Price"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/price"
@@ -146,17 +147,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:text="Availability"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Availability"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/availability"
@@ -172,17 +173,17 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
             android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:layout_marginLeft="20dp">
+            android:orientation="horizontal">
 
             <TextView
                 android:layout_width="100dp"
                 android:layout_height="30dp"
+                android:text="Visibility"
                 android:textSize="16sp"
-                android:textStyle="bold"
-                android:text="Visibility"/>
+                android:textStyle="bold" />
 
             <EditText
                 android:id="@+id/visibility"
@@ -195,19 +196,9 @@
 
         </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        android:layout_gravity="center"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
-        android:layout_marginTop="50dp">
-        <ImageButton
-            android:id="@+id/reserveProductButton"
-            android:background="@drawable/border_background"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:src="@drawable/cart"
             android:layout_marginRight="10dp"
@@ -218,23 +209,58 @@
             android:background="@drawable/border_background"
             android:layout_width="100dp"
             android:layout_height="40dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginRight="20dp"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/reserveProductButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/border_background"
+                android:src="@drawable/ic_new" />
+
+            <ImageButton
+                android:id="@+id/editProductButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/border_background"
+                android:src="@drawable/edit_product" />
+
+            <ImageButton
+                android:id="@+id/deleteProductButton"
+                android:layout_width="100dp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/border_background"
+                app:srcCompat="@drawable/delete_product" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginRight="10dp"
-            android:src="@drawable/edit_product"
-            android:layout_marginLeft="10dp"
-            />
+            android:orientation="horizontal"
+            android:layout_marginTop="16dp"
+            android:layout_marginBottom="16dp">
 
-        <ImageButton
-            android:id="@+id/deleteProductButton"
-            android:background="@drawable/border_background"
-            android:layout_width="100dp"
-            android:layout_height="40dp"
-            android:layout_gravity="center"
-            app:srcCompat="@drawable/delete_product"
-            android:layout_marginLeft="10dp"/>
-    </LinearLayout>
-
-
+            <ImageButton
+                android:id="@+id/favoriteButton"
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:src="@drawable/favorite_24px"
+                />
+        </LinearLayout>
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

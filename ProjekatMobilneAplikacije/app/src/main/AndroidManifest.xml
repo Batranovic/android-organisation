@@ -32,6 +32,8 @@
         <activity
             android:name=".activities.PriceListItemActivity"
             android:exported="false" />
+        <activity android:name=".activities.FavoriteDetailActivity"
+            android:exported="false"/>
         <activity
             android:name=".activities.PriceListActivity"
             android:exported="false" />
