@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Build;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,13 +32,20 @@ import com.example.projekatmobilneaplikacije.fragments.UserNotificationsFragment
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Report;
 import com.example.projekatmobilneaplikacije.model.Reservation;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
 import com.example.projekatmobilneaplikacije.model.enumerations.Status;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.WriteBatch;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 public class ReportListAdapter extends ArrayAdapter<Report> {
     private ArrayList<Report> aReports;
@@ -91,7 +99,8 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
                                             // Block the reported user
                                             blockUser(report.getReportedEntityUsername());
 
-                                            //provera da li je event organizer
+                                            rejectActiveReservations(report.getReportedEntityUsername());
+                                            rejectActiveReservationsPupV(report.getReportedEntityUsername());
                                         })
                                         .addOnFailureListener(e -> Toast.makeText(getContext(), "Error updating status", Toast.LENGTH_SHORT).show());
                                 break; // Only update the first matching document
@@ -236,8 +245,153 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         notificationManager.notify(0, builder.build());
     }
 
-    
+    private void rejectActiveReservations(String username) {
+        db.collection("reservations")
+                .whereEqualTo("eventOrganizer.username", username)
+                .whereIn("status", Arrays.asList(ReservationStatus.New, ReservationStatus.Accepted)) // Filtriranje statusa
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        WriteBatch batch = db.batch(); // Koristimo batch za grupisano ažuriranje
+                        List<String> employeeEmails = new ArrayList<>();
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            DocumentReference docRef = documentSnapshot.getReference();
+                            batch.update(docRef, "status", ReservationStatus.CancelledByAdmin); // Ažuriramo status na CancelledByAdmin
 
+                            // Prikupimo sve employee tokene za notifikaciju
+                            Map<String, Object> reservationData = documentSnapshot.getData();
+                            Map<String, Object> employeeData = (Map<String, Object>) reservationData.get("employee");
+                            if (employeeData != null) {
+                                String employeeEmail = (String) employeeData.get("email");
+                                if (employeeEmail != null) {
+                                    employeeEmails.add(employeeEmail);
+                                }
+                            }
+                        }
+                        batch.commit().addOnSuccessListener(aVoid -> {
+                            Toast.makeText(getContext(), "All active reservations rejected", Toast.LENGTH_SHORT).show();
+                            for (String email : employeeEmails) {
+                                // Create a notification
+                                String notificationId = db.collection("notifications").document().getId();
+                                Date currentTimestamp = new Date();
+                                Notification notification = new Notification(
+                                        notificationId,
+                                        "Reservation Cancellation",
+                                        "Your reservation has been cancelled by the admin. ",
+                                        false,
+                                        currentTimestamp,
+                                        email
+                                );
+
+                                // Save the notification to Firestore
+                                db.collection("notifications").document(notificationId)
+                                        .set(notification)
+                                        .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+
+                                makeNotification(notification);
+
+                            }
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(getContext(), "Error rejecting reservations", Toast.LENGTH_SHORT).show();
+                        });
+                    } else {
+                        Toast.makeText(getContext(), "No active reservations found for the user", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error finding reservations", Toast.LENGTH_SHORT).show());
+    }
+
+    //radi
+    private void checkIfUserIsOwner(String reportedEntityUsername, OnRoleCheckListener listener) {
+        db.collection("userDetails")
+                .whereEqualTo("username", reportedEntityUsername)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                            if (userDetails.getRole() == UserRole.Owner) {
+                                listener.onRoleCheck(true);
+                            } else {
+                                listener.onRoleCheck(false);
+                            }
+                        }
+                    } else {
+                        listener.onRoleCheck(false);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    listener.onRoleCheck(false);
+                });
+    }
+
+    public interface OnRoleCheckListener {
+        void onRoleCheck(boolean isOwner);
+    }
+
+    private void rejectActiveReservationsPupV(String username) {
+        checkIfUserIsOwner(username, isOwner -> {
+            if (isOwner) {  //uspesno proveri da li je owner
+                db.collection("reservations")
+                        .whereEqualTo("employee.email", username)
+                        .whereIn("status", Arrays.asList(ReservationStatus.New, ReservationStatus.Accepted))
+                        .get()
+                        .addOnSuccessListener(queryDocumentSnapshots -> {
+                            if (!queryDocumentSnapshots.isEmpty()) {
+                                WriteBatch batch = db.batch(); // Koristimo batch za grupisano ažuriranje
+                                List<String> eventOrganizerUsernames = new ArrayList<>();
+                                for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                    DocumentReference docRef = documentSnapshot.getReference();
+                                    batch.update(docRef, "status", ReservationStatus.CancelledByAdmin); // Ažuriramo status na CancelledByAdmin
+
+                                    // Prikupimo sve employee username za notifikaciju
+                                    Map<String, Object> reservationData = documentSnapshot.getData();
+                                    Map<String, Object> eventOrganizerData = (Map<String, Object>) reservationData.get("eventOrganizer");
+                                    if (eventOrganizerData != null) {
+                                        String eventOrganizerUsername = (String) eventOrganizerData.get("username");
+                                        if (eventOrganizerUsername != null) {
+                                            eventOrganizerUsernames.add(eventOrganizerUsername);
+                                        }
+                                    }
+                                }
+                                batch.commit().addOnSuccessListener(aVoid -> {
+                                    Toast.makeText(getContext(), "All active reservations rejected", Toast.LENGTH_SHORT).show();
+                                    for (String eventOrganizerUsername : eventOrganizerUsernames) {
+                                        // Create a notification
+                                        String notificationId = db.collection("notifications").document().getId();
+                                        Date currentTimestamp = new Date();
+                                        Notification notification = new Notification(
+                                                notificationId,
+                                                "Reservation Cancellation",
+                                                "Your reservation has been cancelled by the admin. ",
+                                                false,
+                                                currentTimestamp,
+                                                eventOrganizerUsername
+                                        );
+
+                                        // Save the notification to Firestore
+                                        db.collection("notifications").document(notificationId)
+                                                .set(notification)
+                                                .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                                                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+
+                                        makeNotification(notification);
+
+                                    }
+                                }).addOnFailureListener(e -> {
+                                    Toast.makeText(getContext(), "Error rejecting reservations", Toast.LENGTH_SHORT).show();
+                                });
+                            } else {
+                                Toast.makeText(getContext(), "No active reservations found for the user", Toast.LENGTH_SHORT).show();
+                            }
+                        })
+                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Error finding reservations", Toast.LENGTH_SHORT).show());
+            } else {
+
+            }
+        });
+    }
 
 
 }
