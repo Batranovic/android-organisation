@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.Toast;
 
@@ -16,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.EditEventTypeActivity;
+import com.example.projekatmobilneaplikacije.activities.ProductDetailActivity;
 import com.example.projekatmobilneaplikacije.adapters.BundleProductListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.BundleServiceListAdapter;
 import com.example.projekatmobilneaplikacije.model.AchievedItem;
@@ -37,7 +39,9 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -49,6 +53,8 @@ public class BundleListDetailActivity extends AppCompatActivity {
 
     public static ArrayList<Service> services = new ArrayList<>();
     public static ArrayList<Product> products = new ArrayList<>();
+    private boolean isFavorite = false;
+    private ImageButton favoriteButton3;
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference servicesRef = db.collection("services");
@@ -65,6 +71,7 @@ public class BundleListDetailActivity extends AppCompatActivity {
 
         ListView servicesListView = findViewById(R.id.servicesList);
         ListView productsListView = findViewById(R.id.productsList);
+        favoriteButton3 = findViewById(R.id.favoriteButton3);
 
         if (bundleId != null) {
             // First, retrieve the bundle based on bundleId
@@ -96,6 +103,13 @@ public class BundleListDetailActivity extends AppCompatActivity {
         } else {
             Log.e("BundleListDetailActivity", "Bundle ID is null");
         }
+        favoriteButton3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFavorite = !isFavorite;
+                handleFavorite(bundleId, isFavorite);
+            }
+        });
 
         // Set up the adapter
         adapter = new BundleServiceListAdapter(this, services);
@@ -112,6 +126,7 @@ public class BundleListDetailActivity extends AppCompatActivity {
             intent.putExtra("productSubcategory", selectedProduct.getSubcategory());
             intent.putExtra("productName", selectedProduct.getTitle());
             intent.putExtra("productPrice", selectedProduct.getPrice());
+
             Log.d("ReserveProductActivity", "Bundle ID: " + bundleId);
             Log.d("ReserveProductActivity", "Product ID: " +  selectedProduct.getId());
             startActivity(intent);
@@ -139,6 +154,30 @@ public class BundleListDetailActivity extends AppCompatActivity {
 
        // checkReservationStatus(bundleId, servicesListView);
     }
+    private void handleFavorite(String bundleId, boolean isFavorite) {
+        DocumentReference favoriteRef = db.collection("favorites").document(bundleId);
+
+        if (isFavorite) {
+            Map<String, Object> favoriteData = new HashMap<>();
+            favoriteData.put("id", bundleId);
+            favoriteData.put("title", "style");
+
+            favoriteRef.set(favoriteData)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(BundleListDetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                        Log.d("BundleListDetailActivity", "Added to favorites");
+                    })
+                    .addOnFailureListener(e -> Log.w("BundleListDetailActivity", "Error adding to favorites", e));
+        } else {
+            favoriteRef.delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(BundleListDetailActivity.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                        Log.d("BundleListDetailActivity", "Removed from favorites");
+                    })
+                    .addOnFailureListener(e -> Log.w("BundleListDetailActivity", "Error removing from favorites", e));
+        }
+    }
+
 
     private void makeReservation(String bundleId) {
         db.collection("bundles")
