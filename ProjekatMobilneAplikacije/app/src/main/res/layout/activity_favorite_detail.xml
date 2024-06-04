@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp">
+
+    <!-- Prikazivanje naslova -->
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/titleA"
+        android:textSize="16sp"
+        android:textStyle="bold"/>
+
+    <!-- Prikazivanje naslova stavke -->
+    <TextView
+        android:id="@+id/text_view_titlef"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textSize="16sp"
+        android:paddingTop="8dp"/>
+
+    <!-- LinearLayout za dva dugmeta sa ikonama -->
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingTop="16dp">
+
+        <!-- Dugme za rezervaciju -->
+        <Button
+            android:id="@+id/button_reserve"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:contentDescription="Reserve"
+            android:drawableLeft="@drawable/ic_new"
+            android:text="Reserve"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
+
+        <!-- Dugme za brisanje -->
+        <Button
+            android:id="@+id/button_delete"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:contentDescription="Delete"
+            android:drawableLeft="@drawable/delete_product"
+            android:text="Delete"
+            android:paddingStart="8dp"
+            android:paddingEnd="8dp"/>
+    </LinearLayout>
+
+</LinearLayout>

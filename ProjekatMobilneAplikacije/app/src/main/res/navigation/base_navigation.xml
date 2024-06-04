@@ -130,6 +130,12 @@
             app:destination="@id/productListingFragment" />
     </fragment>
     <fragment
+        android:id="@+id/nav_favourites"
+        android:name="com.example.projekatmobilneaplikacije.fragments.FavoritesPageFragment"
+        android:label="Favorites"
+        tools:layout="@layout/favourites_page"/>
+
+    <fragment
 
         android:id="@+id/servicesList"
         android:name="com.example.projekatmobilneaplikacije.fragments.ServiceListingFragment"

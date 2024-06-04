@@ -163,6 +163,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         if (isFavorite) {
             Map<String, Object> favoriteData = new HashMap<>();
             favoriteData.put("id", serviceId);
+            favoriteData.put("title", "proba");
 
 
             favoriteRef.set(favoriteData)

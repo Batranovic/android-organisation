@@ -158,7 +158,7 @@ public class ProductDetailActivity extends AppCompatActivity {
             if (isFavorite) {
                 Map<String, Object> favoriteData = new HashMap<>();
                 favoriteData.put("id", productId);
-
+                favoriteData.put("title", "Našminkaj se sama");
 
                 favoriteRef.set(favoriteData)
                         .addOnSuccessListener(aVoid -> {
