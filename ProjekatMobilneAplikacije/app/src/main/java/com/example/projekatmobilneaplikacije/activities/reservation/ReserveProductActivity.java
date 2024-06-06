@@ -32,6 +32,7 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
+
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -52,7 +53,6 @@ public class ReserveProductActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_reserve_product);
-
         TextView productPriceTextVIew = findViewById(R.id.product_price);
         TextView productSubcateogryTextVIew = findViewById(R.id.subcategory);
         TextView categoryTextVIew = findViewById(R.id.category);
@@ -104,7 +104,14 @@ public class ReserveProductActivity extends AppCompatActivity {
         eventSpinner = findViewById(R.id.eventSpinner);
         populateEventSpinner();
 
+
         Button purchase = findViewById(R.id.reserveButton);
+        if(bundleId != null){
+            purchase.setText("Purchase for bundle");
+        }else {
+            purchase.setText("Purchase");
+
+        }
         purchase.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -216,7 +223,6 @@ public class ReserveProductActivity extends AppCompatActivity {
     }
 
     private void handleBundlePurchase(String eventName) {
-
           BundleItem bundleItem = new BundleItem(productName, eventName,productSubcategory, bundleId, Double.valueOf(productPrice));
           db.collection("bundleItem")
                     .add(bundleItem)

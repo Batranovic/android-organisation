@@ -1,6 +1,8 @@
 package com.example.projekatmobilneaplikacije.activities.registration;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -89,7 +91,7 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
         Button rejectRequest = findViewById(R.id.buttonRejectRequest);
 
         approveRequest.setOnClickListener(v -> {
-            sendActivationEmail(ownerMail);
+            sendActivationEmail(ownerMail, this);
         });
 /*
         rejectRequest.setOnClickListener(v -> {
@@ -160,9 +162,13 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
         }
     }
 
-    private void sendActivationEmail(String recipientEmail) {
+    private void sendActivationEmail(String recipientEmail, Context context) {
+
+
+        String continueUrl = "https://projekat-mobilne-aplikacije.firebaseapp.com";
+
         ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                .setUrl("https://projekat-mobilne-aplikacije.web.app/verify?email=" + recipientEmail)
+                .setUrl(continueUrl)
                 .setHandleCodeInApp(true)
                 .setIOSBundleId("com.example.ios")
                 .setAndroidPackageName(
@@ -171,15 +177,21 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
                         "12"
                 )
                 .build();
-        FirebaseAuth.getInstance().sendSignInLinkToEmail(recipientEmail,actionCodeSettings)
+
+        FirebaseAuth.getInstance().sendSignInLinkToEmail(recipientEmail, actionCodeSettings)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
                         Log.d("Email", "Sign-in email sent successfully to: " + recipientEmail);
-
+                        // Store email locally
+                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("emailForSignIn", recipientEmail);
+                        editor.apply();
                     } else {
                         Log.e("Email", "Error sending sign-in email", task.getException());
-
                     }
                 });
     }
+
+
 }

@@ -59,6 +59,7 @@ public class ReserveServiceActivity extends AppCompatActivity {
     private List<WorkCalendar> workCalendarList;
     private Service currentService;
     EditText fromTimeEditText,toTimeEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +184,12 @@ public class ReserveServiceActivity extends AppCompatActivity {
         });
 
         Button reserve = findViewById(R.id.reserveButton);
+        if(bundleId != null){
+            reserve.setText("Reserve for bundle");
+        }else {
+            reserve.setText("Reserve");
+
+        }
         reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
