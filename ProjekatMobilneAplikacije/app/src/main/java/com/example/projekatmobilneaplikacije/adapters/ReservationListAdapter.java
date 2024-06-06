@@ -236,7 +236,7 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                     Notification notification = new Notification(
                             notificationId,
                             "Reservation Cancellation",
-                            "PUP " + username + " cancelled reservation: " + reservation.getId(),
+                            "PUP " + username + " cancelled reservation: " + reservation.getId() + ". You can leave comment on company profile.",
                             false,
                             currentTimestamp,
                             reservation.getEventOrganizer().getUsername()

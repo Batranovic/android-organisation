@@ -10,17 +10,19 @@ import java.util.Date;
 public class CompanyReview implements Parcelable {
     private String id;
     private String company;
+    private String owner;
     private String text;
     private Double grade;
-    private EventOrganizer eventOrganizer;
+    private String eventOrganizer;
     private Date reviewDate;
 
     public CompanyReview() {
     }
 
-    public CompanyReview(String id, String company, String text, Double grade, EventOrganizer eventOrganizer, Date reviewDate) {
+    public CompanyReview(String id, String company, String owner, String text, Double grade, String eventOrganizer, Date reviewDate) {
         this.id = id;
         this.company = company;
+        this.owner = owner;
         this.text = text;
         this.grade = grade;
         this.eventOrganizer = eventOrganizer;
@@ -59,11 +61,11 @@ public class CompanyReview implements Parcelable {
         this.grade = grade;
     }
 
-    public EventOrganizer getEventOrganizer() {
+    public String getEventOrganizer() {
         return eventOrganizer;
     }
 
-    public void setEventOrganizer(EventOrganizer eventOrganizer) {
+    public void setEventOrganizer(String eventOrganizer) {
         this.eventOrganizer = eventOrganizer;
     }
 
@@ -75,12 +77,21 @@ public class CompanyReview implements Parcelable {
         this.reviewDate = reviewDate;
     }
 
+    public String getOwner() {
+        return owner;
+    }
+
+    public void setOwner(String owner) {
+        this.owner = owner;
+    }
+
     protected CompanyReview(Parcel in) {
         id = in.readString();
         company = in.readString();
+        owner = in.readString();
         text = in.readString();
         grade = in.readDouble();
-        eventOrganizer = in.readParcelable(UserDetails.class.getClassLoader());
+        eventOrganizer = in.readString();
         reviewDate = new Date(in.readLong());
     }
 
@@ -93,9 +104,10 @@ public class CompanyReview implements Parcelable {
     public void writeToParcel(@NonNull Parcel dest, int flags) {
         dest.writeString(id);
         dest.writeString(company);
+        dest.writeString(owner);
         dest.writeString(text);
         dest.writeDouble(grade);
-        dest.writeParcelable(eventOrganizer, flags);
+        dest.writeString(eventOrganizer);
         dest.writeLong(reviewDate != null ? reviewDate.getTime() : -1);
     }
 
