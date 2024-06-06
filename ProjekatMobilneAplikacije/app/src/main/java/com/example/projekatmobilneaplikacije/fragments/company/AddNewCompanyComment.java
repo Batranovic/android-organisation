@@ -2,30 +2,25 @@ package com.example.projekatmobilneaplikacije.fragments.company;
 
 import static android.content.ContentValues.TAG;
 
-import android.content.Intent;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.navigation.Navigation;
 
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.activities.employees.EmployeeRegistrationActivity;
-import com.example.projekatmobilneaplikacije.databinding.FragmentCompanyCommentsBinding;
-import com.example.projekatmobilneaplikacije.databinding.FragmentCompanyProfileBinding;
-import com.example.projekatmobilneaplikacije.databinding.FragmentEmployeesPageBinding;
-import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 /**
  * A simple {@link Fragment} subclass.
- * Use the {@link CompanyProfileFragment#newInstance} factory method to
+ * Use the {@link AddNewCompanyComment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class CompanyProfileFragment extends Fragment {
+public class AddNewCompanyComment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -36,9 +31,7 @@ public class CompanyProfileFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private FragmentCompanyProfileBinding binding;
-
-    public CompanyProfileFragment() {
+    public AddNewCompanyComment() {
         // Required empty public constructor
     }
 
@@ -48,11 +41,11 @@ public class CompanyProfileFragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment CompanyProfileFragment.
+     * @return A new instance of fragment AddNewCompanyComment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CompanyProfileFragment newInstance(String param1, String param2) {
-        CompanyProfileFragment fragment = new CompanyProfileFragment();
+    public static AddNewCompanyComment newInstance(String param1, String param2) {
+        AddNewCompanyComment fragment = new AddNewCompanyComment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -72,12 +65,21 @@ public class CompanyProfileFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        binding = FragmentCompanyProfileBinding.inflate(inflater, container, false);
-        View root = binding.getRoot();
+        View view = inflater.inflate(R.layout.fragment_add_new_company_comment, container, false);
 
+        Button newCommentButton = view.findViewById(R.id.button_add_comment);
 
+        newCommentButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Navigation.findNavController(requireActivity(), R.id.add_new_review_fragment)
+                        .navigate(R.id.nav_company_comments);
 
+            }
+        });
 
-        return root;
+        Log.d(TAG, "CompanyCommentsFragment successfully created");
+
+        return view;
     }
 }

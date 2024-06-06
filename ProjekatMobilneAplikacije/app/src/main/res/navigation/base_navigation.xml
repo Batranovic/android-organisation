@@ -248,13 +248,24 @@
 
     <fragment
         android:id="@+id/nav_company_profile"
-        android:name="com.example.projekatmobilneaplikacije.fragments.company.CompanyProfileFragment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.company.CompanyCommentsBlankFragment"
         android:label="Company Profile"
-        tools:layout="@layout/fragment_company_profile"
+        tools:layout="@layout/fragment_company_comments_blank"
         app:popUpTo="@+id/nav_profile"
         app:popUpToInclusive="true"
         />
 
+    <fragment
+        android:id="@+id/nav_company_comments"
+        android:name="com.example.projekatmobilneaplikacije.fragments.company.CompanyCommentsFragment"
+        android:label="Company Comments"
+        tools:layout="@layout/fragment_company_comments" />
+
+    <fragment
+        android:id="@+id/nav_new_company_comment"
+        android:name="com.example.projekatmobilneaplikacije.fragments.company.AddNewCompanyComment"
+        android:label="New review"
+        tools:layout="@layout/fragment_add_new_company_comment" />
 
 
 </navigation>
