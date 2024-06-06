@@ -26,16 +26,15 @@ import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
 import com.example.projekatmobilneaplikacije.R;
-import com.example.projekatmobilneaplikacije.activities.CreateProductActivity;
 import com.example.projekatmobilneaplikacije.activities.NotificationOverviewActivity;
-import com.example.projekatmobilneaplikacije.fragments.UserNotificationsFragment;
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Report;
-import com.example.projekatmobilneaplikacije.model.Reservation;
 import com.example.projekatmobilneaplikacije.model.UserDetails;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
 import com.example.projekatmobilneaplikacije.model.enumerations.Status;
 import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -47,7 +46,11 @@ import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
+
 public class ReportListAdapter extends ArrayAdapter<Report> {
+
+    FirebaseUser user;
+    FirebaseAuth auth;
     private ArrayList<Report> aReports;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
 
@@ -156,7 +159,13 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
                                                             report.getReportedByUsername()
                                                     );
 
-                                                    makeNotification(notification);
+                                                    /*auth = FirebaseAuth.getInstance();
+                                                    user = auth.getCurrentUser();
+                                                    Log.d("FirebaseAuth", "User Email: " + user.getEmail());
+                                                    if (notification.getUsername().equals(user.getEmail())) {
+                                                        makeNotification(notification); // Ako trenutni korisnik nije isti kao korisnik kojem je notifikacija namenjena, izlazimo iz metode
+                                                    }*/
+
 
                                                     // Save the notification to Firestore
                                                     db.collection("notifications").document(notificationId)
@@ -210,12 +219,16 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         }).addOnFailureListener(e -> Toast.makeText(getContext(), "Error finding user", Toast.LENGTH_SHORT).show());
     }
 
+
+
     public void makeNotification(Notification notification) {
         String channelID = "CHANNEL_ID_NOTIFICATION";
         Context context = getContext();
         if (context == null) {
+            Log.e("Notification", "Context is null");
             return;
         }
+
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context, channelID);
         builder.setSmallIcon(R.drawable.notification)
                 .setContentTitle(notification.getTitle())
@@ -223,27 +236,41 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
                 .setAutoCancel(true)
                 .setPriority(NotificationCompat.PRIORITY_DEFAULT);
 
-        Intent intent = new Intent(context, NotificationOverviewActivity.class);  //kada kliknemmo na notifikaciju otvorice NotificationOverviewActivity
+        Intent intent = new Intent(context, NotificationOverviewActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        intent.putExtra("data","Some value");
+        intent.putExtra("data", "Some value");
 
-        PendingIntent pendingIntent = PendingIntent.getActivity(context,0, intent, PendingIntent.FLAG_MUTABLE);
+        PendingIntent pendingIntent = PendingIntent.getActivity(
+                context,
+                0,
+                intent,
+                PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_IMMUTABLE
+        );
         builder.setContentIntent(pendingIntent);
         NotificationManager notificationManager = (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel notificationChannel = notificationManager.getNotificationChannel(channelID);
-            if(notificationChannel == null){
+            if (notificationChannel == null) {
                 int importance = NotificationManager.IMPORTANCE_HIGH;
                 notificationChannel = new NotificationChannel(channelID, "Some description", importance);
                 notificationChannel.setLightColor(Color.GREEN);
                 notificationChannel.enableVibration(true);
                 notificationManager.createNotificationChannel(notificationChannel);
+                Log.d("Notification", "Notification channel created: " + channelID);
+            } else {
+                Log.d("Notification", "Notification channel already exists: " + channelID);
             }
         }
 
-        notificationManager.notify(0, builder.build());
+        // Generisanje jedinstvenog ID-a za svaku notifikaciju
+        int notificationId = (int) System.currentTimeMillis() + (int) (Math.random() * 1000);
+        notificationManager.notify(notificationId, builder.build());
+
+        Log.d("Notification", "Notification sent with ID: " + notificationId);
     }
+
+
 
     private void rejectActiveReservations(String username) {
         db.collection("reservations")
@@ -392,6 +419,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
             }
         });
     }
+
 
 
 }
