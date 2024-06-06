@@ -11,12 +11,15 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.ActivityHomeBinding;
 import com.example.projekatmobilneaplikacije.databinding.ActivityMainBinding;
 import com.example.projekatmobilneaplikacije.databinding.ActivityRegistrationBinding;
 import com.example.projekatmobilneaplikacije.fragments.LoginFragment;
+import com.example.projekatmobilneaplikacije.fragments.UserNotificationsFragment;
 import com.example.projekatmobilneaplikacije.fragments.registration.LogoutFragment;
 import com.example.projekatmobilneaplikacije.fragments.registration.RegistrationFragment;
 import com.google.firebase.auth.FirebaseAuth;
@@ -50,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
             finish();
         }
 
-
-
     }
+
 }
