@@ -16,6 +16,8 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjekatMobilneAplikacije"
         tools:targetApi="31">
+
+
         <activity
             android:name=".activities.reservation.BundleListDetailActivity"
             android:exported="false" />
@@ -32,11 +34,14 @@
         <activity
             android:name=".activities.PriceListItemActivity"
             android:exported="false" />
-        <activity android:name=".activities.FavoriteDetailActivity"
-            android:exported="false"/>
+        <activity
+            android:name=".activities.FavoriteDetailActivity"
+            android:exported="false" />
         <activity
             android:name=".activities.PriceListActivity"
             android:exported="false" />
+        <activity android:name=".activities.ChatActivity"
+            android:exported="false"/>
         <!--
 <activity
             android:name=".fragments.registration.TimePickerDialogActivity"
@@ -100,17 +105,16 @@
             android:exported="false" />
         <activity
             android:name=".activities.agenda.AddAgendaActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.agenda.AgendaAndGuestsActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.agenda.AddGuestListActivity"
-            android:exported="false"/>
+            android:exported="false" />
         <activity
             android:name=".activities.OneGuestActivity"
-            android:exported="false"/>
-
+            android:exported="false" />
         <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
@@ -143,6 +147,7 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
+
     </application>
 
 </manifest>
