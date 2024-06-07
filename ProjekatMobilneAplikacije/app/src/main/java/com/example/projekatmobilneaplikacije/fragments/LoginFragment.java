@@ -32,6 +32,7 @@ import com.example.projekatmobilneaplikacije.activities.RegistrationActivity;
 import com.example.projekatmobilneaplikacije.adapters.ReportListAdapter;
 import com.example.projekatmobilneaplikacije.databinding.FragmentLoginBinding;
 import com.example.projekatmobilneaplikacije.model.Notification;
+import com.example.projekatmobilneaplikacije.model.Reservation;
 import com.example.projekatmobilneaplikacije.model.UserDetails;
 import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -43,6 +44,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
@@ -156,9 +162,12 @@ public class LoginFragment extends Fragment {
                                          //   Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
                                             //Intent intent = new Intent(getActivity(), HomeActivity.class);
                                           //  startActivity(intent);
+                                            reminderNotification(currentUser.getEmail());
                                             Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
                                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                                             getNotificationsForUser(currentUser.getEmail());
+
+
                                             startActivity(intent);
                                         } else {
                                             Toast.makeText(requireContext(), "Please verify your email to log in.", Toast.LENGTH_SHORT).show();
@@ -191,6 +200,7 @@ public class LoginFragment extends Fragment {
     private void getNotificationsForUser(String username){
         db.collection("notifications")
                 .whereEqualTo("username", username)
+                .whereEqualTo("read",false)
                 .get()
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
@@ -209,6 +219,58 @@ public class LoginFragment extends Fragment {
                     Log.e("Notification", "Failed to get notifications: " + e.getMessage());
                 });
     }
+
+    private void reminderNotification(String username) {
+        // Trenutno vreme kada se korisnik prijavio
+        Calendar currentTime = Calendar.getInstance();
+
+        // Vreme kada se korisnik prijavio plus jedan sat
+        Calendar oneHourLater = Calendar.getInstance();
+        oneHourLater.add(Calendar.HOUR_OF_DAY, 1);
+
+        db.collection("reservations")
+                .whereEqualTo("eventOrganizer.username", username)
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                            Reservation reservation = documentSnapshot.toObject(Reservation.class);
+                            Calendar eventTime = Calendar.getInstance();
+                            eventTime.setTime(reservation.getEvent().getDate());
+
+                            // Provera da li je vreme događaja unutar narednog sata od trenutka prijave korisnika
+                            if (eventTime.after(currentTime) && eventTime.before(oneHourLater)) {
+
+                                String notificationId = db.collection("notifications").document().getId();
+                                Date currentTimestamp = new Date();
+                                Notification notification = new Notification(
+                                        notificationId,
+                                        "Reminder of reservation",
+                                        "Event in one hour or less: " + reservation.getEvent().getDate(),
+                                        false,
+                                        currentTimestamp,
+                                        username
+                                );
+
+                                db.collection("notifications").document(notificationId)
+                                        .set(notification)
+                                        .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+
+                                getNotificationsForUser(username);
+                            }
+
+                        }
+                    } else {
+                        Log.e("Notification", "No notifications found for user: " + username);
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Log.e("Notification", "Failed to get notifications: " + e.getMessage());
+                });
+    }
+
+
 
     public void makeNotification(Notification notification) {
         String channelID = "CHANNEL_ID_NOTIFICATION";

@@ -11,11 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveProductActivity;
 import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,7 +93,7 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
         Button rejectRequest = findViewById(R.id.buttonRejectRequest);
 
         approveRequest.setOnClickListener(v -> {
-            sendActivationEmail(ownerMail, this);
+            sendActivationEmail(ownerMail);
         });
 /*
         rejectRequest.setOnClickListener(v -> {
@@ -157,38 +159,25 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
             emailIntent.setType("message/rfc822");
 
             startActivity(Intent.createChooser(emailIntent, "Choose an Email client :"));
+            Toast.makeText(this, "Registration rejected", Toast.LENGTH_SHORT).show();
+
         } else {
             Log.w("Email", "Current user is not logged in.");
         }
     }
 
-    private void sendActivationEmail(String recipientEmail, Context context) {
-
-
-        String continueUrl = "https://projekat-mobilne-aplikacije.firebaseapp.com";
-
-        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                .setUrl(continueUrl)
-                .setHandleCodeInApp(true)
-                .setIOSBundleId("com.example.ios")
-                .setAndroidPackageName(
-                        "com.example.projekatmobilneaplikacije",
-                        true,
-                        "12"
-                )
-                .build();
-
-        FirebaseAuth.getInstance().sendSignInLinkToEmail(recipientEmail, actionCodeSettings)
+    private void sendActivationEmail(String recipientEmail) {
+        FirebaseAuth.getInstance().sendPasswordResetEmail(recipientEmail)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d("Email", "Sign-in email sent successfully to: " + recipientEmail);
-                        // Store email locally
-                        SharedPreferences sharedPreferences = context.getSharedPreferences("MyPrefs", Context.MODE_PRIVATE);
-                        SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("emailForSignIn", recipientEmail);
-                        editor.apply();
+                        Log.d("Email", "Password reset email sent successfully to: " + recipientEmail);
+                        Toast.makeText(this, "Registration approved", Toast.LENGTH_SHORT).show();
+                        // Handle successful sending of the email, such as showing a success message to the user
                     } else {
-                        Log.e("Email", "Error sending sign-in email", task.getException());
+                        Log.e("Email", "Error sending password reset email", task.getException());
+                        Toast.makeText(this, "Error while registering product provider", Toast.LENGTH_SHORT).show();
+
+                        // Handle error, such as showing an error message to the user
                     }
                 });
     }
