@@ -12,7 +12,6 @@ public class UserDetails implements Parcelable {
     private String home_address;
     private String phone;
     private UserRole role;
-
     private Boolean isBlocked;
 
     public UserDetails(String username, String name, String surname, String home_address, String phone, UserRole role, Boolean isBlocked) {
@@ -111,5 +110,13 @@ public class UserDetails implements Parcelable {
 
     public void setRole(UserRole role) {
         this.role = role;
+    }
+
+    public Boolean getIsBlocked() {
+        return isBlocked;
+    }
+
+    public void setIsBlocked(Boolean isBlocked) {
+        this.isBlocked = isBlocked;
     }
 }

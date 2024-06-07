@@ -60,6 +60,7 @@ dependencies {
     implementation("com.google.firebase:firebase-auth")
 
 
+    implementation("com.google.android.gms:play-services-auth:21.2.0")   /////
     implementation 'com.itextpdf:itext7-core:7.1.15'
 
     implementation 'com.google.firebase:firebase-messaging:23.0.0'

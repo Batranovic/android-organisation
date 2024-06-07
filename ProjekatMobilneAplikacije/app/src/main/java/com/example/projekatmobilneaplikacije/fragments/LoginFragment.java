@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -40,6 +41,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
+import com.google.firebase.firestore.DocumentSnapshot;
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QuerySnapshot;
 
 public class LoginFragment extends Fragment {
     private FragmentLoginBinding binding;
@@ -54,12 +58,33 @@ public class LoginFragment extends Fragment {
     public void onStart() {
         super.onStart();
         FirebaseUser currentUser = mAuth.getCurrentUser();
-        if (currentUser != null) {
-            if (currentUser.isEmailVerified()) {
-                Intent intent = new Intent(getActivity(), HomeActivity.class);
-                startActivity(intent);
-            }
+        if(currentUser!= null) {
+
+            db.collection("userDetails")
+                    .whereEqualTo("username", currentUser.getEmail())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                // Preuzmite UserDetails iz dokumenta
+                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+
+                                if (userDetails!=null && currentUser.isEmailVerified() && !userDetails.getIsBlocked()) {
+                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(requireContext(), "Is blocked" + userDetails.getIsBlocked(), Toast.LENGTH_SHORT).show();
+                                }
+
+                            }
+                        } else {
+                            Log.w("Firestore", "Error logging in.", task.getException());
+                        }
+                    });
         }
+
     }
 
     @Override
@@ -107,6 +132,36 @@ public class LoginFragment extends Fragment {
                                             Intent intent = new Intent(getActivity(), HomeActivity.class);
                                             getNotificationsForUser(currentUser.getEmail());
                                             startActivity(intent);
+                                            
+                                            db.collection("userDetails")
+                                                    .whereEqualTo("username", currentUser.getEmail())
+                                                    .get()
+                                                    .addOnCompleteListener(tasks -> {
+                                                        if (tasks.isSuccessful()) {
+                                                            QuerySnapshot querySnapshot = tasks.getResult();
+                                                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                                                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                                                // Preuzmite UserDetails iz dokumenta
+                                                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+
+                                                                if (userDetails!=null && currentUser.isEmailVerified() && !userDetails.getIsBlocked()) {
+                                                                    Toast.makeText(requireContext(), "Is blocked " + userDetails.getIsBlocked(), Toast.LENGTH_SHORT).show();
+                                                                    Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
+                                                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                                                    startActivity(intent);
+                                                                }else {
+                                                                    Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
+                                                                }
+
+                                                            }
+                                                        } else {
+                                                            Log.w("Firestore", "Error logging in.", tasks.getException());
+                                                        }
+                                                    });
+                                         //   Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
+                                            //Intent intent = new Intent(getActivity(), HomeActivity.class);
+                                          //  startActivity(intent);
                                         } else {
                                             Toast.makeText(requireContext(), "Please verify your email to log in.", Toast.LENGTH_SHORT).show();
                                             mAuth.signOut(); // Odjava korisnika ako nije verifikovao email
@@ -142,9 +197,6 @@ public class LoginFragment extends Fragment {
                 .addOnSuccessListener(queryDocumentSnapshots -> {
                     if (!queryDocumentSnapshots.isEmpty()) {
                         for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                            // Ovde možete izvršiti željenu logiku za svaku notifikaciju
-                            // Na primer, možete dobiti objekat notifikacije i raditi sa njim
-                            // Primer:
                             Notification notification = documentSnapshot.toObject(Notification.class);
                             makeNotification(notification);
                         }

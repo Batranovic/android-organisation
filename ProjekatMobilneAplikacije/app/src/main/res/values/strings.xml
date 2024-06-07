@@ -239,4 +239,27 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="accept">Accept</string>
+    <string name="cancel">Cancel</string>
+    <string name="new_reservation">New</string>
+    <string name="cancelled_by_employee">Cancelled by employee</string>
+    <string name="cancelled_by_event_org">Cancelled by user</string>
+    <string name="cancelled_by_admin">CancelledByAdmin\n</string>
+    <string name="accepted">Accepted</string>
+    <string name="realized">Realized</string>
+    <string name="cancelled_by_pup">CancelledByPUP</string>
+    <string name="cancelled_by_event_eo">CancelledByEO</string>
+    <string name="start">"Start: "</string>
+    <string name="end">"End: "</string>
+    <string name="bundles">Reservations by bundle</string>
+    <string name="bundless">Bundle reservations</string>
+    <string name="company_profile">Company Profile</string>
+    <string name="add_new_comment">Add new comment</string>
+    <string name="add_comment">Add comment</string>
+    <string name="post">Post</string>
+    <string name="add_new_review">Add new review</string>
+    <string name="report_comment">Report</string>
+    <string name="comment_report">Review report</string>
+    <string name="owner">Owner profile</string>
+    <string name="decline">Decline</string>
 </resources>

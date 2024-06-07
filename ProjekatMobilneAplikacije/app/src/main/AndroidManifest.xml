@@ -21,6 +21,9 @@
             android:name=".activities.NotificationOverviewActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.reservation.ReserveProductActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.reservation.ReserveServiceActivity"
             android:exported="false" />
         <activity android:name=".activities.registration.RegistrationRequestDetailActivity" />
