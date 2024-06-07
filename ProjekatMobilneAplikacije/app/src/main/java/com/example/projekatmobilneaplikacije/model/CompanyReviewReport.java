@@ -5,6 +5,8 @@ import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
+import com.example.projekatmobilneaplikacije.model.enumerations.CompanyReviewReportStatus;
+
 import java.util.Date;
 
 public class CompanyReviewReport implements Parcelable {
@@ -12,15 +14,19 @@ public class CompanyReviewReport implements Parcelable {
     private String owner;
     private String commentId;
     private String reason;
+    private Date reportDate;
+    private CompanyReviewReportStatus status;
 
     public CompanyReviewReport() {
     }
 
-    public CompanyReviewReport(String id, String owner, String commentId, String reason) {
+    public CompanyReviewReport(String id, String owner, String commentId, String reason, Date reportDate, CompanyReviewReportStatus status) {
         this.id = id;
         this.owner = owner;
         this.commentId = commentId;
         this.reason = reason;
+        this.reportDate = reportDate;
+        this.status = status;
     }
 
     public String getId() {
@@ -55,11 +61,30 @@ public class CompanyReviewReport implements Parcelable {
         this.reason = reason;
     }
 
+    public Date getReportDate() {
+        return reportDate;
+    }
+
+    public void setReportDate(Date reportDate) {
+        this.reportDate = reportDate;
+    }
+
+    public CompanyReviewReportStatus getStatus() {
+        return status;
+    }
+
+    public void setStatus(CompanyReviewReportStatus status) {
+        this.status = status;
+    }
+
     protected CompanyReviewReport(Parcel in) {
         id = in.readString();
         owner = in.readString();
         commentId = in.readString();
         reason = in.readString();
+        long tmpReportDate = in.readLong();
+        reportDate = tmpReportDate != -1 ? new Date(tmpReportDate) : null;
+        status = (CompanyReviewReportStatus) in.readValue(CompanyReviewReportStatus.class.getClassLoader());
     }
 
     @Override
@@ -73,6 +98,8 @@ public class CompanyReviewReport implements Parcelable {
         dest.writeString(owner);
         dest.writeString(commentId);
         dest.writeString(reason);
+        dest.writeLong(reportDate != null ? reportDate.getTime() : -1);
+        dest.writeValue(status);
     }
 
     public static final Creator<CompanyReviewReport> CREATOR = new Creator<CompanyReviewReport>() {

@@ -28,6 +28,7 @@ import com.example.projekatmobilneaplikacije.model.CompanyReviewReport;
 import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
+import com.example.projekatmobilneaplikacije.model.enumerations.CompanyReviewReportStatus;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
@@ -213,7 +214,8 @@ public class CompanyCommentsAdapter extends ArrayAdapter<CompanyReview> {
 
     private void createReport(String reviewId, String reason) {
         String reportId = generateReviewId();
-        CompanyReviewReport report = new CompanyReviewReport(reportId, currentUser.getEmail(), reviewId, reason);
+        Date reportDate = new Date();
+        CompanyReviewReport report = new CompanyReviewReport(reportId, currentUser.getEmail(), reviewId, reason, reportDate, CompanyReviewReportStatus.Reported);
         db.collection("companyReviewReports")
                 .add(report)
                 .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {
