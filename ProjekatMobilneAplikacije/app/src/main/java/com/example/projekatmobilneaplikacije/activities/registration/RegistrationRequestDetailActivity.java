@@ -1,6 +1,8 @@
 package com.example.projekatmobilneaplikacije.activities.registration;
 
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.InputType;
@@ -9,11 +11,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveProductActivity;
 import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
 import com.google.firebase.auth.ActionCodeSettings;
 import com.google.firebase.auth.FirebaseAuth;
@@ -155,31 +159,28 @@ public class RegistrationRequestDetailActivity extends AppCompatActivity {
             emailIntent.setType("message/rfc822");
 
             startActivity(Intent.createChooser(emailIntent, "Choose an Email client :"));
+            Toast.makeText(this, "Registration rejected", Toast.LENGTH_SHORT).show();
+
         } else {
             Log.w("Email", "Current user is not logged in.");
         }
     }
 
     private void sendActivationEmail(String recipientEmail) {
-        ActionCodeSettings actionCodeSettings = ActionCodeSettings.newBuilder()
-                .setUrl("https://projekat-mobilne-aplikacije.web.app/verify?email=" + recipientEmail)
-                .setHandleCodeInApp(true)
-                .setIOSBundleId("com.example.ios")
-                .setAndroidPackageName(
-                        "com.example.projekatmobilneaplikacije",
-                        true,
-                        "12"
-                )
-                .build();
-        FirebaseAuth.getInstance().sendSignInLinkToEmail(recipientEmail,actionCodeSettings)
+        FirebaseAuth.getInstance().sendPasswordResetEmail(recipientEmail)
                 .addOnCompleteListener(task -> {
                     if (task.isSuccessful()) {
-                        Log.d("Email", "Sign-in email sent successfully to: " + recipientEmail);
-
+                        Log.d("Email", "Password reset email sent successfully to: " + recipientEmail);
+                        Toast.makeText(this, "Registration approved", Toast.LENGTH_SHORT).show();
+                        // Handle successful sending of the email, such as showing a success message to the user
                     } else {
-                        Log.e("Email", "Error sending sign-in email", task.getException());
+                        Log.e("Email", "Error sending password reset email", task.getException());
+                        Toast.makeText(this, "Error while registering product provider", Toast.LENGTH_SHORT).show();
 
+                        // Handle error, such as showing an error message to the user
                     }
                 });
     }
+
+
 }

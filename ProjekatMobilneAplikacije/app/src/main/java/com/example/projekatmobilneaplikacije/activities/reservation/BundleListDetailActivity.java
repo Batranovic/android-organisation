@@ -25,6 +25,7 @@ import com.example.projekatmobilneaplikacije.model.Budget;
 import com.example.projekatmobilneaplikacije.model.BundleItem;
 import com.example.projekatmobilneaplikacije.model.CustomBundle;
 import com.example.projekatmobilneaplikacije.model.EventOrganization;
+import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.PlannedItem;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Reservation;
@@ -40,6 +41,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
@@ -223,8 +225,26 @@ public class BundleListDetailActivity extends AppCompatActivity {
                                                             });
                                                 }
 
+                                                String notificationId = db.collection("notifications").document().getId();
+                                                Date currentTimestamp = new Date();
+                                                Notification notification = new Notification(
+                                                        notificationId,
+                                                        "Bundle reserved",
+                                                        "Bundle reserved: " + bundle.getTitle(),
+                                                        false,
+                                                        currentTimestamp,
+                                                        reservation.getEmployee().getEmail()
+                                                );
+
+                                                // Save the notification to Firestore
+                                                db.collection("notifications").document(notificationId)
+                                                        .set(notification)
+                                                        .addOnSuccessListener(aVoid1 -> Toast.makeText(this, "Notification sent", Toast.LENGTH_SHORT).show())
+                                                        .addOnFailureListener(e -> Toast.makeText(this, "Error sending notification", Toast.LENGTH_SHORT).show());
+
                                             }
                                         })
+
                                         .addOnFailureListener(e -> {
                                             Log.e(TAG, "Error fetching reservations with bundle: " + bundle, e);
                                         });

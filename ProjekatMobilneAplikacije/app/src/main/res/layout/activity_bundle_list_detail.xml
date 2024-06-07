@@ -25,14 +25,34 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
-            <!-- ListView for services -->
+            <!-- Naslov za usluge -->
+            <TextView
+                android:id="@+id/servicesTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Services"
+                android:textSize="18sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- ListView za usluge -->
             <ListView
                 android:id="@+id/servicesList"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 tools:listitem="@layout/service_card"/>
 
-            <!-- ListView for products -->
+            <!-- Naslov za proizvode -->
+            <TextView
+                android:id="@+id/productsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Products"
+                android:textSize="18sp"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="16dp"/>
+
+            <!-- ListView za proizvode -->
             <ListView
                 android:id="@+id/productsList"
                 android:layout_width="match_parent"
@@ -58,21 +78,15 @@
 
     </ScrollView>
 
-    <!-- Reserve Button -->
+    <!-- Dugme za rezervaciju -->
     <Button
         android:id="@+id/reserveButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="Reserve"
+        android:text="Rezerviši"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginBottom="16dp"/>
-
-
-
-    <!-- TextView for services -->
-
-    <!-- TextView for products -->
 
 </androidx.constraintlayout.widget.ConstraintLayout>

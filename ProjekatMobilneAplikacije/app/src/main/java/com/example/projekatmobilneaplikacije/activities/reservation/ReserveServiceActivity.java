@@ -27,6 +27,7 @@ import com.example.projekatmobilneaplikacije.model.CustomBundle;
 import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Event;
 import com.example.projekatmobilneaplikacije.model.EventOrganization;
+import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Reservation;
 import com.example.projekatmobilneaplikacije.model.Service;
 import com.example.projekatmobilneaplikacije.model.UserDetails;
@@ -59,6 +60,7 @@ public class ReserveServiceActivity extends AppCompatActivity {
     private List<WorkCalendar> workCalendarList;
     private Service currentService;
     EditText fromTimeEditText,toTimeEditText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -183,6 +185,12 @@ public class ReserveServiceActivity extends AppCompatActivity {
         });
 
         Button reserve = findViewById(R.id.reserveButton);
+        if(bundleId != null){
+            reserve.setText("Reserve for bundle");
+        }else {
+            reserve.setText("Reserve");
+
+        }
         reserve.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -544,6 +552,24 @@ public class ReserveServiceActivity extends AppCompatActivity {
                                                                 .add(reservation)
                                                                 .addOnSuccessListener(documentReference -> {
                                                                     Toast.makeText(ReserveServiceActivity.this, "Reservation created successfully", Toast.LENGTH_SHORT).show();
+
+                                                                    String notificationId = db.collection("notifications").document().getId();
+                                                                    Date currentTimestamp = new Date();
+                                                                    Notification notification = new Notification(
+                                                                            notificationId,
+                                                                            "Service reserved",
+                                                                            "Service reserved: " + service.getTitle(),
+                                                                            false,
+                                                                            currentTimestamp,
+                                                                            selectedEmployee.getEmail()
+                                                                    );
+
+                                                                    // Save the notification to Firestore
+                                                                    db.collection("notifications").document(notificationId)
+                                                                            .set(notification)
+                                                                            .addOnSuccessListener(aVoid1 -> Toast.makeText(this, "Notification sent", Toast.LENGTH_SHORT).show())
+                                                                            .addOnFailureListener(e -> Toast.makeText(this, "Error sending notification", Toast.LENGTH_SHORT).show());
+
                                                                 })
                                                                 .addOnFailureListener(e -> {
                                                                     Toast.makeText(ReserveServiceActivity.this, "Failed to create reservation", Toast.LENGTH_SHORT).show();

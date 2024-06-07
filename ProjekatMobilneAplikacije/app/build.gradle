@@ -52,6 +52,7 @@ dependencies {
     implementation libs.legacy.support.v4
     implementation libs.recyclerview
     implementation libs.firebase.firestore
+    implementation libs.volley
     testImplementation libs.junit
     androidTestImplementation libs.ext.junit
     androidTestImplementation libs.espresso.core
@@ -61,5 +62,10 @@ dependencies {
     // When using the BoM, you don't specify versions in Firebase library dependencies
     implementation("com.google.firebase:firebase-auth")
     implementation("com.google.android.gms:play-services-auth:21.2.0")
+
+
     implementation 'com.itextpdf:itext7-core:7.1.15'
+
+    implementation 'com.google.firebase:firebase-messaging:23.0.0'
+
 }

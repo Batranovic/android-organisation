@@ -1,6 +1,7 @@
 package com.example.projekatmobilneaplikacije.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -8,13 +9,19 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.EditSubcategoryActivity;
+import com.example.projekatmobilneaplikacije.activities.HomeActivity;
+import com.example.projekatmobilneaplikacije.fragments.UserNotificationsFragment;
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Report;
+import com.google.firebase.firestore.DocumentReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
@@ -48,8 +55,47 @@ public class UserNotificationsAdapter extends ArrayAdapter<Notification> {
             message.setText(String.valueOf(notification.getMessage()));
             date.setText(String.valueOf(notification.getDate()));
         }
+        notificationCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Postavite status notifikacije na "read"
+                if (notification != null) {
+                    notification.setRead(true);
+                    updateNotificationStatus(notification);
 
+                    notifyDataSetChanged();
+                }
+            }
+        });
         return convertView;
     }
 
+
+    private void updateNotificationStatus(Notification notification){
+        db.collection("notifications")
+                .whereEqualTo("id", notification.getId())
+                .get()
+                .addOnSuccessListener(queryDocumentSnapshots -> {
+                    if (!queryDocumentSnapshots.isEmpty()) {
+                        for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots.getDocuments()) {
+                            DocumentReference docRef = documentSnapshot.getReference();
+                            docRef.update("read", true)
+                                    .addOnSuccessListener(aVoid -> {
+                                        Toast.makeText(getContext(), "Read", Toast.LENGTH_SHORT).show();
+
+                                    })
+                                    .addOnFailureListener(e -> {
+                                        Toast.makeText(getContext(), "Unread", Toast.LENGTH_SHORT).show();
+                                    });
+                        }
+                    } else {
+                        Toast.makeText(getContext(), "Not read", Toast.LENGTH_SHORT).show();
+                    }
+                })
+                .addOnFailureListener(e -> {
+                    Toast.makeText(getContext(), "Not read", Toast.LENGTH_SHORT).show();
+
+                });
+
+    }
 }
