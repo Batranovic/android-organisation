@@ -68,21 +68,18 @@ public class ChatActivity extends AppCompatActivity {
         recyclerViewMessages.setAdapter(messageAdapter);
         recyclerViewMessages.setLayoutManager(new LinearLayoutManager(this));
 
-        // Initialize Firebase Auth
         auth = FirebaseAuth.getInstance();
         currentUser = auth.getCurrentUser();
 
-        // Initialize Firestore
         db = FirebaseFirestore.getInstance();
 
-        // Load employees into the spinner
         loadEmployees();
 
         spinnerEmployees.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 selectedEmployeeEmail = employees.get(position).getEmail();
-                loadMessages();
+                loadMessages(); // Izmenjeno: Učitavanje poruka
             }
 
             @Override
@@ -97,8 +94,7 @@ public class ChatActivity extends AppCompatActivity {
                 Log.d(TAG, "Send button clicked");
                 String messageText = editTextMessage.getText().toString();
                 if (!TextUtils.isEmpty(messageText)) {
-                    sendMessage(messageText);
-                    editTextMessage.setText("");
+                    sendMessage(messageText); // Izmenjeno: Slanje poruke
                 } else {
                     Toast.makeText(ChatActivity.this, "Message cannot be empty", Toast.LENGTH_SHORT).show();
                 }
@@ -141,9 +137,10 @@ public class ChatActivity extends AppCompatActivity {
 
         messagesRef = db.collection("chats").document(currentUser.getUid() + "_" + selectedEmployeeEmail).collection("messages");
         messagesRef.add(message).addOnSuccessListener(documentReference -> {
-            // Message successfully added to Firestore
             Log.d(TAG, "Message sent successfully");
             Toast.makeText(ChatActivity.this, "Message sent", Toast.LENGTH_SHORT).show();
+            editTextMessage.setText(""); // Dodato: Brisanje teksta iz polja za unos poruke
+            loadMessages(); // Izmenjeno: Učitavanje poruka nakon slanja poruke
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Error sending message", e);
             Toast.makeText(ChatActivity.this, "Failed to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -163,14 +160,14 @@ public class ChatActivity extends AppCompatActivity {
                     return;
                 }
 
-                messageList.clear();
+                messageList.clear(); // Izmenjeno: Brisanje liste pre dodavanja novih poruka
                 for (QueryDocumentSnapshot doc : value) {
                     Chat message = doc.toObject(Chat.class);
                     messageList.add(message);
                     Log.d(TAG, "Message loaded: " + message.getContent());
                 }
-                messageAdapter.notifyDataSetChanged();
-                recyclerViewMessages.scrollToPosition(messageList.size() - 1);
+                messageAdapter.notifyDataSetChanged(); // Izmenjeno: Obaveštavanje adaptera o promeni podataka
+                recyclerViewMessages.scrollToPosition(messageList.size() - 1); // Izmenjeno: Pomicanje na poslednju poruku
             }
         });
     }

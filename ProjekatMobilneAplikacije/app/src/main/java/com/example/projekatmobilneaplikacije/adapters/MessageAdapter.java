@@ -32,6 +32,7 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
     public void onBindViewHolder(@NonNull MessageViewHolder holder, int position) {
         Chat message = messageList.get(position);
         holder.textViewMessage.setText(message.getContent());
+        holder.textViewDate.setText(message.getTimestamp().toDate().toString());
     }
 
     @Override
@@ -41,10 +42,12 @@ public class MessageAdapter extends RecyclerView.Adapter<MessageAdapter.MessageV
 
     public static class MessageViewHolder extends RecyclerView.ViewHolder {
         public TextView textViewMessage;
+        public  TextView textViewDate;
 
         public MessageViewHolder(View itemView) {
             super(itemView);
             textViewMessage = itemView.findViewById(R.id.textViewMessage);
+            textViewDate = itemView.findViewById(R.id.textViewDate);
         }
     }
 }
