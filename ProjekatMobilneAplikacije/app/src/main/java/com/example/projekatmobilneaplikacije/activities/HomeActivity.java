@@ -158,6 +158,7 @@ public class HomeActivity extends AppCompatActivity {
             navMenu.findItem(R.id.nav_login).setVisible(true);
             navMenu.findItem(R.id.nav_reservations).setVisible(false);
             navMenu.findItem(R.id.nav_bundle_reservations).setVisible(false);
+            navMenu.findItem(R.id.nav_company_review_reports).setVisible(false);
         } else {
             // Standardna navigacija na fragment za odjavu
             Menu navMenu = navigationView.getMenu();
@@ -165,6 +166,7 @@ public class HomeActivity extends AppCompatActivity {
             navMenu.findItem(R.id.nav_login).setVisible(false);
             navMenu.findItem(R.id.nav_reservations).setVisible(true);
             navMenu.findItem(R.id.nav_bundle_reservations).setVisible(true);
+            navMenu.findItem(R.id.nav_company_review_reports).setVisible(true);
         }
 if(user!= null) {
 
@@ -187,9 +189,11 @@ if(user!= null) {
                             if (userDetails.getRole().equals(UserRole.Admin)) {
                                 Menu navMenu = navigationView.getMenu();
                                 navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
+                                navMenu.findItem(R.id.nav_company_review_reports).setVisible(true);
                             }else {
                                 Menu navMenu = navigationView.getMenu();
                                 navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
+                                navMenu.findItem(R.id.nav_company_review_reports).setVisible(false);
                             }
                         }
                     } else {

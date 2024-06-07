@@ -89,5 +89,10 @@
             android:icon="@drawable/price_list"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_company_review_reports"
+            android:title="Review Reports"
+            android:icon="@drawable/report"
+            android:orderInCategory="300" />
+
     </group>
 </menu>

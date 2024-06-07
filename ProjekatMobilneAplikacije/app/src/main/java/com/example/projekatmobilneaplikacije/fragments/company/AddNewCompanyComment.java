@@ -109,7 +109,7 @@ public class AddNewCompanyComment extends Fragment {
                 Date date = new Date();
 
                 String commentId = generateCommentId();
-                CompanyReview comment = new CompanyReview(commentId, company, owner, commentText, rating, user.getEmail(), date);
+                CompanyReview comment = new CompanyReview(commentId, company, owner, commentText, rating, user.getEmail(), date, false);
                 db.collection("comments")
                         .add(comment)
                         .addOnSuccessListener(new OnSuccessListener<DocumentReference>() {

@@ -267,5 +267,14 @@
         android:label="New review"
         tools:layout="@layout/fragment_add_new_company_comment" />
 
+    <fragment
+        android:id="@+id/nav_company_review_reports"
+        android:name="com.example.projekatmobilneaplikacije.fragments.company.CompanyReviewReportsFragment"
+        android:label="Review Reports"
+        tools:layout="@layout/fragment_company_review_reports"
+        app:popUpTo="@+id/nav_profile"
+        app:popUpToInclusive="true"
+        />
+
 
 </navigation>

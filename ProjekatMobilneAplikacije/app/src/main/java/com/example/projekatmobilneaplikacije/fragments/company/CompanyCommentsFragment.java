@@ -178,33 +178,32 @@ public class CompanyCommentsFragment extends ListFragment {
 
     public void loadComments() {
         db.collection("comments")
+                .whereEqualTo("isDeleted", false)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
                     public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
-                        // Lista za čuvanje učitanih komentara
+
                         List<CompanyReview> commentsList = new ArrayList<>();
 
-                        // Iterirajte kroz dokumente i konvertujte ih u objekte CompanyReview
                         for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
                             CompanyReview comment = document.toObject(CompanyReview.class);
                             commentsList.add(comment);
                         }
 
-                        // Ažurirajte listu komentara koju koristi adapter
                         reviews.clear();
                         reviews.addAll(commentsList);
-                        adapter.notifyDataSetChanged(); // Obavestite adapter o promeni podataka
+                        adapter.notifyDataSetChanged();
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
                         Log.w(TAG, "Error loading comments", e);
-                        // Ukoliko dođe do greške pri učitavanju komentara, možete prikazati odgovarajuću poruku korisniku.
                     }
                 });
     }
+
 
 
 

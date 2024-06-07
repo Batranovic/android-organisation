@@ -15,11 +15,12 @@ public class CompanyReview implements Parcelable {
     private Double grade;
     private String eventOrganizer;
     private Date reviewDate;
+    private boolean isDeleted; // Dodano polje isDeleted
 
     public CompanyReview() {
     }
 
-    public CompanyReview(String id, String company, String owner, String text, Double grade, String eventOrganizer, Date reviewDate) {
+    public CompanyReview(String id, String company, String owner, String text, Double grade, String eventOrganizer, Date reviewDate, boolean isDeleted) {
         this.id = id;
         this.company = company;
         this.owner = owner;
@@ -27,6 +28,7 @@ public class CompanyReview implements Parcelable {
         this.grade = grade;
         this.eventOrganizer = eventOrganizer;
         this.reviewDate = reviewDate;
+        this.isDeleted = isDeleted;
     }
 
     public String getId() {
@@ -85,6 +87,14 @@ public class CompanyReview implements Parcelable {
         this.owner = owner;
     }
 
+    public boolean isDeleted() {
+        return isDeleted;
+    }
+
+    public void setDeleted(boolean deleted) {
+        isDeleted = deleted;
+    }
+
     protected CompanyReview(Parcel in) {
         id = in.readString();
         company = in.readString();
@@ -93,6 +103,7 @@ public class CompanyReview implements Parcelable {
         grade = in.readDouble();
         eventOrganizer = in.readString();
         reviewDate = new Date(in.readLong());
+        isDeleted = in.readByte() != 0; // Čitanje isDeleted polja
     }
 
     @Override
@@ -109,6 +120,7 @@ public class CompanyReview implements Parcelable {
         dest.writeDouble(grade);
         dest.writeString(eventOrganizer);
         dest.writeLong(reviewDate != null ? reviewDate.getTime() : -1);
+        dest.writeByte((byte) (isDeleted ? 1 : 0));
     }
 
     public static final Creator<CompanyReview> CREATOR = new Creator<CompanyReview>() {
