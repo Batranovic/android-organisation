@@ -136,7 +136,7 @@ public class CompanyCommentReportsAdapter extends ArrayAdapter<CompanyReviewRepo
                                 for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
                                     String documentId = documentSnapshot.getId();
                                     db.collection("comments").document(documentId)
-                                            .update("isDeleted", true)
+                                            .update("deleted", true)
                                             .addOnSuccessListener(aVoid -> {
                                                 // Ažuriranje statusa reporta na Accepted
                                                 db.collection("companyReviewReports").whereEqualTo("id", report.getId()).get().addOnSuccessListener(queryDocumentSnapshots1 -> {

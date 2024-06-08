@@ -21,6 +21,7 @@ import android.widget.ListView;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.SearchView;
+import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.adapters.CompanyCommentsAdapter;
@@ -34,11 +35,13 @@ import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.CollectionReference;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -152,11 +155,40 @@ public class CompanyCommentsFragment extends ListFragment {
         newCommentButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // Dodajte kod za navigaciju na drugi fragment ili bilo koju drugu akciju koja treba da se izvrši na klik dugmeta
-                Navigation.findNavController(requireActivity(), R.id.company_comments_fragment)
-                        .navigate(R.id.nav_new_company_comment);
+                db.collection("commentDeadlines")
+                        .whereEqualTo("eventOrganizer", user.getEmail())
+                        .get()
+                        .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+                            @Override
+                            public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+                                boolean canLeaveComment = false;
+                                Date currentDate = new Date();
+
+                                for (QueryDocumentSnapshot document : queryDocumentSnapshots) {
+                                    Date deadline = document.getDate("deadline");
+                                    if (deadline != null && currentDate.before(deadline)) {
+                                        canLeaveComment = true;
+                                        break;
+                                    }
+                                }
+
+                                if (canLeaveComment) {
+                                    Navigation.findNavController(requireActivity(), R.id.company_comments_fragment)
+                                            .navigate(R.id.nav_new_company_comment);
+                                } else {
+                                    Toast.makeText(getContext(), "Not allowed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .addOnFailureListener(new OnFailureListener() {
+                            @Override
+                            public void onFailure(@NonNull Exception e) {
+                                Log.e("CompanyCommentsFragment", "Error fetching comment deadlines", e);
+                            }
+                        });
             }
         });
+
 
 
 
@@ -178,7 +210,7 @@ public class CompanyCommentsFragment extends ListFragment {
 
     public void loadComments() {
         db.collection("comments")
-                .whereEqualTo("isDeleted", false)
+                .whereEqualTo("deleted", false)
                 .get()
                 .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
                     @Override
@@ -203,6 +235,37 @@ public class CompanyCommentsFragment extends ListFragment {
                     }
                 });
     }
+//    private void fetchUserRole() {
+//        if (username == null) {
+//            Log.e("CompanyCommentsFragment", "Username is null");
+//            return;
+//        }
+//
+//        db.collection("userDetails")
+//                .whereEqualTo("username", username)
+//                .get()
+//                .addOnSuccessListener(new OnSuccessListener<QuerySnapshot>() {
+//                    @Override
+//                    public void onSuccess(QuerySnapshot queryDocumentSnapshots) {
+//                        if (!queryDocumentSnapshots.isEmpty()) {
+//                            for (DocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+//                                if (documentSnapshot.exists()) {
+//                                    userRole = documentSnapshot.getString("role");
+//                                    Log.d("CompanyCommentsFragment", "User role: " + userRole);;
+//                                }
+//                            }
+//                        } else {
+//                            Log.d("CompanyCommentsFragment", "User document not found for username: " + username);
+//                        }
+//                    }
+//                })
+//                .addOnFailureListener(new OnFailureListener() {
+//                    @Override
+//                    public void onFailure(@NonNull Exception e) {
+//                        Log.e("CompanyCommentsFragment", "Error fetching user role", e);
+//                    }
+//                });
+//    }
 
 
 

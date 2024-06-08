@@ -17,6 +17,7 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.model.CommentDeadline;
 import com.example.projekatmobilneaplikacije.model.Event;
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Reservation;
@@ -222,18 +223,31 @@ public class BundleReservationListAdapter extends BaseExpandableListAdapter {
                             .addOnSuccessListener(aVoid1 -> Toast.makeText(mContext, "Notification sent", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(mContext, "Error sending notification", Toast.LENGTH_SHORT).show());
 
-                } else if (("Employee".equals(userRole) || "Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New)) && currentDate.before(cancellationDeadlineDate)) {
+                } else if (("Employee".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New)) && currentDate.before(cancellationDeadlineDate)) {
 
                     updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
 
                     cancelOtherReservationsForBundlePUP(reservation.getBundle().getTitle());
+
+                    String commentDeadlineId = db.collection("commentDeadlines").document().getId();
+                    CommentDeadline commentDeadline = new CommentDeadline(
+                            commentDeadlineId,
+                            reservation.getEventOrganizer().getUsername(),
+                            currentDate,
+                            new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000)
+                    );
+
+                    db.collection("commentDeadlines").document(commentDeadlineId)
+                            .set(commentDeadline)
+                            .addOnSuccessListener(aVoid -> Log.d("ReservationListAdapter", "CommentDeadline created successfully."))
+                            .addOnFailureListener(e -> Log.e("ReservationListAdapter", "Error creating CommentDeadline", e));
 
                     String notificationId = db.collection("notifications").document().getId();
                     Date currentTimestamp = new Date();
                     Notification notification = new Notification(
                             notificationId,
                             "Bundle Reservations Cancellation",
-                            "PUP " + username + " cancelled reservations for bundle: " + reservation.getBundle().getTitle(),
+                            "Employee " + username + " cancelled reservations for bundle: " + reservation.getBundle().getTitle() + ". You have 5 days to rate the company.",
                             false,
                             currentTimestamp,
                             reservation.getEventOrganizer().getUsername()
@@ -243,7 +257,31 @@ public class BundleReservationListAdapter extends BaseExpandableListAdapter {
                             .set(notification)
                             .addOnSuccessListener(aVoid1 -> Toast.makeText(mContext, "Notification sent", Toast.LENGTH_SHORT).show())
                             .addOnFailureListener(e -> Toast.makeText(mContext, "Error sending notification", Toast.LENGTH_SHORT).show());
-                } else {
+                }else if (("Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New)) && currentDate.before(cancellationDeadlineDate)) {
+
+                    updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
+
+                    cancelOtherReservationsForBundlePUP(reservation.getBundle().getTitle());
+
+
+                    String notificationId = db.collection("notifications").document().getId();
+                    Date currentTimestamp = new Date();
+                    Notification notification = new Notification(
+                            notificationId,
+                            "Bundle Reservations Cancellation",
+                            "Owner " + username + " cancelled reservations for bundle: " + reservation.getBundle().getTitle(),
+                            false,
+                            currentTimestamp,
+                            reservation.getEventOrganizer().getUsername()
+                    );
+
+                    db.collection("notifications").document(notificationId)
+                            .set(notification)
+                            .addOnSuccessListener(aVoid1 -> Toast.makeText(mContext, "Notification sent", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(mContext, "Error sending notification", Toast.LENGTH_SHORT).show());
+                }
+
+                else {
                     Toast.makeText(mContext, "Not allowed.", Toast.LENGTH_SHORT).show();
 
 
