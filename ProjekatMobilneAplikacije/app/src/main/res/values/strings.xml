@@ -303,4 +303,12 @@
     <string name="bundles">Reservations by bundle</string>
     <string name="bundless">Bundle reservations</string>
     <string name="company_profile">Company Profile</string>
+    <string name="add_new_comment">Add new comment</string>
+    <string name="add_comment">Add comment</string>
+    <string name="post">Post</string>
+    <string name="add_new_review">Add new review</string>
+    <string name="report_comment">Report</string>
+    <string name="comment_report">Review report</string>
+    <string name="owner">Owner profile</string>
+    <string name="decline">Decline</string>
 </resources>

@@ -4,7 +4,10 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.company.CompanyProfileFragment">
+    android:orientation="vertical"
+    android:id="@+id/company_fragment"
+    tools:context=".fragments.company.CompanyProfileFragment"
+    tools:ignore="InvalidId">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -14,7 +17,7 @@
         <!-- Other UI elements -->
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/floatingActionButton3"
+            android:id="@+id/comments_floating_buttons"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="16dp"
@@ -30,6 +33,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintVertical_bias="0.98" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </LinearLayout>

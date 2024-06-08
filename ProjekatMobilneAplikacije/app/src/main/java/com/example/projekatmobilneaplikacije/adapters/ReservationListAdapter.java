@@ -22,6 +22,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.activities.employees.EmployeeProfileActivity;
 import com.example.projekatmobilneaplikacije.fragments.CreateBundleThirdFragment;
+import com.example.projekatmobilneaplikacije.model.CommentDeadline;
 import com.example.projekatmobilneaplikacije.model.Employee;
 import com.example.projekatmobilneaplikacije.model.Event;
 import com.example.projekatmobilneaplikacije.model.Notification;
@@ -191,6 +192,68 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
             }
         });
 
+//        cancelButton.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                ReservationStatus status = reservation.getStatus();
+//                Date startDate = reservation.getFrom();
+//                int cancellationDeadline = reservation.getService().getCancellationDeadline();
+//
+//                Calendar deadlineCalendar = Calendar.getInstance();
+//                deadlineCalendar.setTime(startDate);
+//                deadlineCalendar.add(Calendar.DAY_OF_YEAR, -cancellationDeadline);
+//
+//                Date cancellationDeadlineDate = deadlineCalendar.getTime();
+//                Date currentDate = new Date();
+//                if ("EventOrganizer".equals(userRole) && (status == ReservationStatus.New || status == ReservationStatus.Accepted) && currentDate.before(cancellationDeadlineDate)) {
+//
+//
+//                        updateReservationStatus(reservation, ReservationStatus.CancelledByEO);
+//                        String notificationId = db.collection("notifications").document().getId();
+//                        Date currentTimestamp = new Date();
+//                        Notification notification = new Notification(
+//                                notificationId,
+//                                "Reservation Cancellation",
+//                                "Event Organizer " + username + " cancelled reservation: " + reservation.getId(),
+//                                false,
+//                                currentTimestamp,
+//                                reservation.getEmployee().getEmail()
+//                        );
+//
+//                        // Save the notification to Firestore
+//                        db.collection("notifications").document(notificationId)
+//                                .set(notification)
+//                                .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+//                                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+//
+//
+//
+//                }
+//
+//                else if (("Employee".equals(userRole) || "Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New))) {
+//                    updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
+//                    String notificationId = db.collection("notifications").document().getId();
+//                    Date currentTimestamp = new Date();
+//                    Notification notification = new Notification(
+//                            notificationId,
+//                            "Reservation Cancellation",
+//                            "PUP " + username + " cancelled reservation: " + reservation.getId() + ". You can leave comment on company profile.",
+//                            false,
+//                            currentTimestamp,
+//                            reservation.getEventOrganizer().getUsername()
+//                    );
+//
+//                    // Save the notification to Firestore
+//                    db.collection("notifications").document(notificationId)
+//                            .set(notification)
+//                            .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+//                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+//                } else {
+//                    Toast.makeText(getContext(), "Not allowed.", Toast.LENGTH_SHORT).show();
+//                }
+//            }
+//        });
+
         cancelButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -204,39 +267,65 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
 
                 Date cancellationDeadlineDate = deadlineCalendar.getTime();
                 Date currentDate = new Date();
+
                 if ("EventOrganizer".equals(userRole) && (status == ReservationStatus.New || status == ReservationStatus.Accepted) && currentDate.before(cancellationDeadlineDate)) {
+                    updateReservationStatus(reservation, ReservationStatus.CancelledByEO);
+                    String notificationId = db.collection("notifications").document().getId();
+                    Date currentTimestamp = new Date();
+                    Notification notification = new Notification(
+                            notificationId,
+                            "Reservation Cancellation",
+                            "Event Organizer " + username + " cancelled reservation: " + reservation.getId(),
+                            false,
+                            currentTimestamp,
+                            reservation.getEmployee().getEmail()
+                    );
 
-
-                        updateReservationStatus(reservation, ReservationStatus.CancelledByEO);
-                        String notificationId = db.collection("notifications").document().getId();
-                        Date currentTimestamp = new Date();
-                        Notification notification = new Notification(
-                                notificationId,
-                                "Reservation Cancellation",
-                                "Event Organizer " + username + " cancelled reservation: " + reservation.getId(),
-                                false,
-                                currentTimestamp,
-                                reservation.getEmployee().getEmail()
-                        );
-
-                        // Save the notification to Firestore
-                        db.collection("notifications").document(notificationId)
-                                .set(notification)
-                                .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
-                                .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
-
-
-
-                }
-
-                else if (("Employee".equals(userRole) || "Owner".equals(userRole)) && (reservation.getStatus().equals(ReservationStatus.Accepted) || reservation.getStatus().equals(ReservationStatus.New))) {
+                    // Save the notification to Firestore
+                    db.collection("notifications").document(notificationId)
+                            .set(notification)
+                            .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+                } else if ("Employee".equals(userRole) && (status == ReservationStatus.New || status == ReservationStatus.Accepted)) {
                     updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
                     String notificationId = db.collection("notifications").document().getId();
                     Date currentTimestamp = new Date();
                     Notification notification = new Notification(
                             notificationId,
                             "Reservation Cancellation",
-                            "PUP " + username + " cancelled reservation: " + reservation.getId(),
+                            "Employee " + username + " cancelled reservation: " + reservation.getId() + ". You have 5 days to rate the company.",
+                            false,
+                            currentTimestamp,
+                            reservation.getEventOrganizer().getUsername()
+                    );
+
+                    db.collection("notifications").document(notificationId)
+                            .set(notification)
+                            .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                            .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+
+
+                        String commentDeadlineId = db.collection("commentDeadlines").document().getId();
+                        CommentDeadline commentDeadline = new CommentDeadline(
+                                commentDeadlineId,
+                                reservation.getEventOrganizer().getUsername(),
+                                currentDate,
+                                new Date(currentDate.getTime() + 5 * 24 * 60 * 60 * 1000)
+                        );
+
+                        db.collection("commentDeadlines").document(commentDeadlineId)
+                                .set(commentDeadline)
+                                .addOnSuccessListener(aVoid -> Log.d("ReservationListAdapter", "CommentDeadline created successfully."))
+                                .addOnFailureListener(e -> Log.e("ReservationListAdapter", "Error creating CommentDeadline", e));
+
+                } else if ("Owner".equals(userRole) && (status == ReservationStatus.New || status == ReservationStatus.Accepted)) {
+                    updateReservationStatus(reservation, ReservationStatus.CancelledByPUP);
+                    String notificationId = db.collection("notifications").document().getId();
+                    Date currentTimestamp = new Date();
+                    Notification notification = new Notification(
+                            notificationId,
+                            "Reservation Cancellation",
+                            "Owner " + username + " cancelled reservation: " + reservation.getId(),
                             false,
                             currentTimestamp,
                             reservation.getEventOrganizer().getUsername()
@@ -252,6 +341,7 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                 }
             }
         });
+
 
 
 

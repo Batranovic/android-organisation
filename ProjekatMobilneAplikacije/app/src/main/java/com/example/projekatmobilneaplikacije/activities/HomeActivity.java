@@ -158,6 +158,7 @@ public class HomeActivity extends AppCompatActivity {
             navMenu.findItem(R.id.nav_login).setVisible(true);
             navMenu.findItem(R.id.nav_reservations).setVisible(false);
             navMenu.findItem(R.id.nav_bundle_reservations).setVisible(false);
+            navMenu.findItem(R.id.nav_company_review_reports).setVisible(false);
         } else {
             // Standardna navigacija na fragment za odjavu
             Menu navMenu = navigationView.getMenu();
@@ -165,34 +166,34 @@ public class HomeActivity extends AppCompatActivity {
             navMenu.findItem(R.id.nav_login).setVisible(false);
             navMenu.findItem(R.id.nav_reservations).setVisible(true);
             navMenu.findItem(R.id.nav_bundle_reservations).setVisible(true);
+            navMenu.findItem(R.id.nav_company_review_reports).setVisible(true);
         }
-        if(user!= null) {
-            db.collection("userDetails")
-                    .whereEqualTo("username", user.getEmail())
-                    .get()
-                    .addOnCompleteListener(task -> {
-                        if (task.isSuccessful()) {
-                            QuerySnapshot querySnapshot = task.getResult();
-                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
-                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
-                                // Preuzmite UserDetails iz dokumenta
-                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
-                                if (userDetails != null) {
-                                    Log.d("UserDetails", "Username: " + userDetails.getUsername());
-                                    Log.d("UserDetails", "Name: " + userDetails.getName());
-                                    Log.d("UserDetails", "Surname: " + userDetails.getSurname());
-                                    Log.d("UserDetails", "Role: " + userDetails.getRole());
-                                    if (userDetails.getRole().equals(UserRole.Admin)) {
-                                        Menu navMenu = navigationView.getMenu();
-                                        navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
-                                    }else {
-                                        Menu navMenu = navigationView.getMenu();
-                                        navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
-                                    }
-                                }
-                            } else {
-                                Log.d("Firestore", "No documents found for email: " + user.getEmail());
+if(user!= null) {
+
+    db.collection("userDetails")
+            .whereEqualTo("username", user.getEmail())
+            .get()
+            .addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    QuerySnapshot querySnapshot = task.getResult();
+                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                        // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                        DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                        // Preuzmite UserDetails iz dokumenta
+                        UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                        if (userDetails != null) {
+                            Log.d("UserDetails", "Username: " + userDetails.getUsername());
+                            Log.d("UserDetails", "Name: " + userDetails.getName());
+                            Log.d("UserDetails", "Surname: " + userDetails.getSurname());
+                            Log.d("UserDetails", "Role: " + userDetails.getRole());
+                            if (userDetails.getRole().equals(UserRole.Admin)) {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
+                                navMenu.findItem(R.id.nav_company_review_reports).setVisible(true);
+                            }else {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
+                                navMenu.findItem(R.id.nav_company_review_reports).setVisible(false);
                             }
                         } else {
                             Log.w("Firestore", "Error getting documents.", task.getException());
