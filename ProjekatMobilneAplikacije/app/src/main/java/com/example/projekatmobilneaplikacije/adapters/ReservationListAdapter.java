@@ -10,6 +10,7 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.Filter;
 import android.widget.Filterable;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -27,6 +28,8 @@ import com.example.projekatmobilneaplikacije.model.Event;
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Reservation;
+import com.example.projekatmobilneaplikacije.activities.ProfileViewActivity;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
 import com.example.projekatmobilneaplikacije.model.WorkCalendar;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -113,6 +116,8 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
         Button acceptButton = convertView.findViewById(R.id.accept_reservation_button);
 
         Button cancelButton = convertView.findViewById(R.id.cancel_reservation_button);
+
+        ImageButton userProfile = convertView.findViewById(R.id.profile);
 
         if (user != null) {
             username = user.getEmail();
@@ -252,6 +257,23 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                 }
             }
         });
+
+        userProfile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                UserDetails eventOrganizer = reservation.getEventOrganizer();
+                if (eventOrganizer != null) {
+                    Intent profileIntent = new Intent(mContext, ProfileViewActivity.class);
+                    profileIntent.putExtra("name", eventOrganizer.getName());
+                    profileIntent.putExtra("surname", eventOrganizer.getSurname());
+                    profileIntent.putExtra("username", eventOrganizer.getUsername());
+                    mContext.startActivity(profileIntent);
+                } else {
+                    Toast.makeText(mContext, "User details not found.", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
 
 
 
@@ -482,6 +504,8 @@ public class ReservationListAdapter extends ArrayAdapter<Reservation> implements
                     }
                 });
     }
+
+
 
 
 

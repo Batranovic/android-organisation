@@ -18,6 +18,9 @@
         android:theme="@style/Theme.ProjekatMobilneAplikacije"
         tools:targetApi="31">
         <activity
+            android:name=".activities.ProfileViewActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.NotificationOverviewActivity"
             android:exported="false" />
         <activity
@@ -123,9 +126,6 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/file_paths" />
         </provider>
-
     </application>
-
-
 
 </manifest>

@@ -133,32 +133,7 @@ public class LoginFragment extends Fragment {
                                             getNotificationsForUser(currentUser.getEmail());
                                             startActivity(intent);
                                             
-                                            db.collection("userDetails")
-                                                    .whereEqualTo("username", currentUser.getEmail())
-                                                    .get()
-                                                    .addOnCompleteListener(tasks -> {
-                                                        if (tasks.isSuccessful()) {
-                                                            QuerySnapshot querySnapshot = tasks.getResult();
-                                                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
-                                                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
-                                                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
-                                                                // Preuzmite UserDetails iz dokumenta
-                                                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
 
-                                                                if (userDetails!=null && currentUser.isEmailVerified() && !userDetails.getIsBlocked()) {
-                                                                    Toast.makeText(requireContext(), "Is blocked " + userDetails.getIsBlocked(), Toast.LENGTH_SHORT).show();
-                                                                    Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
-                                                                    Intent intent = new Intent(getActivity(), HomeActivity.class);
-                                                                    startActivity(intent);
-                                                                }else {
-                                                                    Toast.makeText(requireContext(), "Authentication failed", Toast.LENGTH_SHORT).show();
-                                                                }
-
-                                                            }
-                                                        } else {
-                                                            Log.w("Firestore", "Error logging in.", tasks.getException());
-                                                        }
-                                                    });
                                          //   Toast.makeText(requireContext(), "Authentication success", Toast.LENGTH_SHORT).show();
                                             //Intent intent = new Intent(getActivity(), HomeActivity.class);
                                           //  startActivity(intent);

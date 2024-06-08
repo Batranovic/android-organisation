@@ -47,7 +47,16 @@
         <LinearLayout
             android:layout_width="62dp"
             android:layout_height="match_parent"
-            android:orientation="vertical"></LinearLayout>
+            android:orientation="vertical">
+
+            <ImageButton
+                android:id="@+id/profile"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:layout_marginVertical="90dp"
+                android:src="@drawable/employee"/>
+
+        </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
