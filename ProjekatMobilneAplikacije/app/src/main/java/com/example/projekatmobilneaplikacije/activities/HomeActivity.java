@@ -190,7 +190,7 @@ if(user!= null) {
                                 Menu navMenu = navigationView.getMenu();
                                 navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
                                 navMenu.findItem(R.id.nav_company_review_reports).setVisible(true);
-                            }else {
+                            } else {
                                 Menu navMenu = navigationView.getMenu();
                                 navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
                                 navMenu.findItem(R.id.nav_company_review_reports).setVisible(false);
@@ -198,6 +198,9 @@ if(user!= null) {
                         } else {
                             Log.w("Firestore", "Error getting documents.", task.getException());
                         }
+                    }
+                }
+
                     });
         }
         // AppBarConfiguration odnosi se na konfiguraciju ActionBar-a (ili Toolbar-a) u Android aplikaciji
