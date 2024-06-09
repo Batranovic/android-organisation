@@ -389,7 +389,7 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
                                         .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
                                         .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
 
-                                makeNotification(notification);
+                                //makeNotification(notification);
 
                             }
                         }).addOnFailureListener(e -> {

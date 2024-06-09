@@ -159,7 +159,7 @@ public class CompanyCommentsBlankFragment extends Fragment {
                         .addOnFailureListener(e -> Toast.makeText(getContext(), "Error saving report", Toast.LENGTH_SHORT).show());
 
                 String notificationId = db.collection("notifications").document().getId();
-                String adminEmail = "nina@gmail.com";
+                String adminEmail = "batranovicnina@gmail.com";
                 Notification notification = new Notification(
                         notificationId,
                         "Report",
