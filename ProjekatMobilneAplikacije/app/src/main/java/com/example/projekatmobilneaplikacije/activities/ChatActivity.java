@@ -1,5 +1,10 @@
 package com.example.projekatmobilneaplikacije.activities;
 
+import android.content.Context;
+import android.hardware.Sensor;
+import android.hardware.SensorEvent;
+import android.hardware.SensorEventListener;
+import android.hardware.SensorManager;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -36,7 +41,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ChatActivity extends AppCompatActivity {
+public class ChatActivity extends AppCompatActivity implements SensorEventListener {
 
     private RecyclerView recyclerViewMessages;
     private MessageAdapter messageAdapter;
@@ -54,6 +59,19 @@ public class ChatActivity extends AppCompatActivity {
     private List<Employee> employees;
 
     private static final String TAG = "ChatActivity";
+
+    private SensorManager sensorManager;
+    private float accel; // current acceleration including gravity
+    private float accelCurrent; // current acceleration excluding gravity
+    private float accelLast; // last acceleration excluding gravity
+
+    private enum ViewType {
+        UNREAD,
+        READ,
+        ALL
+    }
+
+    private ViewType currentViewType = ViewType.UNREAD;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -102,29 +120,88 @@ public class ChatActivity extends AppCompatActivity {
                 }
             }
         });
+
+        sensorManager = (SensorManager) getSystemService(Context.SENSOR_SERVICE);
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+
+        accel = 10f;
+        accelCurrent = SensorManager.GRAVITY_EARTH;
+        accelLast = SensorManager.GRAVITY_EARTH;
     }
 
-    private void loadEmployees() {
-        CollectionReference employeesRef = db.collection("employees");
-        employees = new ArrayList<>();
+    @Override
+    public void onSensorChanged(SensorEvent event) {
+        float x = event.values[0];
+        float y = event.values[1];
+        float z = event.values[2];
+        accelLast = accelCurrent;
+        accelCurrent = (float) Math.sqrt((double) (x * x + y * y + z * z));
+        float delta = accelCurrent - accelLast;
+        accel = accel * 0.9f + delta; // perform low-cut filter
 
-        employeesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
-            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
-                Employee employee = documentSnapshot.toObject(Employee.class);
-                employees.add(employee);
-            }
+        if (accel > 12) {
+            onShake();
+        }
+    }
 
-            List<String> employeeDisplayList = new ArrayList<>();
-            for (Employee employee : employees) {
-                employeeDisplayList.add(employee.getEmail());
-            }
+    @Override
+    public void onAccuracyChanged(Sensor sensor, int accuracy) {
+        // Not used
+    }
 
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, employeeDisplayList);
-            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-            spinnerEmployees.setAdapter(adapter);
-        }).addOnFailureListener(e -> {
-            Log.e(TAG, "Error loading employees", e);
-        });
+    private void onShake() {
+        rotateView();
+    }
+
+    private void rotateView() {
+        switch (currentViewType) {
+            case UNREAD:
+                currentViewType = ViewType.READ;
+                loadNotifications(ViewType.READ);
+                break;
+            case READ:
+                currentViewType = ViewType.ALL;
+                loadNotifications(ViewType.ALL);
+                break;
+            case ALL:
+                currentViewType = ViewType.UNREAD;
+                loadNotifications(ViewType.UNREAD);
+                break;
+        }
+    }
+
+    private void loadNotifications(ViewType viewType) {
+        // Implement logic to load and display notifications based on the viewType
+        switch (viewType) {
+            case UNREAD:
+                Toast.makeText(this, "Displaying Unread Notifications", Toast.LENGTH_SHORT).show();
+                // Load unread notifications from Firestore
+                break;
+            case READ:
+                Toast.makeText(this, "Displaying Read Notifications", Toast.LENGTH_SHORT).show();
+                // Load read notifications from Firestore
+                break;
+            case ALL:
+                Toast.makeText(this, "Displaying All Notifications", Toast.LENGTH_SHORT).show();
+                // Load all notifications from Firestore
+                break;
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        sensorManager.registerListener(this,
+                sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER),
+                SensorManager.SENSOR_DELAY_NORMAL);
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        sensorManager.unregisterListener(this);
     }
 
     private void sendMessage(String messageText) {
@@ -163,6 +240,29 @@ public class ChatActivity extends AppCompatActivity {
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Error sending message", e);
             Toast.makeText(ChatActivity.this, "Failed to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+    }
+
+    private void loadEmployees() {
+        CollectionReference employeesRef = db.collection("employees");
+        employees = new ArrayList<>();
+
+        employeesRef.get().addOnSuccessListener(queryDocumentSnapshots -> {
+            for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                Employee employee = documentSnapshot.toObject(Employee.class);
+                employees.add(employee);
+            }
+
+            List<String> employeeDisplayList = new ArrayList<>();
+            for (Employee employee : employees) {
+                employeeDisplayList.add(employee.getEmail());
+            }
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, android.R.layout.simple_spinner_item, employeeDisplayList);
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            spinnerEmployees.setAdapter(adapter);
+        }).addOnFailureListener(e -> {
+            Log.e(TAG, "Error loading employees", e);
         });
     }
 
