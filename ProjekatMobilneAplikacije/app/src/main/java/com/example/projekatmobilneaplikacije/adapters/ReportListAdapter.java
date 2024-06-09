@@ -30,6 +30,7 @@ import com.example.projekatmobilneaplikacije.activities.NotificationOverviewActi
 import com.example.projekatmobilneaplikacije.model.Notification;
 import com.example.projekatmobilneaplikacije.model.Report;
 import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.activities.ProfileViewActivity;
 import com.example.projekatmobilneaplikacije.model.enumerations.ReservationStatus;
 import com.example.projekatmobilneaplikacije.model.enumerations.Status;
 import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
@@ -76,6 +77,8 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
         TextView status = convertView.findViewById(R.id.status);
         Button acceptButton = convertView.findViewById(R.id.accept);
         Button rejectButton = convertView.findViewById(R.id.reject);
+        Button viewProfile = convertView.findViewById(R.id.viewProfile);
+        Button viewReportedEntityProfile = convertView.findViewById(R.id.viewReportedProfile);
 
         if (report != null) {
             reportedBy.setText(report.getReportedByUsername());
@@ -194,6 +197,76 @@ public class ReportListAdapter extends ArrayAdapter<Report> {
                     builder.show();
                 }
             });
+
+
+            viewProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.collection("userDetails")
+                            .whereEqualTo("username", report.getReportedByUsername())
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                        UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                                        UserRole userRole = userDetails.getRole();
+
+                                        // Proverite da li je uloga EventOrganizer ili Owner
+                                        if (userRole == UserRole.EventOrganizer || userRole == UserRole.Owner || userRole == UserRole.Employee) {
+                                            // Otvorite ProfileViewActivity i prosledite podatke
+                                            Intent profileIntent = new Intent(getContext(), ProfileViewActivity.class);
+                                            profileIntent.putExtra("name", userDetails.getName());
+                                            profileIntent.putExtra("surname", userDetails.getSurname());
+                                            profileIntent.putExtra("username", userDetails.getUsername());
+                                            getContext().startActivity(profileIntent);
+                                        } else {
+                                            Log.e("User is not an Event Organizer or Owner", "");
+                                        }
+                                        break;
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "User details not found", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(getContext(), "Error finding user details", Toast.LENGTH_SHORT).show();
+                            });
+                }
+            });
+
+            viewReportedEntityProfile.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    db.collection("userDetails")
+                            .whereEqualTo("username", report.getReportedEntityUsername())
+                            .get()
+                            .addOnSuccessListener(queryDocumentSnapshots -> {
+                                if (!queryDocumentSnapshots.isEmpty()) {
+                                    for (QueryDocumentSnapshot documentSnapshot : queryDocumentSnapshots) {
+                                        UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                                        UserRole userRole = userDetails.getRole();
+
+                                        // Proverite da li je uloga EventOrganizer ili Owner
+                                        if (userRole == UserRole.EventOrganizer || userRole == UserRole.Owner || userRole == UserRole.Employee) {
+                                            // Otvorite ProfileViewActivity i prosledite podatke
+                                            Intent profileIntent = new Intent(getContext(), ProfileViewActivity.class);
+                                            profileIntent.putExtra("name", userDetails.getName());
+                                            profileIntent.putExtra("surname", userDetails.getSurname());
+                                            profileIntent.putExtra("username", userDetails.getUsername());
+                                            getContext().startActivity(profileIntent);
+                                        } else {
+                                            Log.e("User is not an Event Organizer or Owner", "");
+                                        }
+                                        break;
+                                    }
+                                } else {
+                                    Toast.makeText(getContext(), "User details not found", Toast.LENGTH_SHORT).show();
+                                }
+                            }).addOnFailureListener(e -> {
+                                Toast.makeText(getContext(), "Error finding user details", Toast.LENGTH_SHORT).show();
+                            });
+                }
+            });
+
 
         }
 

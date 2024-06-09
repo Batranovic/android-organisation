@@ -2,6 +2,7 @@ package com.example.projekatmobilneaplikacije.fragments.company;
 
 import static android.content.ContentValues.TAG;
 
+import android.app.AlertDialog;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
@@ -12,6 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.Toast;
 
 import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.databinding.FragmentCompanyCommentsBlankBinding;
@@ -20,7 +24,15 @@ import com.example.projekatmobilneaplikacije.fragments.CreateBundleSecondFragmen
 import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
 import com.example.projekatmobilneaplikacije.fragments.employees.EmployeeWHOverview;
 import com.example.projekatmobilneaplikacije.fragments.registration.RegisterFragment;
+import com.example.projekatmobilneaplikacije.model.Notification;
+import com.example.projekatmobilneaplikacije.model.Report;
+import com.example.projekatmobilneaplikacije.model.enumerations.Status;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.FirebaseFirestore;
+
+import java.util.Date;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -38,7 +50,12 @@ public class CompanyCommentsBlankFragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    private ImageButton reportCompany;
     private FragmentCompanyCommentsBlankBinding binding;
+
+    FirebaseUser user;
+    FirebaseAuth auth;
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
 
     public CompanyCommentsBlankFragment() {
         // Required empty public constructor
@@ -100,9 +117,72 @@ public class CompanyCommentsBlankFragment extends Fragment {
             }
         });
 
+        reportCompany = root.findViewById(R.id.reportCompany);
+        reportCompany.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.d(TAG, "Report button clicked");
+                showReportDialog();
+                Toast.makeText(getContext(), "Clicked", Toast.LENGTH_SHORT).show();
+            }
+        });
+
         return root;
     }
 
+    private void showReportDialog() {
+        Log.d(TAG, "Showing report dialog");
+        // Kreiranje AlertDialog-a
+        AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
+        builder.setTitle("Report reason");
+
+        // Dodavanje EditText polja za unos razloga
+        final EditText input = new EditText(getContext());
+        input.setHint("Enter reason");
+        builder.setView(input);
+
+        // Dodavanje dugmadi za potvrdu i otkazivanje
+        builder.setPositiveButton("Report", (dialog, which) -> {
+            String reason = input.getText().toString();
+            if (!reason.isEmpty()) {
+                auth = FirebaseAuth.getInstance();
+                user = auth.getCurrentUser();
+
+                String reportId = db.collection("reports").document().getId();
+                Date currentTimestamp = new Date();
+                String companyEmail = "komp@gmail.com";
+                Report report = new Report(reportId, companyEmail, user.getEmail(), reason, Status.Pending, currentTimestamp);
+
+                db.collection("reports").document(reportId)
+                        .set(report)
+                        .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Report saved", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Error saving report", Toast.LENGTH_SHORT).show());
+
+                String notificationId = db.collection("notifications").document().getId();
+                String adminEmail = "nina@gmail.com";
+                Notification notification = new Notification(
+                        notificationId,
+                        "Report",
+                        "Reason " + reason,
+                        false,
+                        currentTimestamp,
+                        adminEmail
+                );
+
+                db.collection("notifications").document(notificationId)
+                        .set(notification)
+                        .addOnSuccessListener(aVoid1 -> Toast.makeText(getContext(), "Notification sent", Toast.LENGTH_SHORT).show())
+                        .addOnFailureListener(e -> Toast.makeText(getContext(), "Error sending notification", Toast.LENGTH_SHORT).show());
+            } else {
+                input.setError("Enter reason");
+            }
+        });
+
+        builder.setNegativeButton("Cancel", (dialog, which) -> dialog.cancel());
+
+        // Prikazivanje dijaloga
+        builder.show();
+    }
 
 
 }

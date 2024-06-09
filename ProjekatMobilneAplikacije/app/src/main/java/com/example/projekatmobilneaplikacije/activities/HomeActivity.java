@@ -190,10 +190,20 @@ if(user!= null) {
                                 Menu navMenu = navigationView.getMenu();
                                 navMenu.findItem(R.id.nav_registration_requests).setVisible(true);
                                 navMenu.findItem(R.id.nav_company_review_reports).setVisible(true);
-                            } else {
+                                navMenu.findItem(R.id.nav_reports).setVisible(true);                  
+                            }else {
                                 Menu navMenu = navigationView.getMenu();
                                 navMenu.findItem(R.id.nav_registration_requests).setVisible(false);
+                                navMenu.findItem(R.id.nav_reports).setVisible(false);
                                 navMenu.findItem(R.id.nav_company_review_reports).setVisible(false);
+                            }
+
+                            if (userDetails.getRole().equals(UserRole.Owner) || userDetails.getRole().equals(UserRole.Employee)){
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_price_list).setVisible(true);
+                            }else {
+                                Menu navMenu = navigationView.getMenu();
+                                navMenu.findItem(R.id.nav_price_list).setVisible(false);
                             }
                         } else {
                             Log.w("Firestore", "Error getting documents.", task.getException());
