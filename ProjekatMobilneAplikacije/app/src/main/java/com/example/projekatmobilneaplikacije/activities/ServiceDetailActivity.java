@@ -81,11 +81,11 @@ public class ServiceDetailActivity extends AppCompatActivity {
         availabilityEditText.setText(getIntent().getStringExtra("availability"));
         visibilityEditText.setText(getIntent().getStringExtra("visibility"));
         specificityEditText.setText(getIntent().getStringExtra("specificity"));
-        discountEditText.setText(getIntent().getStringExtra("discount"));
-        durationEditText.setText(getIntent().getStringExtra("duration"));
-        engagementEditText.setText(getIntent().getStringExtra("engagement"));
-        reservationDeadlineEditText.setText(getIntent().getStringExtra("reservationDeadline"));
-        cancellationDeadlineEditText.setText(getIntent().getStringExtra("cancellationDeadline"));
+        discountEditText.setText(String.valueOf(getIntent().getIntExtra("discount", 0)));
+        durationEditText.setText(String.valueOf(getIntent().getIntExtra("duration", 0)));
+        engagementEditText.setText(String.valueOf(getIntent().getIntExtra("engagement", 0)));
+        reservationDeadlineEditText.setText(String.valueOf(getIntent().getIntExtra("reservationDeadline", 0)));
+        cancellationDeadlineEditText.setText(String.valueOf(getIntent().getIntExtra("cancellationDeadline", 0)));
         confirmationModeEditText.setText(getIntent().getStringExtra("confirmationMode"));
         favoriteButton2.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -130,6 +130,7 @@ public class ServiceListAdapter extends ArrayAdapter<Service> {
             TextView servicePrice = convertView.findViewById(R.id.service_price);
             TextView serviceSpecificity = convertView.findViewById(R.id.specificity);
 
+
             loadImageFromBase64String(service.getImage(), imageView);
 
             if(service != null) {
