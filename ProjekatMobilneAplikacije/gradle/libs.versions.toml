@@ -17,6 +17,7 @@ firebaseFirestore = "24.11.1"
 firebaseAuth = "22.3.1"
 volley = "1.2.1"
 navigationFragment = "2.7.7"
+firebaseMessaging = "24.0.0"
 
 [libraries]
 cardview = { module = "androidx.cardview:cardview", version.ref = "cardview" }
@@ -36,6 +37,7 @@ firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore
 firebase-auth = { group = "com.google.firebase", name = "firebase-auth", version.ref = "firebaseAuth" }
 volley = { group = "com.android.volley", name = "volley", version.ref = "volley" }
 navigation-fragment = { group = "androidx.navigation", name = "navigation-fragment", version.ref = "navigationFragment" }
+firebase-messaging = { group = "com.google.firebase", name = "firebase-messaging", version.ref = "firebaseMessaging" }
 
 [plugins]
 androidApplication = { id = "com.android.application", version.ref = "agp" }

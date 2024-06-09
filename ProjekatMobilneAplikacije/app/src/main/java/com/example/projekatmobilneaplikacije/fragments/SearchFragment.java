@@ -1,5 +1,6 @@
 package com.example.projekatmobilneaplikacije.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.ChatActivity;
 import com.example.projekatmobilneaplikacije.adapters.BundleListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.ProductListAdapter;
 import com.example.projekatmobilneaplikacije.adapters.ServiceListAdapter;
@@ -21,6 +23,7 @@ import com.example.projekatmobilneaplikacije.model.CustomBundle;
 import com.example.projekatmobilneaplikacije.model.Product;
 import com.example.projekatmobilneaplikacije.model.Service;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.firestore.CollectionReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -87,6 +90,11 @@ public class SearchFragment extends Fragment {
 
         Button openPopupButton = view.findViewById(R.id.filter_button);
         openPopupButton.setOnClickListener(this::showPopupWindow);
+        FloatingActionButton floatingActionButton = view.findViewById(R.id.floatingActionButton2);
+        floatingActionButton.setOnClickListener(v -> {
+            Intent intent = new Intent(getActivity(), ChatActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void fetchProducts() {

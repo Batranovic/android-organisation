@@ -169,6 +169,7 @@
     <string name="noreq">No requests</string>
     <string name="vegetarian">Vegetarian</string>
     <string name="all_guests">See all guest list</string>
+    <string name="send">Send</string>
     <string-array name="age_ranges">
         <item>0-3</item>
         <item>3-10</item>

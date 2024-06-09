@@ -124,7 +124,7 @@ public class Employee implements Parcelable {
     }
 
     // Constructor that takes a Parcel and gives you an object populated with its values
-    protected Employee(Parcel in) {
+    public Employee(Parcel in) {
         id = in.readString();
         name = in.readString();
         surname = in.readString();
