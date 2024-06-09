@@ -1,12 +1,14 @@
 package com.example.projekatmobilneaplikacije.model;
 
+import android.media.Image;
 import android.os.Parcel;
 import android.os.Parcelable;
 
 import androidx.annotation.NonNull;
 
 public class Employee implements Parcelable {
-    private Long id;
+    private String id;
+
     private String name;
     private String surname;
 
@@ -14,39 +16,36 @@ public class Employee implements Parcelable {
     private String email;
     private String address;
     private String phoneNumber;
-    private int image;
 
-    public Employee(Long id, String name, String surname, String commonName, String email, String address, String phoneNumber,int image) {
-        this.id = id;
-        this.name = name;
-        this.surname = surname;
-        this.commonName = commonName;
-        this.email = email;
-        this.address = address;
-        this.phoneNumber = phoneNumber;
-        this.image = image;
-    }
+    private WorkingHours workingHours;
+
+    private String image;
 
     public Employee() {
     }
 
-    protected Employee(Parcel in) {
-        id = in.readLong();
-        name = in.readString();
-        surname = in.readString();
-        commonName = in.readString();
-        email = in.readString();
-        address = in.readString();
-        phoneNumber = in.readString();
-        image = in.readInt();
-    }
-
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
+    }
+
+    public WorkingHours getWorkingHours() {
+        return workingHours;
+    }
+
+    public void setWorkingHours(WorkingHours workingHours) {
+        this.workingHours = workingHours;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 
     public String getName() {
@@ -97,41 +96,44 @@ public class Employee implements Parcelable {
         this.phoneNumber = phoneNumber;
     }
 
-    public int getImage() {
-        return image;
-    }
-
-    public void setImage(int image) {
-        this.image = image;
-    }
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "name='" + name + '\'' +
-                ", surname='" + surname + '\'' +
-                ", address='" + address + '\'' +
-                ", email='" + email + '\'' +
-                ", phone number='" + phoneNumber + '\'' +
-                ", image='" + image + '\'' +
-                '}';
-    }
-
+    /*
+     * Ova metoda opisuje vrste posebnih objekata koje vaša Parcelable implementacija sadrži.
+     * Većinom se vraća 0, osim u slučajevima kada objekat uključuje File Descriptor,
+     * u kom slučaju se vraća 1.*/
     @Override
     public int describeContents() {
         return 0;
     }
-
+    /*
+     * Metoda koja uzima dva argumenta: Parcel u koji se vaš objekat serijalizuje i
+     * flags koje Android koristi za označavanje načina na koji se objekat treba
+     * serijalizovati. U ovoj metodi trebate upisati sve potrebne podatke iz vašeg
+     * objekta u Parcel.
+     * */
     @Override
     public void writeToParcel(@NonNull Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(name);
         dest.writeString(surname);
         dest.writeString(commonName);
         dest.writeString(email);
         dest.writeString(address);
         dest.writeString(phoneNumber);
-        dest.writeInt(image);
+        dest.writeParcelable((Parcelable) workingHours, flags);
+        dest.writeString(image);
+    }
+
+    // Constructor that takes a Parcel and gives you an object populated with its values
+    public Employee(Parcel in) {
+        id = in.readString();
+        name = in.readString();
+        surname = in.readString();
+        commonName = in.readString();
+        email = in.readString();
+        address = in.readString();
+        phoneNumber = in.readString();
+        workingHours = in.readParcelable(WorkingHours.class.getClassLoader());
+        image = in.readString();
     }
 
     public static final Creator<Employee> CREATOR = new Creator<Employee>() {
@@ -145,4 +147,7 @@ public class Employee implements Parcelable {
             return new Employee[size];
         }
     };
+
+
+
 }

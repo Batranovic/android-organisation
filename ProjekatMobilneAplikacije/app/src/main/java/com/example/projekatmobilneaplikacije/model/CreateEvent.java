@@ -3,8 +3,12 @@ package com.example.projekatmobilneaplikacije.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+
+
+import java.util.List;
+
 public class CreateEvent implements Parcelable {
-    private Long id;
+    private String id;
     private String eventType;
     private String name;
     private String description;
@@ -12,8 +16,9 @@ public class CreateEvent implements Parcelable {
     private String location;
     private String date;
     private boolean isPrivate;
+    private List<Subcategory> subcategories;
 
-    public CreateEvent(Long id, String eventType, String name, String description, int participants, String location, String date, boolean isPrivate) {
+    public CreateEvent(String id, String eventType, String name, String description, int participants, String location, String date, boolean isPrivate,List<Subcategory> subcategories) {
         this.id = id;
         this.eventType = eventType;
         this.name = name;
@@ -22,12 +27,13 @@ public class CreateEvent implements Parcelable {
         this.location = location;
         this.date = date;
         this.isPrivate = isPrivate;
+        this.subcategories = subcategories;
     }
 
     public CreateEvent() {}
 
     protected CreateEvent(Parcel in) {
-        id = in.readLong();
+        id = in.readString();
         eventType = in.readString();
         name = in.readString();
         description = in.readString();
@@ -37,11 +43,11 @@ public class CreateEvent implements Parcelable {
         isPrivate = in.readByte() != 0;
     }
 
-    public Long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(String id) {
         this.id = id;
     }
     public String getEventType() {
@@ -84,6 +90,7 @@ public class CreateEvent implements Parcelable {
         this.location = location;
     }
 
+
     public String getDate() {
         return date;
     }
@@ -99,6 +106,15 @@ public class CreateEvent implements Parcelable {
     public void setPrivate(boolean aPrivate) {
         isPrivate = aPrivate;
     }
+    public List<Subcategory> getSubcategories() {
+        return subcategories;
+    }
+
+
+    public void setSubcategories(List<Subcategory> subcategories) {
+        this.subcategories = subcategories;
+    }
+
 
     @Override
     public String toString() {
@@ -120,7 +136,7 @@ public class CreateEvent implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel dest, int flags) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(eventType);
         dest.writeString(name);
         dest.writeString(description);
@@ -140,5 +156,7 @@ public class CreateEvent implements Parcelable {
         public CreateEvent[] newArray(int size) {
             return new CreateEvent[size];
         }
+
+
     };
 }

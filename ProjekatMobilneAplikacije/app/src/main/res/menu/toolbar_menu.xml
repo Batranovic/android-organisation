@@ -8,10 +8,16 @@
         android:orderInCategory="100"
         app:showAsAction="never" />
 
+    <item android:id="@+id/nav_notifications"
+        android:title="Notification"
+        android:icon="@drawable/notification"
+        android:orderInCategory="200"
+        app:showAsAction="ifRoom" />
+
     <item android:id="@+id/nav_language"
         android:title="@string/language"
         android:icon="@drawable/ic_language"
-        android:orderInCategory="300"
+        android:orderInCategory="400"
         app:showAsAction="ifRoom" />
 
     <item android:id="@+id/nav_search"

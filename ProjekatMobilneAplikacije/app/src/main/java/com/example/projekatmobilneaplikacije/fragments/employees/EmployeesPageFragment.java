@@ -40,7 +40,6 @@ public class EmployeesPageFragment extends Fragment {
         binding = FragmentEmployeesPageBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        prepareEmployeesList(employees);
 
 
 
@@ -61,13 +60,7 @@ public class EmployeesPageFragment extends Fragment {
         return root;
     }
 
-    private void prepareEmployeesList(ArrayList<Employee> employees){
-        employees.add(new Employee(1L, "Jana", "Janic", "Jana Janic" ,"jana@gmail.com", "Koste Racina 14, Novi Sad", "+381645057788", R.drawable.ic_face));
-        employees.add(new Employee(1L, "Pera", "Peric", "Pera Peric" ,"pera@gmail.com", "Janka Veselinovica 18, Novi Sad", "+381616065127", R.drawable.ic_face));
-        employees.add(new Employee(1L, "Zika", "Zikic", "Zika Zikic" ,"zika@gmail.com",  "Rumenacka 5, Novi Sad", "+381615057123", R.drawable.ic_face));
-        employees.add(new Employee(1L, "Mara", "Maric", "Mara Maric" , "mara@gmail.com", "Kornelija Stankovic 24, Novi Sad", "+381695082233", R.drawable.ic_face));
 
-    }
 
     @Override
     public void onDestroyView() {

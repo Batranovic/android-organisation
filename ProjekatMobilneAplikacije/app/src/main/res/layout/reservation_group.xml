@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/lavander">
+
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="match_parent"
+        android:textColor="@color/dark_purple"
+        android:text="Bundle"
+        android:textSize="30sp"
+        android:textStyle="italic"
+        android:layout_marginLeft="30dp"
+        android:id="@+id/bundle_name"/>
+
+</RelativeLayout>

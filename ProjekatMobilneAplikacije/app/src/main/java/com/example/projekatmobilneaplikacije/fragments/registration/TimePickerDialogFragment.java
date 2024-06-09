@@ -24,6 +24,7 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.io.Serializable;
 import java.sql.Time;
 import java.util.HashMap;
 import java.util.Map;
@@ -166,7 +167,7 @@ public class TimePickerDialogFragment extends Fragment {
                         });
 
                 Bundle args = new Bundle();
-                args.putSerializable("working_hours", workingHours);
+                args.putSerializable("working_hours", (Serializable) workingHours);
 
                 RegisterFragment registerFragment = RegisterFragment.newInstance();
                 registerFragment.setArguments(args);

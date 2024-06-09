@@ -18,6 +18,8 @@ import com.example.projekatmobilneaplikacije.databinding.FragmentSubcategorySugg
 import com.example.projekatmobilneaplikacije.fragments.FragmentTransition;
 import com.example.projekatmobilneaplikacije.model.Subcategory;
 import com.example.projekatmobilneaplikacije.model.SubcategorySuggestion;
+
+import com.example.projekatmobilneaplikacije.model.enumerations.SubcategoryType;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -69,5 +71,7 @@ public class SubcategorySuggestionPageFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+    private void prepareSubcategorySuggestionList(ArrayList<SubcategorySuggestion> subcategorySuggestions){
 
+    }
 }

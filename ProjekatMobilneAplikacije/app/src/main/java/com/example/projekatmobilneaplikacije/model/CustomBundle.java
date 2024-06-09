@@ -7,26 +7,31 @@ import androidx.annotation.NonNull;
 
 import java.util.List;
 
+import javax.annotation.Nullable;
+
 public class CustomBundle implements Parcelable  {
     private String id;
     private String title;
     private String description;
     private int price;
-    private String discount;
+    private int discount;
     private List<String> images;
     private String visibility;
     private String availability;
     private String category;
     private List<String> subcategories;
     private List<String> eventTypes;
-    private String reservationDeadline;
-    private String cancellationDeadline;
+    private int reservationDeadline;
+    private int cancellationDeadline;
     private String confirmationMode;
     private boolean isDeleted;
+    private List<String> productIds;
+    @Nullable
+    private List<String> serviceIds;
 
     public CustomBundle() { }
 
-    public CustomBundle(String id, String title, String description, int price, String discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, String reservationDeadline, String cancellationDeadline, String confirmationMode, boolean isDeleted) {
+    public CustomBundle(String id, String title, String description, int price, int discount, List<String> images, String visibility, String availability, String category, List<String> subcategories, List<String> eventTypes, int reservationDeadline, int cancellationDeadline, String confirmationMode, boolean isDeleted, List<String> productIds, List<String> serviceIds) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -42,6 +47,24 @@ public class CustomBundle implements Parcelable  {
         this.cancellationDeadline = cancellationDeadline;
         this.confirmationMode = confirmationMode;
         this.isDeleted = isDeleted;
+        this.productIds = productIds;
+        this.serviceIds = serviceIds;
+    }
+
+    public List<String> getProductIds() {
+        return productIds;
+    }
+
+    public void setProductIds(List<String> productIds) {
+        this.productIds = productIds;
+    }
+
+    public List<String> getServiceIds() {
+        return serviceIds;
+    }
+
+    public void setServiceIds(List<String> serviceIds) {
+        this.serviceIds = serviceIds;
     }
 
     public String getId() {
@@ -69,7 +92,9 @@ public class CustomBundle implements Parcelable  {
     }
 
 
-
+    public int getPriceWithDiscount() {
+        return price - (price * discount / 100);
+    }
 
     public List<String> getImages() {
         return images;
@@ -118,11 +143,11 @@ public class CustomBundle implements Parcelable  {
         this.price = price;
     }
 
-    public String getDiscount() {
+    public int getDiscount() {
         return discount;
     }
 
-    public void setDiscount(String discount) {
+    public void setDiscount(int discount) {
         this.discount = discount;
     }
 
@@ -142,19 +167,19 @@ public class CustomBundle implements Parcelable  {
         this.availability = availability;
     }
 
-    public String getReservationDeadline() {
+    public int getReservationDeadline() {
         return reservationDeadline;
     }
 
-    public void setReservationDeadline(String reservationDeadline) {
+    public void setReservationDeadline(int reservationDeadline) {
         this.reservationDeadline = reservationDeadline;
     }
 
-    public String getCancellationDeadline() {
+    public int getCancellationDeadline() {
         return cancellationDeadline;
     }
 
-    public void setCancellationDeadline(String cancellationDeadline) {
+    public void setCancellationDeadline(int cancellationDeadline) {
         this.cancellationDeadline = cancellationDeadline;
     }
 
@@ -169,6 +194,7 @@ public class CustomBundle implements Parcelable  {
     public void setDeleted(boolean deleted) {
         isDeleted = deleted;
     }
+
 
     @Override
     public String toString() {
@@ -197,17 +223,19 @@ public class CustomBundle implements Parcelable  {
         title = in.readString();
         description = in.readString();
         price = in.readInt();
-        discount = in.readString();
+        discount = in.readInt();
         images = in.createStringArrayList();
         visibility = in.readString();
         availability = in.readString();
         category = in.readString();
         subcategories = in.createStringArrayList();
         eventTypes = in.createStringArrayList();
-        reservationDeadline = in.readString();
-        cancellationDeadline = in.readString();
+        reservationDeadline = in.readInt();
+        cancellationDeadline = in.readInt();
         confirmationMode = in.readString();
         isDeleted = in.readBoolean();
+        productIds = in.createStringArrayList();
+        serviceIds = in.createStringArrayList();
     }
 
 
@@ -217,11 +245,25 @@ public class CustomBundle implements Parcelable  {
     }
 
     @Override
-    public void writeToParcel(@NonNull Parcel dest, int flags) {
+    public void writeToParcel(Parcel dest, int flags) {
+        // Pisanje atributa u Parcel objekat
         dest.writeString(id);
         dest.writeString(title);
-        dest.writeString(category);
+        dest.writeString(description);
         dest.writeInt(price);
+        dest.writeInt(discount);
+        dest.writeStringList(images);
+        dest.writeString(visibility);
+        dest.writeString(availability);
+        dest.writeString(category);
+        dest.writeStringList(subcategories);
+        dest.writeStringList(eventTypes);
+        dest.writeInt(reservationDeadline);
+        dest.writeInt(cancellationDeadline);
+        dest.writeString(confirmationMode);
+        dest.writeByte((byte) (isDeleted ? 1 : 0));
+        dest.writeStringList(productIds);
+        dest.writeStringList(serviceIds);
     }
 
     public static final Creator<CustomBundle> CREATOR = new Creator<CustomBundle>() {

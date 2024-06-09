@@ -5,6 +5,11 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK"/>
+    <uses-permission android:name="android.permission.VIBRATE"/>
+    <uses-permission android:name="android.permission.SENSOR"/>
+
 
     <application
         android:allowBackup="true"
@@ -16,9 +21,52 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ProjekatMobilneAplikacije"
         tools:targetApi="31">
+
+
         <activity
+            android:name=".activities.reservation.BundleListDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.reservation.ReserveProductActivity"
+             android:exported="false"/>
+        <activity
+            android:name=".activities.ProfileViewActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.NotificationOverviewActivity"
+            android:exported="false" />
+        
+        <activity
+            android:name=".activities.reservation.ReserveServiceActivity"
+            android:exported="false" />
+        <activity android:name=".activities.registration.RegistrationRequestDetailActivity" />
+        <activity
+            android:name=".activities.PriceListBundleActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PriceListItemActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.FavoriteDetailActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.PriceListActivity"
+            android:exported="false" />
+        <activity android:name=".activities.ChatActivity"
+            android:exported="false"/>
+        <!--
+<activity
             android:name=".fragments.registration.TimePickerDialogActivity"
             android:exported="false" />
+        -->
+        <activity
+            android:name=".activities.registration.RegistrationRequestsActivity"
+            android:exported="false" />
+        <!--
+   <activity
+            android:name=".fragments.registration.TimePickerDialogActivity"
+            android:exported="false" />
+        -->
         <activity
             android:name=".activities.EditEventTypeActivity"
             android:exported="false" />
@@ -39,6 +87,12 @@
             android:exported="false" />
         <activity
             android:name=".activities.EditServiceAndProductActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.budget.BudgetActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.budget.PlanBudgetActivity"
             android:exported="false" />
         <activity
             android:name=".activities.events.NewEventActivity"
@@ -62,6 +116,18 @@
             android:name=".activities.CreateProductActivity"
             android:exported="false" />
         <activity
+            android:name=".activities.agenda.AddAgendaActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.agenda.AgendaAndGuestsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.agenda.AddGuestListActivity"
+            android:exported="false" />
+        <activity
+            android:name=".activities.OneGuestActivity"
+            android:exported="false" />
+        <activity
             android:name=".activities.HomeActivity"
             android:exported="false"
             android:label="Home">
@@ -83,6 +149,17 @@
                 android:name="android.app.lib_name"
                 android:value="" />
         </activity>
+
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="${applicationId}.provider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
+
     </application>
 
 </manifest>

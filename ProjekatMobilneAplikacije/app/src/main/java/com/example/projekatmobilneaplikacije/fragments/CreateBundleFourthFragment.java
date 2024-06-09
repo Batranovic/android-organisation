@@ -61,7 +61,8 @@ public class CreateBundleFourthFragment extends Fragment {
     // TODO: Rename and change types of parameters
 
     private FragmentCreateBundleFourthBinding binding;
-    String title, description, category, available, visible, discount;
+    String title, description, category, available, visible;
+    int discount;
 
     Uri selectedImageUri;
 
@@ -83,12 +84,11 @@ public class CreateBundleFourthFragment extends Fragment {
      * Use this factory method to create a new instance of
      * this fragment using the provided parameters.
      *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
+     *
      * @return A new instance of fragment CreateBundleFourthFragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static CreateBundleFourthFragment newInstance(Service selectedService, Product selectedProduct, String title, String description, String category, String available, String visible, String discount, Uri selectedImageUri) {
+    public static CreateBundleFourthFragment newInstance(Service selectedService, Product selectedProduct, String title, String description, String category, String available, String visible, int discount, Uri selectedImageUri) {
         CreateBundleFourthFragment fragment = new CreateBundleFourthFragment();
         Bundle args = new Bundle();
         args.putParcelable("selectedService", selectedService);
@@ -96,7 +96,7 @@ public class CreateBundleFourthFragment extends Fragment {
         args.putString("title", title);
         args.putString("description", description);
         args.putString("category", category);
-        args.putString("discount", discount);
+        args.putInt("discount", discount);
         args.putString("available", available);
         args.putString("visible", visible);
         args.putParcelable("selectedImageUri", selectedImageUri);
@@ -128,7 +128,7 @@ public class CreateBundleFourthFragment extends Fragment {
             description = args.getString("description", "");
             selectedImageUri = args.getParcelable("selectedImageUri");
             category = args.getString("category", "");
-            discount = args.getString("discount", "");
+            discount = args.getInt("discount", 0);
             available = args.getString("available", "");
             visible = args.getString("visible", "");
         }
@@ -188,15 +188,14 @@ public class CreateBundleFourthFragment extends Fragment {
         TextView cancellationDeadlineTextView = root.findViewById(R.id.cancellationDeadline);
         TextView methodTextView = root.findViewById(R.id.methodOfCOnfirmation);
        if (selectedService != null){
-           String serviceReservationDeadline = selectedService.getReservationDeadline();
-           reservationDeadlineTextView.setText(serviceReservationDeadline != null ? serviceReservationDeadline : "");
+           int serviceReservationDeadline = selectedService.getReservationDeadline();
+           reservationDeadlineTextView.setText(String.valueOf(serviceReservationDeadline));
 
-           String serviceCancellationDeadline = selectedService.getCancellationDeadline();
-           cancellationDeadlineTextView.setText(serviceCancellationDeadline != null ? serviceCancellationDeadline : "");
+           int serviceCancellationDeadline = selectedService.getCancellationDeadline();
+           cancellationDeadlineTextView.setText(String.valueOf(serviceCancellationDeadline));
 
-           String method = selectedService.getReservationDeadline();
-           methodTextView.setText(method != null ? method : "");
-
+           int method = selectedService.getReservationDeadline();
+           methodTextView.setText(String.valueOf(method));
 
        }
 
@@ -215,15 +214,33 @@ public class CreateBundleFourthFragment extends Fragment {
             public void onClick(View v) {
                 String Title = title != null ? title : "";
                 String Description = description != null ? description : "";
-                String Discount = discount != null ? discount : "";
+                int Discount = discount;
                 String Category = category != null ? category : "";
                 String Available = available != null ? available : "";
                 String Visible = visible != null ? visible : "";
                 String Subcategory = spinner.getSelectedItem() != null ? spinner.getSelectedItem().toString() : "";
                 String priceText = priceTextView.getText().toString();
                 int Price = Integer.parseInt(priceText);
-                String ReservationDeadline = reservationDeadlineTextView != null ? reservationDeadlineTextView.getText().toString() : "";
-                String CancellationDeadline = cancellationDeadlineTextView != null ? cancellationDeadlineTextView.getText().toString() : "";
+
+                String reservationDeadlineText = reservationDeadlineTextView.getText().toString();
+                int ReservationDeadline;
+                try {
+                    ReservationDeadline = Integer.parseInt(reservationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for reservation deadline", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+                String cancellationDeadlineText = cancellationDeadlineTextView.getText().toString();
+                int CancellationDeadline;
+                try {
+                    CancellationDeadline = Integer.parseInt(cancellationDeadlineText);
+                } catch (NumberFormatException e) {
+                    Toast.makeText(requireContext(), "Please enter a valid number for cancellation deadline", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+
+
                 String ConfirmationMode = methodTextView != null ? methodTextView.getText().toString() : "";
                 String EventType = eventTypeTextView != null ? eventTypeTextView.getText().toString() : "";
                 String UniqueServiceId = UUID.randomUUID().toString();
@@ -243,6 +260,19 @@ public class CreateBundleFourthFragment extends Fragment {
                 bundle.put("confirmationMode", ConfirmationMode);
                 bundle.put("eventType", EventType);
                 bundle.put("isDeleted", false);
+
+                List<String> productIds = new ArrayList<>();
+                List<String> serviceIds = new ArrayList<>();
+                if (selectedProduct != null) {
+                    productIds.add(selectedProduct.getId());
+                }
+                if (selectedService != null) {
+                    serviceIds.add(selectedService.getId());
+                }
+                bundle.put("productIds", productIds);
+                bundle.put("serviceIds", serviceIds);
+
+
 
                 //service.put("image", base64Image);
 

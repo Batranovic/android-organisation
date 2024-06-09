@@ -1,5 +1,6 @@
 package com.example.projekatmobilneaplikacije.activities;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -15,10 +16,18 @@ import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
 
 import com.example.projekatmobilneaplikacije.R;
+import com.example.projekatmobilneaplikacije.activities.reservation.ReserveServiceActivity;
+import com.example.projekatmobilneaplikacije.model.RegistrationRequest;
+import com.example.projekatmobilneaplikacije.model.Service;
+import com.example.projekatmobilneaplikacije.model.UserDetails;
+import com.example.projekatmobilneaplikacije.model.enumerations.UserRole;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -30,8 +39,12 @@ public class ServiceDetailActivity extends AppCompatActivity {
 
     EditText titleEditText, descriptionEditText, subcategoryEditText, eventTypeEditText, priceEditText, availabilityEditText, visibilityEditText;
     EditText specificityEditText, discountEditText, durationEditText, engagementEditText, reservationDeadlineEditText, cancellationDeadlineEditText, confirmationModeEditText;
-
+    private boolean isFavorite = false;
+    private ImageButton favoriteButton2;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    FirebaseAuth auth;
+
+    FirebaseUser user;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +67,7 @@ public class ServiceDetailActivity extends AppCompatActivity {
         reservationDeadlineEditText = findViewById(R.id.reservationDeadline);
         cancellationDeadlineEditText = findViewById(R.id.cancellationDeadline);
         confirmationModeEditText = findViewById(R.id.confirmationMode);
+        favoriteButton2 = findViewById(R.id.favoriteButton2);
 
         // Retrieve the product ID from the intent
         String serviceId = getIntent().getStringExtra("serviceId");
@@ -67,15 +81,96 @@ public class ServiceDetailActivity extends AppCompatActivity {
         availabilityEditText.setText(getIntent().getStringExtra("availability"));
         visibilityEditText.setText(getIntent().getStringExtra("visibility"));
         specificityEditText.setText(getIntent().getStringExtra("specificity"));
-        discountEditText.setText(getIntent().getStringExtra("discount"));
-        durationEditText.setText(getIntent().getStringExtra("duration"));
-        engagementEditText.setText(getIntent().getStringExtra("engagement"));
-        reservationDeadlineEditText.setText(getIntent().getStringExtra("reservationDeadline"));
-        cancellationDeadlineEditText.setText(getIntent().getStringExtra("cancellationDeadline"));
+        discountEditText.setText(String.valueOf(getIntent().getIntExtra("discount", 0)));
+        durationEditText.setText(String.valueOf(getIntent().getIntExtra("duration", 0)));
+        engagementEditText.setText(String.valueOf(getIntent().getIntExtra("engagement", 0)));
+        reservationDeadlineEditText.setText(String.valueOf(getIntent().getIntExtra("reservationDeadline", 0)));
+        cancellationDeadlineEditText.setText(String.valueOf(getIntent().getIntExtra("cancellationDeadline", 0)));
         confirmationModeEditText.setText(getIntent().getStringExtra("confirmationMode"));
+        favoriteButton2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                isFavorite = !isFavorite;
+                handleFavorite(serviceId, isFavorite);
+            }
+        });
+
+        ImageButton reserveServiceButton = findViewById(R.id.reserveServiceButton);
+        auth = FirebaseAuth.getInstance();
+        user = auth.getCurrentUser();
+        if(user!= null) {
+
+            db.collection("userDetails")
+                    .whereEqualTo("username", user.getEmail())
+                    .get()
+                    .addOnCompleteListener(task -> {
+                        if (task.isSuccessful()) {
+                            QuerySnapshot querySnapshot = task.getResult();
+                            if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                // Ako postoji rezultat, preuzmite prvi dokument (trebalo bi da bude samo jedan)
+                                DocumentSnapshot documentSnapshot = querySnapshot.getDocuments().get(0);
+                                // Preuzmite UserDetails iz dokumenta
+                                UserDetails userDetails = documentSnapshot.toObject(UserDetails.class);
+                                if (userDetails != null) {
+                                    Log.d("UserDetails", "Username: " + userDetails.getUsername());
+                                    Log.d("UserDetails", "Name: " + userDetails.getName());
+                                    Log.d("UserDetails", "Surname: " + userDetails.getSurname());
+                                    Log.d("UserDetails", "Role: " + userDetails.getRole());
+                                    if (userDetails.getRole().equals(UserRole.EventOrganizer)) {
+                                        reserveServiceButton.setVisibility(View.VISIBLE);
+                                    }else {
+                                        reserveServiceButton.setVisibility(View.GONE);
+                                    }
+                                }
+                            } else {
+                                Log.d("Firestore", "No documents found for email: " + user.getEmail());
+                            }
+                        } else {
+                            Log.w("Firestore", "Error getting documents.", task.getException());
+                        }
+                    });
+        }
+        reserveServiceButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Step 1: Get Service ID
+                String serviceId = getIntent().getStringExtra("serviceId");
+
+                // Step 2: Retrieve Service from Firestore
+                db.collection("services")
+                        .whereEqualTo("id", serviceId) // Query for documents where "id" field is equal to serviceId
+                        .get()
+                        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                            @Override
+                            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                                if (task.isSuccessful()) {
+                                    QuerySnapshot querySnapshot = task.getResult();
+                                    if (querySnapshot != null && !querySnapshot.isEmpty()) {
+                                        DocumentSnapshot document = querySnapshot.getDocuments().get(0); // Get the first document
+                                        Service service = document.toObject(Service.class);
+
+                                        if (service.getAvailability() != null && service.getAvailability().equalsIgnoreCase("Yes")) {
+                                            // Service is available, navigate to ReserveServiceActivity
+                                            Intent intent = new Intent(ServiceDetailActivity.this, ReserveServiceActivity.class);
+                                            intent.putExtra("serviceId", serviceId);
+                                            startActivity(intent);
+                                        } else {
+                                            // Service is not available, show toast message
+                                            Toast.makeText(ServiceDetailActivity.this, "Service is unavailable", Toast.LENGTH_SHORT).show();
+                                        }
+                                    } else {
+                                        Log.d("ServiceDetailActivity", "No such document found for serviceId: " + serviceId);
+                                    }
+                                } else {
+                                    Log.d("ServiceDetailActivity", "get failed with ", task.getException());
+                                }
+                            }
+                        });
+            }
+        });
+
 
         ImageButton deleteButton = findViewById(R.id.deleteProductButton);
-
         deleteButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -103,6 +198,31 @@ public class ServiceDetailActivity extends AppCompatActivity {
             return insets;
         });
     }
+    private void handleFavorite(String serviceId, boolean isFavorite) {
+        DocumentReference favoriteRef = db.collection("favorites").document(serviceId);
+
+        if (isFavorite) {
+            Map<String, Object> favoriteData = new HashMap<>();
+            favoriteData.put("id", serviceId);
+            favoriteData.put("title", "proba");
+
+
+            favoriteRef.set(favoriteData)
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(ServiceDetailActivity.this, "Added to favorites", Toast.LENGTH_SHORT).show();
+                        Log.d("ServiceDetailActivity", "Added to favorites");
+                    })
+                    .addOnFailureListener(e -> Log.w("ProductDetailActivity", "Error adding to favorites", e));
+        } else {
+            favoriteRef.delete()
+                    .addOnSuccessListener(aVoid -> {
+                        Toast.makeText(ServiceDetailActivity.this, "Removed from favorites", Toast.LENGTH_SHORT).show();
+                        Log.d("ServiceDetailActivity", "Removed from favorites");
+                    })
+                    .addOnFailureListener(e -> Log.w("ServiceDetailActivity", "Error removing from favorites", e));
+        }
+    }
+
 
     private void deleteService(String serviceId) {
         // Pronalaženje dokumenta sa odgovarajućim productId

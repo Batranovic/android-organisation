@@ -10,6 +10,11 @@
             android:icon="@drawable/ic_face"
             android:orderInCategory="300" />
 
+        <item android:id="@+id/nav_company_profile"
+            android:title="@string/company_profile"
+            android:icon="@drawable/company"
+            android:orderInCategory="300" />
+
         <item android:id="@+id/nav_employees"
             android:title="@string/employees"
             android:icon="@drawable/employee"
@@ -58,5 +63,41 @@
             android:title="All created events"
             android:icon="@drawable/ic_hamburger"
             android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_reservations"
+            android:title="Reservations"
+            android:icon="@drawable/event_icon"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_bundle_reservations"
+            android:title="Bundle Reservations"
+            android:icon="@drawable/event_icon"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_registration_requests"
+            android:title="Registration requests"
+            android:icon="@drawable/registration_request"
+            android:orderInCategory="300" />
+            
+        <item android:id="@+id/nav_reports"
+            android:title="Reports"
+            android:icon="@drawable/reports"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_price_list"
+            android:title="Price list"
+            android:icon="@drawable/price_list"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_favourites"
+            android:title="Favourites List"
+            android:icon="@drawable/favorite_24px"
+            android:orderInCategory="300" />
+
+        <item android:id="@+id/nav_company_review_reports"
+            android:title="Review Reports"
+            android:icon="@drawable/report"
+            android:orderInCategory="300" />
+
     </group>
 </menu>

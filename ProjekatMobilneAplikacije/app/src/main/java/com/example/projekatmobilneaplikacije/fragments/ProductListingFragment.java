@@ -63,7 +63,6 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     CollectionReference productsRef = db.collection("products");
 
-    private ArrayList<Product> originalProducts = new ArrayList<>();
 
     public ProductListingFragment() { }
 
@@ -80,12 +79,14 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+
         adapter = new ProductListAdapter(getActivity(), products, null);
 
         if (getArguments() != null) {
-            products = getArguments().getParcelableArrayList(ARG_PARAM);
-            adapter = new ProductListAdapter(getActivity(), products, null);
-            setListAdapter(adapter);
+            products = getArguments().getParcelableArrayList("products");
+            Log.d("ProductListingFragment", "Retrieved products from bundle: " + (products != null ? products.size() : 0));
+        } else {
+            Log.d("ProductListingFragment", "No arguments received");
         }
 
 
@@ -105,9 +106,15 @@ public class ProductListingFragment extends ListFragment implements SearchView.O
         super.onViewCreated(view, savedInstanceState);
         //prepareProductList(products);
 
-        adapter = new ProductListAdapter(getActivity(), products, null);
+       adapter = new ProductListAdapter(getActivity(), products, null);
         // Set adapter for the ListFragment
-        setListAdapter(adapter);
+        setListAdapter(adapter );
+        if (products != null) {
+            ProductListAdapter adapter = new ProductListAdapter(getActivity(), products, null);
+            setListAdapter(adapter);
+        } else {
+            Log.e("ProductListingFragment", "Products list is null");
+        }
 
 
         Button btnFilters = view.findViewById(R.id.btnFilters);

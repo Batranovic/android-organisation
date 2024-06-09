@@ -70,6 +70,9 @@ public class ServiceAndProductListAdapter extends ArrayAdapter<Object> {
                     String subcategoryType = subcategory.getSubcategoryType().toString();
                     String subcategoryCategoryName = subcategory.getCategory().getName();
 
+
+
+
                     Intent intent = new Intent(mContext, EditSubcategoryActivity.class);
                     intent.putExtra("subcategory_name", subcategoryName);
                     intent.putExtra("subcategory_description", subcategoryDescription);
