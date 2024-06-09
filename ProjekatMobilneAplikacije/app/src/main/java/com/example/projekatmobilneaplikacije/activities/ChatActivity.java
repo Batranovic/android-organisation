@@ -20,6 +20,7 @@ import com.example.projekatmobilneaplikacije.R;
 import com.example.projekatmobilneaplikacije.adapters.MessageAdapter;
 import com.example.projekatmobilneaplikacije.model.Chat;
 import com.example.projekatmobilneaplikacije.model.Employee;
+import com.example.projekatmobilneaplikacije.model.Notification;
 import com.google.firebase.Timestamp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -32,6 +33,7 @@ import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 public class ChatActivity extends AppCompatActivity {
@@ -141,6 +143,23 @@ public class ChatActivity extends AppCompatActivity {
             Toast.makeText(ChatActivity.this, "Message sent", Toast.LENGTH_SHORT).show();
             editTextMessage.setText(""); // Dodato: Brisanje teksta iz polja za unos poruke
             loadMessages(); // Izmenjeno: Učitavanje poruka nakon slanja poruke
+            if ("tamara.miljevic28@gmail.com".equals(selectedEmployeeEmail)) {
+                String notificationId = db.collection("notifications").document().getId();
+                Date currentDate = new Date();
+                Notification notification = new Notification(
+                        notificationId,
+                        "New Message",
+                        "You have a new message",
+                        false,
+                        currentDate,
+                        selectedEmployeeEmail
+                );
+
+                db.collection("notifications").document(notificationId)
+                        .set(notification)
+                        .addOnSuccessListener(aVoid1 -> Log.d(TAG, "Notification sent"))
+                        .addOnFailureListener(e -> Log.e(TAG, "Error sending notification", e));
+            }
         }).addOnFailureListener(e -> {
             Log.e(TAG, "Error sending message", e);
             Toast.makeText(ChatActivity.this, "Failed to send message: " + e.getMessage(), Toast.LENGTH_SHORT).show();
